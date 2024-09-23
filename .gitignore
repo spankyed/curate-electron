@@ -1,0 +1,10 @@
+node_modules
+# public/
+# assets/
+dist/
+.env
+*.DS_Store
+*.typegen.ts
+.vscode
+.idea
+# .vite
