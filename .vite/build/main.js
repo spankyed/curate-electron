@@ -1,7 +1,15 @@
-"use strict";
-const electron = require("electron");
-const path = require("path");
-if (require("electron-squirrel-startup")) {
+import { createRequire } from 'node:module'
+
+
+// const electron = require("electron");
+// const path = require("path");
+import path from 'node:path';
+import electron from 'electron';
+
+const squirrel = createRequire(import.meta.url)('electron-squirrel-startup');
+
+
+if (squirrel) {
   electron.app.quit();
 }
 const createWindow = () => {
@@ -12,9 +20,7 @@ const createWindow = () => {
       preload: path.join(__dirname, "preload.js")
     }
   });
-  {
-    mainWindow.loadURL("http://localhost:5174");
-  }
+  mainWindow.loadURL("http://localhost:5174");
   mainWindow.webContents.openDevTools();
 };
 electron.app.on("ready", createWindow);
