@@ -8,7 +8,7 @@
     "noImplicitAny": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "outDir": "dist",
+    "outDir": "release/app/dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "jsx": "react-jsx"

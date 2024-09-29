@@ -1,8 +1,8 @@
 {
-  "name": "speedy",
-  "productName": "speedy",
+  "name": "curate-gpt",
+  "productName": "CurateGPT",
   "version": "1.0.4",
-  "description": "Combine your internet connections to maximize speed",
+  "description": "Curate arxiv research",
   "main": "./dist/main.js",
   
   "scripts": {
