@@ -1,32 +1,34 @@
-# Speedy
+# curate-gpt
 
-If you are in a place that you have multiple internet connections ( WiFi, 3g, 4g, 5g, Lan, etc. ) with poor speed, you can combine them together to get a faster and more reliable connection.
+An Electron application with React and TypeScript
 
-## Features
+## Recommended IDE Setup
 
-- **Connection Aggregation**: Combine all available connections to maximize your internet speed.
-- **Load Balancer**: To manage your cost, You can decide how much of each connection should be used.
+- [VSCode](https://code.visualstudio.com/) + [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint) + [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 
-## Screenshot
+## Project Setup
 
-<img src="https://github.com/RezaRafia/Speedy/assets/28136738/3cee7b58-d6a6-479d-9486-bfbe4dc03e26" width="480" alt="Screenshot">
+### Install
 
-## Installation
+```bash
+$ npm install
+```
 
-To install Speedy, download the latest release from the [Release](https://github.com/RezaRafia/Speedy/releases) section of this repository.
+### Development
 
-## Contributing
+```bash
+$ npm run dev
+```
 
-Contributions are welcome! If you have any ideas for improvements or new features, feel free to open an issue or submit a pull request. They are some suggested task in the next section.
+### Build
 
-## Todo tasks
+```bash
+# For windows
+$ npm run build:win
 
-- **Show connection speed**: For each conenction show downloading and uploading speed.
-- **UI improvment**: For larger screens, The logging section should fully stretch to the bottom.
-- **Real-time Monitoring**: Add real-time monitoring features to track connection speeds and performance.
-- **Smart phone version**: Find a solution to export this app to use on Android & IOS.
+# For macOS
+$ npm run build:mac
 
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+# For Linux
+$ npm run build:linux
+```
