@@ -1,0 +1,46 @@
+.pdf-viewer {
+  position: relative;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.page-controls {
+  --rounded-corners: 8px;
+  --shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  position: absolute;
+  top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  box-shadow: var(--shadow);
+  border-radius: var(--rounded-corners);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+}
+
+.pdf-viewer:hover .page-controls {
+  opacity: 1;
+}
+
+.page-controls button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  margin: 0 8px;
+}
+
+.page-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.page-controls span {
+  font-size: 16px;
+  color: #333;
+}

@@ -1,0 +1,64 @@
+* {
+  --light-purple: #5a48a7; /* 1em = 16px */
+  --indigo: #303f9f; /* 1em = 16px */
+}
+
+.calendar {
+  .wrapper {
+    .carousel-container {
+      position: relative;
+      width: 100%;
+      /* max-width: 90%; */
+      width: var(--carousel-wrapper-width); /* Set a fixed width to match the carousel-wrapper */
+      max-width: var(--carousel-wrapper-width);
+      margin: 0 auto;
+      overflow: hidden;
+    
+      /* display: flex;
+      flex-direction: column;
+      align-items: center; */
+    }
+    max-width: var(--carousel-wrapper-width);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .carousel-wrapper {
+    display: flex;
+    transition: all 0.3s ease;
+    /* justify-content: center; */
+  }
+  
+  .offscreen-image {
+    visibility: hidden;
+    pointer-events: none;
+    transition: none !important;
+  }
+  
+  .carousel-wrapper .thumb-img {
+    width: var(--img-width);
+    height: var(--img-height);
+    object-fit: cover;
+    margin: 0 var(--img-margin);
+    position: relative;
+    cursor: pointer;
+    /* transition: box-shadow 0.05s ease; */
+    border-bottom-right-radius: 4px;
+    border-bottom-left-radius: 4px;
+    margin-top: 20px;
+  }
+  
+  .carousel-wrapper 
+
+  .carousel-wrapper .thumb-img:not(:last-child) {
+    margin-right: var(--img-margin);
+  }
+}

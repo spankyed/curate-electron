@@ -1,0 +1,9 @@
+:root {
+  --imgs-per-view: 4; /* 4 images per view */
+  --img-width: 320px;
+  --img-height: 180px;
+  --img-margin: 1em; /* 1em = 16px */
+  --carousel-wrapper-width: calc(
+    var(--imgs-per-view) * (var(--img-width) + 2 * var(--img-margin))
+  );
+}
