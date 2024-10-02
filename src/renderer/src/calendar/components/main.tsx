@@ -53,7 +53,7 @@ function MainContent(): React.ReactElement {
         ? <DatesPlaceholder />
         : (
           isError || isEmpty
-            ? <div className=' place-self-center'>Failed to fetch calendar data</div>
+            ? <div className=' place-self-center mt-10'>Failed to fetch calendar data</div>
             : <DateRows />
         )
       }

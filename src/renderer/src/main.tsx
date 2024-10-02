@@ -46,6 +46,5 @@ const App: React.FC = () => (
 createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <App />
-    hiii
   </React.StrictMode>
 )

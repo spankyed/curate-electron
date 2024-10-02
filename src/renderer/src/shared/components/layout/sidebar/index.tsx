@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AssessmentIcon from '@mui/icons-material/Assessment';

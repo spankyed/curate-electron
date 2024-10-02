@@ -37,12 +37,14 @@ function Layout(): React.ReactElement {
       <Box sx={{
         display: 'flex',
         // maxHeight: height,
+        height: '100vh',
         maxHeight: '100vh',
         transition: 'all 0.5s ease-in-out',
         backgroundColor: colors.palette.background.default,
         // backgroundColor: colors.palette.background.paper,
-          // backgroundColor: '#000',
-      }}>
+        // backgroundColor: '#000',
+      }}
+      >
         <TitleArea isNewUser={isNewUser}/>
 
         {
@@ -61,7 +63,12 @@ function Layout(): React.ReactElement {
               // borderBottom: '1px solid rgba(0, 0, 0, 0.12)',
               boxShadow: 'none',
               // backgroundImage: 'none',
-            }}>
+            }}
+            style={{
+              WebkitAppRegion: 'drag', 
+            // biome-ignore lint/suspicious/noExplicitAny: Apply webkitAppRegion here to drag window
+            } as any}
+            >
             <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               {
                 !isNewUser && (
@@ -95,11 +102,12 @@ function TitleArea({ isNewUser }) {
     <div style={{
       display: 'flex', marginLeft: '.4rem', width: '230px',
       position: 'absolute',
-      top: '.7rem',
+      top: '.9rem',
       left: '1.4rem',
       zIndex: 9999,
+      WebkitAppRegion: 'drag', 
     }}>
-      {
+      {/* {
         !isNewUser && (
           <IconButton
           edge="start"
@@ -111,23 +119,29 @@ function TitleArea({ isNewUser }) {
           <MenuIcon />
         </IconButton>
         )
-      }
+      } */}
 
-      <Link color="inherit" to={isNewUser ? '/onboard' : "/calendar"}>
+      <Link
+      color="inherit"
+      to={isNewUser ? '/onboard' : "/calendar"}
+      style={{ WebkitAppRegion: 'no-drag' }} // Exclude the Link from being draggable
+      >
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <Typography variant="h6" component="div" sx={{
+          <Typography variant="subtitle1" component="div" sx={{
             borderRadius: '10%',
-            padding: '2px 7px',
+            padding: '1px 7px',
             // border: '2px solid white',
             // backgroundColor: '#4a39ab7a',
             // backgroundColor: 'rgba(0, 0, 0, 0.3)',
             backgroundColor: '#3b278e',
             alignContent: 'center',
+            marginLeft: '4rem',
+            pointerEvents: 'initial',
             // backgroundColor: colors.palette.primary.light,
           }}>
             Curate
           </Typography>
-          <Typography variant="h6" component="div" sx={{ padding: '4px 4px' }}>
+          <Typography variant="subtitle1" component="div" sx={{ padding: '4px 4px' }}>
             GPT
           </Typography>
         </div>
@@ -154,7 +168,7 @@ function SearchInput(){
   };
 
   return (
-    <form onSubmit={handleSearch} style={{ display: 'flex' }}> {/* Form submission */}
+    <form onSubmit={handleSearch} style={{ display: 'flex', WebkitAppRegion: 'no-drag' }}> {/* Form submission */}
       <TextField
         id="query-input"
         label="Keyword"
