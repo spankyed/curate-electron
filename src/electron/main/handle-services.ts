@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron'
-import controllers from '../services/src'
+import controllers from '../../services/src'
 
 export function handleServices(): void {
 
