@@ -6,7 +6,16 @@ import tailwindcss from 'tailwindcss'
 
 export default defineConfig({
   main: {
-    plugins: [externalizeDepsPlugin()]
+    plugins: [externalizeDepsPlugin()],
+    resolve: {
+      alias: {
+        // '~': resolve(__dirname, './src/renderer/src'),
+        // '~': resolve('src/renderer/src'),
+        '@config': resolve('./config.ts'),
+        // '~': resolve('src/renderer/src')
+        '@services': resolve('src/services/src')
+      }
+    },
   },
   preload: {
     plugins: [externalizeDepsPlugin()]

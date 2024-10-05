@@ -1,5 +1,5 @@
 appId: com.electron.app
-productName: curate-gpt
+productName: CurateGPT
 directories:
   buildResources: build
 files:
@@ -12,7 +12,7 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: curate-gpt
+  executableName: CurateGPT
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

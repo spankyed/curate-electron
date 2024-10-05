@@ -1,0 +1,482 @@
+[
+  {
+    "id": "2308.05481",
+    "title": "LLM As DBA",
+    "abstract": "  Database administrators (DBAs) play a crucial role in managing, maintaining\nand optimizing a database system to ensure data availability, performance, and\nreliability. However, it is hard and tedious for DBAs to manage a large number\nof database instances (e.g., millions of instances on the cloud databases).\nRecently large language models (LLMs) have shown great potential to understand\nvaluable documents and accordingly generate reasonable answers. Thus, we\npropose D-Bot, a LLM-based database administrator that can continuously acquire\ndatabase maintenance experience from textual sources, and provide reasonable,\nwell-founded, in-time diagnosis and optimization advice for target databases.\nThis paper presents a revolutionary LLM-centric framework for database\nmaintenance, including (i) database maintenance knowledge detection from\ndocuments and tools, (ii) tree of thought reasoning for root cause analysis,\nand (iii) collaborative diagnosis among multiple LLMs. Our preliminary\nexperimental results that D-Bot can efficiently and effectively diagnose the\nroot causes and our code is available at\ngithub.com/TsinghuaDatabaseGroup/DB-GPT.\n",
+    "pdfLink": "http://arxiv.org/pdf/2308.05481v2",
+    "authors": [
+      "Xuanhe Zhou",
+      "Guoliang Li",
+      "Zhiyuan Liu"
+    ]
+  },
+  {
+    "id": "2307.09909",
+    "title": "Chit-Chat or Deep Talk: Prompt Engineering for Process Mining",
+    "abstract": "  This research investigates the application of Large Language Models (LLMs) to\naugment conversational agents in process mining, aiming to tackle its inherent\ncomplexity and diverse skill requirements. While LLM advancements present novel\nopportunities for conversational process mining, generating efficient outputs\nis still a hurdle. We propose an innovative approach that amend many issues in\nexisting solutions, informed by prior research on Natural Language Processing\n(NLP) for conversational agents. Leveraging LLMs, our framework improves both\naccessibility and agent performance, as demonstrated by experiments on public\nquestion and data sets. Our research sets the stage for future explorations\ninto LLMs' role in process mining and concludes with propositions for enhancing\nLLM memory, implementing real-time user testing, and examining diverse data\nsets.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.09909v1",
+    "authors": [
+      "Urszula Jessen",
+      "Michal Sroka",
+      "Dirk Fahland"
+    ]
+  },
+  {
+    "id": "2307.06159",
+    "title": "Reflective Hybrid Intelligence for Meaningful Human Control in\n  Decision-Support Systems",
+    "abstract": "  With the growing capabilities and pervasiveness of AI systems, societies must\ncollectively choose between reduced human autonomy, endangered democracies and\nlimited human rights, and AI that is aligned to human and social values,\nnurturing collaboration, resilience, knowledge and ethical behaviour. In this\nchapter, we introduce the notion of self-reflective AI systems for meaningful\nhuman control over AI systems. Focusing on decision support systems, we propose\na framework that integrates knowledge from psychology and philosophy with\nformal reasoning methods and machine learning approaches to create AI systems\nresponsive to human values and social norms. We also propose a possible\nresearch approach to design and develop self-reflective capability in AI\nsystems. Finally, we argue that self-reflective AI systems can lead to\nself-reflective hybrid systems (human + AI), thus increasing meaningful human\ncontrol and empowering human moral reasoning by providing comprehensible\ninformation and insights on possible human moral blind spots.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.06159v1",
+    "authors": [
+      "Catholijn M. Jonker",
+      "Luciano Cavalcante Siebert",
+      "Pradeep K. Murukannaiah"
+    ]
+  },
+  {
+    "id": "2307.05082",
+    "title": "OntoChatGPT Information System: Ontology-Driven Structured Prompts for\n  ChatGPT Meta-Learning",
+    "abstract": "  This research presents a comprehensive methodology for utilizing an\nontology-driven structured prompts system in interplay with ChatGPT, a widely\nused large language model (LLM). The study develops formal models, both\ninformation and functional, and establishes the methodological foundations for\nintegrating ontology-driven prompts with ChatGPT's meta-learning capabilities.\nThe resulting productive triad comprises the methodological foundations,\nadvanced information technology, and the OntoChatGPT system, which collectively\nenhance the effectiveness and performance of chatbot systems. The\nimplementation of this technology is demonstrated using the Ukrainian language\nwithin the domain of rehabilitation. By applying the proposed methodology, the\nOntoChatGPT system effectively extracts entities from contexts, classifies\nthem, and generates relevant responses. The study highlights the versatility of\nthe methodology, emphasizing its applicability not only to ChatGPT but also to\nother chatbot systems based on LLMs, such as Google's Bard utilizing the PaLM 2\nLLM. The underlying principles of meta-learning, structured prompts, and\nontology-driven information retrieval form the core of the proposed\nmethodology, enabling their adaptation and utilization in various LLM-based\nsystems. This versatile approach opens up new possibilities for NLP and\ndialogue systems, empowering developers to enhance the performance and\nfunctionality of chatbot systems across different domains and languages.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.05082v1",
+    "authors": [
+      "Oleksandr Palagin",
+      "Vladislav Kaverinskiy",
+      "Anna Litvin",
+      "Kyrylo Malakhov"
+    ]
+  },
+  {
+    "id": "2307.05300",
+    "title": "Unleashing the Emergent Cognitive Synergy in Large Language Models: A\n  Task-Solving Agent through Multi-Persona Self-Collaboration",
+    "abstract": "  Human intelligence thrives on cognitive synergy, where collaboration among\ndifferent minds yield superior outcomes compared to isolated individuals. In\nthis work, we propose Solo Performance Prompting (SPP), which transforms a\nsingle LLM into a cognitive synergist by engaging in multi-turn\nself-collaboration with multiple personas. A cognitive synergist is an\nintelligent agent that collaboratively combines multiple minds' strengths and\nknowledge to enhance problem-solving in complex tasks. By dynamically\nidentifying and simulating different personas based on task inputs, SPP\nunleashes the potential of cognitive synergy in LLMs. Our in-depth analysis\nshows that assigning multiple fine-grained personas in LLMs improves\nproblem-solving abilities compared to using a single or fixed number of\npersonas. We evaluate SPP on three challenging tasks: Trivia Creative Writing,\nCodenames Collaborative, and Logic Grid Puzzle, encompassing both\nknowledge-intensive and reasoning-intensive types. Unlike previous works, such\nas Chain-of-Thought, that solely enhance the reasoning abilities in LLMs,\nexperimental results demonstrate that SPP effectively reduces factual\nhallucination, and maintains strong reasoning capabilities. Additionally,\ncomparative experiments show that cognitive synergy only emerges in GPT-4 and\ndoes not appear in less capable models, such as GPT-3.5-turbo and\nLlama2-13b-chat, which draws an interesting analogy to human development. Code,\ndata, and prompts can be found at:\nhttps://github.com/MikeWangWZHL/Solo-Performance-Prompting.git.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.05300v4",
+    "authors": [
+      "Zhenhailong Wang",
+      "Shaoguang Mao",
+      "Wenshan Wu",
+      "Tao Ge",
+      "Furu Wei",
+      "Heng Ji"
+    ]
+  },
+  {
+    "id": "2305.10601",
+    "title": "Tree of Thoughts: Deliberate Problem Solving with Large Language Models",
+    "abstract": "  Language models are increasingly being deployed for general problem solving\nacross a wide range of tasks, but are still confined to token-level,\nleft-to-right decision-making processes during inference. This means they can\nfall short in tasks that require exploration, strategic lookahead, or where\ninitial decisions play a pivotal role. To surmount these challenges, we\nintroduce a new framework for language model inference, Tree of Thoughts (ToT),\nwhich generalizes over the popular Chain of Thought approach to prompting\nlanguage models, and enables exploration over coherent units of text (thoughts)\nthat serve as intermediate steps toward problem solving. ToT allows LMs to\nperform deliberate decision making by considering multiple different reasoning\npaths and self-evaluating choices to decide the next course of action, as well\nas looking ahead or backtracking when necessary to make global choices. Our\nexperiments show that ToT significantly enhances language models'\nproblem-solving abilities on three novel tasks requiring non-trivial planning\nor search: Game of 24, Creative Writing, and Mini Crosswords. For instance, in\nGame of 24, while GPT-4 with chain-of-thought prompting only solved 4% of\ntasks, our method achieved a success rate of 74%. Code repo with all prompts:\nhttps://github.com/princeton-nlp/tree-of-thought-llm.\n",
+    "pdfLink": "http://arxiv.org/pdf/2305.10601v2",
+    "authors": [
+      "Shunyu Yao",
+      "Dian Yu",
+      "Jeffrey Zhao",
+      "Izhak Shafran",
+      "Thomas L. Griffiths",
+      "Yuan Cao",
+      "Karthik Narasimhan"
+    ]
+  },
+  {
+    "id": "2307.01933",
+    "title": "Concept2Box: Joint Geometric Embeddings for Learning Two-View Knowledge\n  Graphs",
+    "abstract": "  Knowledge graph embeddings (KGE) have been extensively studied to embed\nlarge-scale relational data for many real-world applications. Existing methods\nhave long ignored the fact many KGs contain two fundamentally different views:\nhigh-level ontology-view concepts and fine-grained instance-view entities. They\nusually embed all nodes as vectors in one latent space. However, a single\ngeometric representation fails to capture the structural differences between\ntwo views and lacks probabilistic semantics towards concepts' granularity. We\npropose Concept2Box, a novel approach that jointly embeds the two views of a KG\nusing dual geometric representations. We model concepts with box embeddings,\nwhich learn the hierarchy structure and complex relations such as overlap and\ndisjoint among them. Box volumes can be interpreted as concepts' granularity.\nDifferent from concepts, we model entities as vectors. To bridge the gap\nbetween concept box embeddings and entity vector embeddings, we propose a novel\nvector-to-box distance metric and learn both embeddings jointly. Experiments on\nboth the public DBpedia KG and a newly-created industrial KG showed the\neffectiveness of Concept2Box.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.01933v1",
+    "authors": [
+      "Zijie Huang",
+      "Daheng Wang",
+      "Binxuan Huang",
+      "Chenwei Zhang",
+      "Jingbo Shang",
+      "Yan Liang",
+      "Zhengyang Wang",
+      "Xian Li",
+      "Christos Faloutsos",
+      "Yizhou Sun",
+      "Wei Wang"
+    ]
+  },
+  {
+    "id": "2307.01577",
+    "title": "Conceptual Cognitive Maps Formation with Neural Successor Networks and\n  Word Embeddings",
+    "abstract": "  The human brain possesses the extraordinary capability to contextualize the\ninformation it receives from our environment. The entorhinal-hippocampal plays\na critical role in this function, as it is deeply engaged in memory processing\nand constructing cognitive maps using place and grid cells. Comprehending and\nleveraging this ability could significantly augment the field of artificial\nintelligence. The multi-scale successor representation serves as a good model\nfor the functionality of place and grid cells and has already shown promise in\nthis role. Here, we introduce a model that employs successor representations\nand neural networks, along with word embedding vectors, to construct a\ncognitive map of three separate concepts. The network adeptly learns two\ndifferent scaled maps and situates new information in proximity to related\npre-existing representations. The dispersion of information across the\ncognitive map varies according to its scale - either being heavily\nconcentrated, resulting in the formation of the three concepts, or spread\nevenly throughout the map. We suggest that our model could potentially improve\ncurrent AI models by providing multi-modal context information to any input,\nbased on a similarity metric for the input and pre-existing knowledge\nrepresentations.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.01577v1",
+    "authors": [
+      "Paul Stoewer",
+      "Achim Schilling",
+      "Andreas Maier",
+      "Patrick Krauss"
+    ]
+  },
+  {
+    "id": "2307.01548",
+    "title": "Knowledge Graph for NLG in the context of conversational agents",
+    "abstract": "  The use of knowledge graphs (KGs) enhances the accuracy and comprehensiveness\nof the responses provided by a conversational agent. While generating answers\nduring conversations consists in generating text from these KGs, it is still\nregarded as a challenging task that has gained significant attention in recent\nyears. In this document, we provide a review of different architectures used\nfor knowledge graph-to-text generation including: Graph Neural Networks, the\nGraph Transformer, and linearization with seq2seq models. We discuss the\nadvantages and limitations of each architecture and conclude that the choice of\narchitecture will depend on the specific requirements of the task at hand. We\nalso highlight the importance of considering constraints such as execution time\nand model validity, particularly in the context of conversational agents. Based\non these constraints and the availability of labeled data for the domains of\nDAVI, we choose to use seq2seq Transformer-based models (PLMs) for the\nKnowledge Graph-to-Text Generation task. We aim to refine benchmark datasets of\nkg-to-text generation on PLMs and to explore the emotional and multilingual\ndimensions in our future work. Overall, this review provides insights into the\ndifferent approaches for knowledge graph-to-text generation and outlines future\ndirections for research in this area.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.01548v1",
+    "authors": [
+      "Hussam Ghanem",
+      "Massinissa Atmani",
+      "Christophe Cruz"
+    ]
+  },
+  {
+    "id": "2307.01403",
+    "title": "Learning Multi-Agent Communication with Contrastive Learning",
+    "abstract": "  Communication is a powerful tool for coordination in multi-agent RL. But\ninducing an effective, common language is a difficult challenge, particularly\nin the decentralized setting. In this work, we introduce an alternative\nperspective where communicative messages sent between agents are considered as\ndifferent incomplete views of the environment state. By examining the\nrelationship between messages sent and received, we propose to learn to\ncommunicate using contrastive learning to maximize the mutual information\nbetween messages of a given trajectory. In communication-essential\nenvironments, our method outperforms previous work in both performance and\nlearning speed. Using qualitative metrics and representation probing, we show\nthat our method induces more symmetric communication and captures global state\ninformation from the environment. Overall, we show the power of contrastive\nlearning and the importance of leveraging messages as encodings for effective\ncommunication.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.01403v3",
+    "authors": [
+      "Yat Long Lo",
+      "Biswa Sengupta",
+      "Jakob Foerster",
+      "Michael Noukhovitch"
+    ]
+  },
+  {
+    "id": "2307.01204",
+    "title": "Towards Few-shot Inductive Link Prediction on Knowledge Graphs: A\n  Relational Anonymous Walk-guided Neural Process Approach",
+    "abstract": "  Few-shot inductive link prediction on knowledge graphs (KGs) aims to predict\nmissing links for unseen entities with few-shot links observed. Previous\nmethods are limited to transductive scenarios, where entities exist in the\nknowledge graphs, so they are unable to handle unseen entities. Therefore,\nrecent inductive methods utilize the sub-graphs around unseen entities to\nobtain the semantics and predict links inductively. However, in the few-shot\nsetting, the sub-graphs are often sparse and cannot provide meaningful\ninductive patterns. In this paper, we propose a novel relational anonymous\nwalk-guided neural process for few-shot inductive link prediction on knowledge\ngraphs, denoted as RawNP. Specifically, we develop a neural process-based\nmethod to model a flexible distribution over link prediction functions. This\nenables the model to quickly adapt to new entities and estimate the uncertainty\nwhen making predictions. To capture general inductive patterns, we present a\nrelational anonymous walk to extract a series of relational motifs from\nfew-shot observations. These motifs reveal the distinctive semantic patterns on\nKGs that support inductive predictions. Extensive experiments on typical\nbenchmark datasets demonstrate that our model derives new state-of-the-art\nperformance.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.01204v1",
+    "authors": [
+      "Zicheng Zhao",
+      "Linhao Luo",
+      "Shirui Pan",
+      "Quoc Viet Hung Nguyen",
+      "Chen Gong"
+    ]
+  },
+  {
+    "id": "2307.02276",
+    "title": "First-Explore, then Exploit: Meta-Learning Intelligent Exploration",
+    "abstract": "  Standard reinforcement learning (RL) agents never intelligently explore like\na human (i.e. by taking into account complex domain priors and previous\nexplorations). Even the most basic intelligent exploration strategies such as\nexhaustive search are only inefficiently or poorly approximated by approaches\nsuch as novelty search or intrinsic motivation, let alone more complicated\nstrategies like learning new skills, climbing stairs, opening doors, or\nconducting experiments. This lack of intelligent exploration limits sample\nefficiency and prevents solving hard exploration domains. We argue a core\nbarrier prohibiting many RL approaches from learning intelligent exploration is\nthat the methods attempt to explore and exploit simultaneously, which harms\nboth exploration and exploitation as the goals often conflict. We propose a\nnovel meta-RL framework (First-Explore) with two policies: one policy learns to\nonly explore and one policy learns to only exploit. Once trained, we can then\nexplore with the explore policy, for as long as desired, and then exploit based\non all the information gained during exploration. This approach avoids the\nconflict of trying to do both exploration and exploitation at once. We\ndemonstrate that First-Explore can learn intelligent exploration strategies\nsuch as exhaustive search and more, and that it outperforms dominant standard\nRL and meta-RL approaches on domains where exploration requires sacrificing\nreward. First-Explore is a significant step towards creating meta-RL algorithms\ncapable of learning human-level exploration which is essential to solve\nchallenging unseen hard-exploration domains.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.02276v1",
+    "authors": [
+      "Ben Norman",
+      "Jeff Clune"
+    ]
+  },
+  {
+    "id": "2307.02046",
+    "title": "Recommender Systems in the Era of Large Language Models (LLMs)",
+    "abstract": "  With the prosperity of e-commerce and web applications, Recommender Systems\n(RecSys) have become an important component of our daily life, providing\npersonalized suggestions that cater to user preferences. While Deep Neural\nNetworks (DNNs) have made significant advancements in enhancing recommender\nsystems by modeling user-item interactions and incorporating textual side\ninformation, DNN-based methods still face limitations, such as difficulties in\nunderstanding users' interests and capturing textual side information,\ninabilities in generalizing to various recommendation scenarios and reasoning\non their predictions, etc. Meanwhile, the emergence of Large Language Models\n(LLMs), such as ChatGPT and GPT4, has revolutionized the fields of Natural\nLanguage Processing (NLP) and Artificial Intelligence (AI), due to their\nremarkable abilities in fundamental responsibilities of language understanding\nand generation, as well as impressive generalization and reasoning\ncapabilities. As a result, recent studies have attempted to harness the power\nof LLMs to enhance recommender systems. Given the rapid evolution of this\nresearch direction in recommender systems, there is a pressing need for a\nsystematic overview that summarizes existing LLM-empowered recommender systems,\nto provide researchers in relevant fields with an in-depth understanding.\nTherefore, in this paper, we conduct a comprehensive review of LLM-empowered\nrecommender systems from various aspects including Pre-training, Fine-tuning,\nand Prompting. More specifically, we first introduce representative methods to\nharness the power of LLMs (as a feature encoder) for learning representations\nof users and items. Then, we review recent techniques of LLMs for enhancing\nrecommender systems from three paradigms, namely pre-training, fine-tuning, and\nprompting. Finally, we comprehensively discuss future directions in this\nemerging field.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.02046v2",
+    "authors": [
+      "Wenqi Fan",
+      "Zihuai Zhao",
+      "Jiatong Li",
+      "Yunqing Liu",
+      "Xiaowei Mei",
+      "Yiqi Wang",
+      "Zhen Wen",
+      "Fei Wang",
+      "Xiangyu Zhao",
+      "Jiliang Tang",
+      "Qing Li"
+    ]
+  },
+  {
+    "id": "2307.02295",
+    "title": "Meta-Learning Adversarial Bandit Algorithms",
+    "abstract": "  We study online meta-learning with bandit feedback, with the goal of\nimproving performance across multiple tasks if they are similar according to\nsome natural similarity measure. As the first to target the adversarial\nonline-within-online partial-information setting, we design meta-algorithms\nthat combine outer learners to simultaneously tune the initialization and other\nhyperparameters of an inner learner for two important cases: multi-armed\nbandits (MAB) and bandit linear optimization (BLO). For MAB, the meta-learners\ninitialize and set hyperparameters of the Tsallis-entropy generalization of\nExp3, with the task-averaged regret improving if the entropy of the\noptima-in-hindsight is small. For BLO, we learn to initialize and tune online\nmirror descent (OMD) with self-concordant barrier regularizers, showing that\ntask-averaged regret varies directly with an action space-dependent measure\nthey induce. Our guarantees rely on proving that unregularized\nfollow-the-leader combined with two levels of low-dimensional hyperparameter\ntuning is enough to learn a sequence of affine functions of non-Lipschitz and\nsometimes non-convex Bregman divergences bounding the regret of OMD.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.02295v2",
+    "authors": [
+      "Mikhail Khodak",
+      "Ilya Osadchiy",
+      "Keegan Harris",
+      "Maria-Florina Balcan",
+      "Kfir Y. Levy",
+      "Ron Meir",
+      "Zhiwei Steven Wu"
+    ]
+  },
+  {
+    "id": "2307.01928",
+    "title": "Robots That Ask For Help: Uncertainty Alignment for Large Language Model\n  Planners",
+    "abstract": "  Large language models (LLMs) exhibit a wide range of promising capabilities\n-- from step-by-step planning to commonsense reasoning -- that may provide\nutility for robots, but remain prone to confidently hallucinated predictions.\nIn this work, we present KnowNo, which is a framework for measuring and\naligning the uncertainty of LLM-based planners such that they know when they\ndon't know and ask for help when needed. KnowNo builds on the theory of\nconformal prediction to provide statistical guarantees on task completion while\nminimizing human help in complex multi-step planning settings. Experiments\nacross a variety of simulated and real robot setups that involve tasks with\ndifferent modes of ambiguity (e.g., from spatial to numeric uncertainties, from\nhuman preferences to Winograd schemas) show that KnowNo performs favorably over\nmodern baselines (which may involve ensembles or extensive prompt tuning) in\nterms of improving efficiency and autonomy, while providing formal assurances.\nKnowNo can be used with LLMs out of the box without model-finetuning, and\nsuggests a promising lightweight approach to modeling uncertainty that can\ncomplement and scale with the growing capabilities of foundation models.\nWebsite: https://robot-help.github.io\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.01928v2",
+    "authors": [
+      "Allen Z. Ren",
+      "Anushri Dixit",
+      "Alexandra Bodrova",
+      "Sumeet Singh",
+      "Stephen Tu",
+      "Noah Brown",
+      "Peng Xu",
+      "Leila Takayama",
+      "Fei Xia",
+      "Jake Varley",
+      "Zhenjia Xu",
+      "Dorsa Sadigh",
+      "Andy Zeng",
+      "Anirudha Majumdar"
+    ]
+  },
+  {
+    "id": "2307.02477",
+    "title": "Reasoning or Reciting? Exploring the Capabilities and Limitations of\n  Language Models Through Counterfactual Tasks",
+    "abstract": "  The impressive performance of recent language models across a wide range of\ntasks suggests that they possess a degree of abstract reasoning skills. Are\nthese skills general and transferable, or specialized to specific tasks seen\nduring pretraining? To disentangle these effects, we propose an evaluation\nframework based on \"counterfactual\" task variants that deviate from the default\nassumptions underlying standard tasks. Across a suite of 11 tasks, we observe\nnontrivial performance on the counterfactual variants, but nevertheless find\nthat performance substantially and consistently degrades compared to the\ndefault conditions. This suggests that while current LMs may possess abstract\ntask-solving skills to an extent, they often also rely on narrow,\nnon-transferable procedures for task-solving. These results motivate a more\ncareful interpretation of language model performance that teases apart these\naspects of behavior.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.02477v3",
+    "authors": [
+      "Zhaofeng Wu",
+      "Linlu Qiu",
+      "Alexis Ross",
+      "Ekin Akyürek",
+      "Boyuan Chen",
+      "Bailin Wang",
+      "Najoung Kim",
+      "Jacob Andreas",
+      "Yoon Kim"
+    ]
+  },
+  {
+    "id": "2307.02485",
+    "title": "Building Cooperative Embodied Agents Modularly with Large Language\n  Models",
+    "abstract": "  In this work, we address challenging multi-agent cooperation problems with\ndecentralized control, raw sensory observations, costly communication, and\nmulti-objective tasks instantiated in various embodied environments. While\nprevious research either presupposes a cost-free communication channel or\nrelies on a centralized controller with shared observations, we harness the\ncommonsense knowledge, reasoning ability, language comprehension, and text\ngeneration prowess of LLMs and seamlessly incorporate them into a\ncognitive-inspired modular framework that integrates with perception, memory,\nand execution. Thus building a Cooperative Embodied Language Agent CoELA, who\ncan plan, communicate, and cooperate with others to accomplish long-horizon\ntasks efficiently. Our experiments on C-WAH and TDW-MAT demonstrate that CoELA\ndriven by GPT-4 can surpass strong planning-based methods and exhibit emergent\neffective communication. Though current Open LMs like LLAMA-2 still\nunderperform, we fine-tune a CoELA with data collected with our agents and show\nhow they can achieve promising performance. We also conducted a user study for\nhuman-agent interaction and discovered that CoELA communicating in natural\nlanguage can earn more trust and cooperate more effectively with humans. Our\nresearch underscores the potential of LLMs for future research in multi-agent\ncooperation. Videos can be found on the project website\nhttps://vis-www.cs.umass.edu/Co-LLM-Agents/.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.02485v2",
+    "authors": [
+      "Hongxin Zhang",
+      "Weihua Du",
+      "Jiaming Shan",
+      "Qinhong Zhou",
+      "Yilun Du",
+      "Joshua B. Tenenbaum",
+      "Tianmin Shu",
+      "Chuang Gan"
+    ]
+  },
+  {
+    "id": "1801.07243",
+    "title": "Personalizing Dialogue Agents: I have a dog, do you have pets too?",
+    "abstract": "  Chit-chat models are known to have several problems: they lack specificity,\ndo not display a consistent personality and are often not very captivating. In\nthis work we present the task of making chit-chat more engaging by conditioning\non profile information. We collect data and train models to (i) condition on\ntheir given profile information; and (ii) information about the person they are\ntalking to, resulting in improved dialogues, as measured by next utterance\nprediction. Since (ii) is initially unknown our model is trained to engage its\npartner with personal topics, and we show the resulting dialogue can be used to\npredict profile information about the interlocutors.\n",
+    "pdfLink": "http://arxiv.org/pdf/1801.07243v5",
+    "authors": [
+      "Saizheng Zhang",
+      "Emily Dinan",
+      "Jack Urbanek",
+      "Arthur Szlam",
+      "Douwe Kiela",
+      "Jason Weston"
+    ]
+  },
+  {
+    "id": "2307.02390",
+    "title": "Causal Discovery with Language Models as Imperfect Experts",
+    "abstract": "  Understanding the causal relationships that underlie a system is a\nfundamental prerequisite to accurate decision-making. In this work, we explore\nhow expert knowledge can be used to improve the data-driven identification of\ncausal graphs, beyond Markov equivalence classes. In doing so, we consider a\nsetting where we can query an expert about the orientation of causal\nrelationships between variables, but where the expert may provide erroneous\ninformation. We propose strategies for amending such expert knowledge based on\nconsistency properties, e.g., acyclicity and conditional independencies in the\nequivalence class. We then report a case study, on real data, where a large\nlanguage model is used as an imperfect expert.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.02390v1",
+    "authors": [
+      "Stephanie Long",
+      "Alexandre Piché",
+      "Valentina Zantedeschi",
+      "Tibor Schuster",
+      "Alexandre Drouin"
+    ]
+  },
+  {
+    "id": "2307.07255",
+    "title": "Dialogue Agents 101: A Beginner's Guide to Critical Ingredients for\n  Designing Effective Conversational Systems",
+    "abstract": "  Sharing ideas through communication with peers is the primary mode of human\ninteraction. Consequently, extensive research has been conducted in the area of\nconversational AI, leading to an increase in the availability and diversity of\nconversational tasks, datasets, and methods. However, with numerous tasks being\nexplored simultaneously, the current landscape of conversational AI becomes\nfragmented. Therefore, initiating a well-thought-out model for a dialogue agent\ncan pose significant challenges for a practitioner. Towards highlighting the\ncritical ingredients needed for a practitioner to design a dialogue agent from\nscratch, the current study provides a comprehensive overview of the primary\ncharacteristics of a dialogue agent, the supporting tasks, their corresponding\nopen-domain datasets, and the methods used to benchmark these datasets. We\nobserve that different methods have been used to tackle distinct dialogue\ntasks. However, building separate models for each task is costly and does not\nleverage the correlation among the several tasks of a dialogue agent. As a\nresult, recent trends suggest a shift towards building unified foundation\nmodels. To this end, we propose UNIT, a UNified dIalogue dataseT constructed\nfrom conversations of existing datasets for different dialogue tasks capturing\nthe nuances for each of them. We also examine the evaluation strategies used to\nmeasure the performance of dialogue agents and highlight the scope for future\nresearch in the area of conversational AI.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.07255v1",
+    "authors": [
+      "Shivani Kumar",
+      "Sumit Bhatia",
+      "Milan Aggarwal",
+      "Tanmoy Chakraborty"
+    ]
+  },
+  {
+    "id": "2307.06917",
+    "title": "LLM-assisted Knowledge Graph Engineering: Experiments with ChatGPT",
+    "abstract": "  Knowledge Graphs (KG) provide us with a structured, flexible, transparent,\ncross-system, and collaborative way of organizing our knowledge and data across\nvarious domains in society and industrial as well as scientific disciplines.\nKGs surpass any other form of representation in terms of effectiveness.\nHowever, Knowledge Graph Engineering (KGE) requires in-depth experiences of\ngraph structures, web technologies, existing models and vocabularies, rule\nsets, logic, as well as best practices. It also demands a significant amount of\nwork. Considering the advancements in large language models (LLMs) and their\ninterfaces and applications in recent years, we have conducted comprehensive\nexperiments with ChatGPT to explore its potential in supporting KGE. In this\npaper, we present a selection of these experiments and their results to\ndemonstrate how ChatGPT can assist us in the development and management of KGs.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.06917v1",
+    "authors": [
+      "Lars-Peter Meyer",
+      "Claus Stadler",
+      "Johannes Frey",
+      "Norman Radtke",
+      "Kurt Junghanns",
+      "Roy Meissner",
+      "Gordian Dziwis",
+      "Kirill Bulert",
+      "Michael Martin"
+    ]
+  },
+  {
+    "id": "2307.08962",
+    "title": "REX: Rapid Exploration and eXploitation for AI Agents",
+    "abstract": "  In this paper, we propose an enhanced approach for Rapid Exploration and\neXploitation for AI Agents called REX. Existing AutoGPT-style techniques have\ninherent limitations, such as a heavy reliance on precise descriptions for\ndecision-making, and the lack of a systematic approach to leverage try-and-fail\nprocedures akin to traditional Reinforcement Learning (RL). REX introduces an\nadditional layer of rewards and integrates concepts similar to Upper Confidence\nBound (UCB) scores, leading to more robust and efficient AI agent performance.\nThis approach has the advantage of enabling the utilization of offline\nbehaviors from logs and allowing seamless integration with existing foundation\nmodels while it does not require any model fine-tuning. Through comparative\nanalysis with existing methods such as Chain-of-Thoughts(CoT) and Reasoning viA\nPlanning(RAP), REX-based methods demonstrate comparable performance and, in\ncertain cases, even surpass the results achieved by these existing techniques.\nNotably, REX-based methods exhibit remarkable reductions in execution time,\nenhancing their practical applicability across a diverse set of scenarios.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.08962v2",
+    "authors": [
+      "Rithesh Murthy",
+      "Shelby Heinecke",
+      "Juan Carlos Niebles",
+      "Zhiwei Liu",
+      "Le Xue",
+      "Weiran Yao",
+      "Yihao Feng",
+      "Zeyuan Chen",
+      "Akash Gokul",
+      "Devansh Arpit",
+      "Ran Xu",
+      "Phil Mui",
+      "Huan Wang",
+      "Caiming Xiong",
+      "Silvio Savarese"
+    ]
+  },
+  {
+    "id": "2206.08853",
+    "title": "MineDojo: Building Open-Ended Embodied Agents with Internet-Scale\n  Knowledge",
+    "abstract": "  Autonomous agents have made great strides in specialist domains like Atari\ngames and Go. However, they typically learn tabula rasa in isolated\nenvironments with limited and manually conceived objectives, thus failing to\ngeneralize across a wide spectrum of tasks and capabilities. Inspired by how\nhumans continually learn and adapt in the open world, we advocate a trinity of\ningredients for building generalist agents: 1) an environment that supports a\nmultitude of tasks and goals, 2) a large-scale database of multimodal\nknowledge, and 3) a flexible and scalable agent architecture. We introduce\nMineDojo, a new framework built on the popular Minecraft game that features a\nsimulation suite with thousands of diverse open-ended tasks and an\ninternet-scale knowledge base with Minecraft videos, tutorials, wiki pages, and\nforum discussions. Using MineDojo's data, we propose a novel agent learning\nalgorithm that leverages large pre-trained video-language models as a learned\nreward function. Our agent is able to solve a variety of open-ended tasks\nspecified in free-form language without any manually designed dense shaping\nreward. We open-source the simulation suite, knowledge bases, algorithm\nimplementation, and pretrained models (https://minedojo.org) to promote\nresearch towards the goal of generally capable embodied agents.\n",
+    "pdfLink": "http://arxiv.org/pdf/2206.08853v2",
+    "authors": [
+      "Linxi Fan",
+      "Guanzhi Wang",
+      "Yunfan Jiang",
+      "Ajay Mandlekar",
+      "Yuncong Yang",
+      "Haoyi Zhu",
+      "Andrew Tang",
+      "De-An Huang",
+      "Yuke Zhu",
+      "Anima Anandkumar"
+    ]
+  },
+  {
+    "id": "2307.09364",
+    "title": "Local Minima Drive Communications in Cooperative Interaction",
+    "abstract": "  An important open question in human-robot interaction (HRI) is precisely when\nan agent should decide to communicate, particularly in a cooperative task.\nPerceptual Control Theory (PCT) tells us that agents are able to cooperate on a\njoint task simply by sharing the same 'intention', thereby distributing the\neffort required to complete the task among the agents. This is even true for\nagents that do not possess the same abilities, so long as the goal is\nobservable, the combined actions are sufficient to complete the task, and there\nis no local minimum in the search space. If these conditions hold, then a\ncooperative task can be accomplished without any communication between the\ncontributing agents. However, for tasks that do contain local minima, the\nglobal solution can only be reached if at least one of the agents adapts its\nintention at the appropriate moments, and this can only be achieved by\nappropriately timed communication. In other words, it is hypothesised that in\ncooperative tasks, the function of communication is to coordinate actions in a\ncomplex search space that contains local minima. These principles have been\nverified in a computer-based simulation environment in which two independent\none-dimensional agents are obliged to cooperate in order to solve a\ntwo-dimensional path-finding task.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.09364v1",
+    "authors": [
+      "Roger K. Moore"
+    ]
+  },
+  {
+    "id": "2307.08859",
+    "title": "Curriculum Learning for Graph Neural Networks: A Multiview\n  Competence-based Approach",
+    "abstract": "  A curriculum is a planned sequence of learning materials and an effective one\ncan make learning efficient and effective for both humans and machines. Recent\nstudies developed effective data-driven curriculum learning approaches for\ntraining graph neural networks in language applications. However, existing\ncurriculum learning approaches often employ a single criterion of difficulty in\ntheir training paradigms. In this paper, we propose a new perspective on\ncurriculum learning by introducing a novel approach that builds on graph\ncomplexity formalisms (as difficulty criteria) and model competence during\ntraining. The model consists of a scheduling scheme which derives effective\ncurricula by accounting for different views of sample difficulty and model\ncompetence during training. The proposed solution advances existing research in\ncurriculum learning for graph neural networks with the ability to incorporate a\nfine-grained spectrum of graph difficulty criteria in their training paradigms.\nExperimental results on real-world link prediction and node classification\ntasks illustrate the effectiveness of the proposed approach.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.08859v1",
+    "authors": [
+      "Nidhi Vakil",
+      "Hadi Amiri"
+    ]
+  },
+  {
+    "id": "2307.09721",
+    "title": "Multi-Grained Multimodal Interaction Network for Entity Linking",
+    "abstract": "  Multimodal entity linking (MEL) task, which aims at resolving ambiguous\nmentions to a multimodal knowledge graph, has attracted wide attention in\nrecent years. Though large efforts have been made to explore the complementary\neffect among multiple modalities, however, they may fail to fully absorb the\ncomprehensive expression of abbreviated textual context and implicit visual\nindication. Even worse, the inevitable noisy data may cause inconsistency of\ndifferent modalities during the learning process, which severely degenerates\nthe performance. To address the above issues, in this paper, we propose a novel\nMulti-GraIned Multimodal InteraCtion Network $\\textbf{(MIMIC)}$ framework for\nsolving the MEL task. Specifically, the unified inputs of mentions and entities\nare first encoded by textual/visual encoders separately, to extract global\ndescriptive features and local detailed features. Then, to derive the\nsimilarity matching score for each mention-entity pair, we device three\ninteraction units to comprehensively explore the intra-modal interaction and\ninter-modal fusion among features of entities and mentions. In particular,\nthree modules, namely the Text-based Global-Local interaction Unit (TGLU),\nVision-based DuaL interaction Unit (VDLU) and Cross-Modal Fusion-based\ninteraction Unit (CMFU) are designed to capture and integrate the fine-grained\nrepresentation lying in abbreviated text and implicit visual cues. Afterwards,\nwe introduce a unit-consistency objective function via contrastive learning to\navoid inconsistency and model degradation. Experimental results on three public\nbenchmark datasets demonstrate that our solution outperforms various\nstate-of-the-art baselines, and ablation studies verify the effectiveness of\ndesigned modules.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.09721v1",
+    "authors": [
+      "Pengfei Luo",
+      "Tong Xu",
+      "Shiwei Wu",
+      "Chen Zhu",
+      "Linli Xu",
+      "Enhong Chen"
+    ]
+  },
+  {
+    "id": "2210.02441",
+    "title": "Ask Me Anything: A simple strategy for prompting language models",
+    "abstract": "  Large language models (LLMs) transfer well to new tasks out-of-the-box simply\ngiven a natural language prompt that demonstrates how to perform the task and\nno additional training. Prompting is a brittle process wherein small\nmodifications to the prompt can cause large variations in the model\npredictions, and therefore significant effort is dedicated towards designing a\npainstakingly \"perfect prompt\" for a task. To mitigate the high degree of\neffort involved in prompt-design, we instead ask whether producing multiple\neffective, yet imperfect, prompts and aggregating them can lead to a high\nquality prompting strategy. Our observations motivate our proposed prompting\nmethod, ASK ME ANYTHING (AMA). We first develop an understanding of the\neffective prompt formats, finding that question-answering (QA) prompts, which\nencourage open-ended generation (\"Who went to the park?\") tend to outperform\nthose that restrict the model outputs (\"John went to the park. Output True or\nFalse.\"). Our approach recursively uses the LLM itself to transform task inputs\nto the effective QA format. We apply the collected prompts to obtain several\nnoisy votes for the input's true label. We find that the prompts can have very\ndifferent accuracies and complex dependencies and thus propose to use weak\nsupervision, a procedure for combining the noisy predictions, to produce the\nfinal predictions for the inputs. We evaluate AMA across open-source model\nfamilies (e.g., EleutherAI, BLOOM, OPT, and T0) and model sizes (125M-175B\nparameters), demonstrating an average performance lift of 10.2% over the\nfew-shot baseline. This simple strategy enables the open-source GPT-J-6B model\nto match and exceed the performance of few-shot GPT3-175B on 15 of 20 popular\nbenchmarks. Averaged across these tasks, the GPT-J-6B model outperforms\nfew-shot GPT3-175B. We release our code here:\nhttps://github.com/HazyResearch/ama_prompting\n",
+    "pdfLink": "http://arxiv.org/pdf/2210.02441v3",
+    "authors": [
+      "Simran Arora",
+      "Avanika Narayan",
+      "Mayee F. Chen",
+      "Laurel Orr",
+      "Neel Guha",
+      "Kush Bhatia",
+      "Ines Chami",
+      "Frederic Sala",
+      "Christopher Ré"
+    ]
+  },
+  {
+    "id": "2307.10680",
+    "title": "A Personalized Recommender System Based-on Knowledge Graph Embeddings",
+    "abstract": "  Knowledge graphs have proven to be effective for modeling entities and their\nrelationships through the use of ontologies. The recent emergence in interest\nfor using knowledge graphs as a form of information modeling has led to their\nincreased adoption in recommender systems. By incorporating users and items\ninto the knowledge graph, these systems can better capture the implicit\nconnections between them and provide more accurate recommendations. In this\npaper, we investigate and propose the construction of a personalized\nrecommender system via knowledge graphs embedding applied to the vehicle\npurchase/sale domain. The results of our experimentation demonstrate the\nefficacy of the proposed method in providing relevant recommendations that are\nconsistent with individual users.\n",
+    "pdfLink": "http://arxiv.org/pdf/2307.10680v1",
+    "authors": [
+      "Ngoc Luyen Le",
+      "Marie-Hélène Abel",
+      "Philippe Gouspillou"
+    ]
+  },
+  {
+    "id": "2208.03299",
+    "title": "Atlas: Few-shot Learning with Retrieval Augmented Language Models",
+    "abstract": "  Large language models have shown impressive few-shot results on a wide range\nof tasks. However, when knowledge is key for such results, as is the case for\ntasks such as question answering and fact checking, massive parameter counts to\nstore knowledge seem to be needed. Retrieval augmented models are known to\nexcel at knowledge intensive tasks without the need for as many parameters, but\nit is unclear whether they work in few-shot settings. In this work we present\nAtlas, a carefully designed and pre-trained retrieval augmented language model\nable to learn knowledge intensive tasks with very few training examples. We\nperform evaluations on a wide range of tasks, including MMLU, KILT and\nNaturalQuestions, and study the impact of the content of the document index,\nshowing that it can easily be updated. Notably, Atlas reaches over 42% accuracy\non Natural Questions using only 64 examples, outperforming a 540B parameters\nmodel by 3% despite having 50x fewer parameters.\n",
+    "pdfLink": "http://arxiv.org/pdf/2208.03299v3",
+    "authors": [
+      "Gautier Izacard",
+      "Patrick Lewis",
+      "Maria Lomeli",
+      "Lucas Hosseini",
+      "Fabio Petroni",
+      "Timo Schick",
+      "Jane Dwivedi-Yu",
+      "Armand Joulin",
+      "Sebastian Riedel",
+      "Edouard Grave"
+    ]
+  },
+  {
+    "id": "2308.13916",
+    "title": "Exploring Large Language Models for Knowledge Graph Completion",
+    "abstract": "  Knowledge graphs play a vital role in numerous artificial intelligence tasks,\nyet they frequently face the issue of incompleteness. In this study, we explore\nutilizing Large Language Models (LLM) for knowledge graph completion. We\nconsider triples in knowledge graphs as text sequences and introduce an\ninnovative framework called Knowledge Graph LLM (KG-LLM) to model these\ntriples. Our technique employs entity and relation descriptions of a triple as\nprompts and utilizes the response for predictions. Experiments on various\nbenchmark knowledge graphs demonstrate that our method attains state-of-the-art\nperformance in tasks such as triple classification and relation prediction. We\nalso find that fine-tuning relatively smaller models (e.g., LLaMA-7B,\nChatGLM-6B) outperforms recent ChatGPT and GPT-4.\n",
+    "pdfLink": "http://arxiv.org/pdf/2308.13916v4",
+    "authors": [
+      "Liang Yao",
+      "Jiazhen Peng",
+      "Chengsheng Mao",
+      "Yuan Luo"
+    ]
+  },
+  {
+    "id": "2308.13724",
+    "title": "ISR-LLM: Iterative Self-Refined Large Language Model for Long-Horizon\n  Sequential Task Planning",
+    "abstract": "  Motivated by the substantial achievements observed in Large Language Models\n(LLMs) in the field of natural language processing, recent research has\ncommenced investigations into the application of LLMs for complex, long-horizon\nsequential task planning challenges in robotics. LLMs are advantageous in\noffering the potential to enhance the generalizability as task-agnostic\nplanners and facilitate flexible interaction between human instructors and\nplanning systems. However, task plans generated by LLMs often lack feasibility\nand correctness. To address this challenge, we introduce ISR-LLM, a novel\nframework that improves LLM-based planning through an iterative self-refinement\nprocess. The framework operates through three sequential steps: preprocessing,\nplanning, and iterative self-refinement. During preprocessing, an LLM\ntranslator is employed to convert natural language input into a Planning Domain\nDefinition Language (PDDL) formulation. In the planning phase, an LLM planner\nformulates an initial plan, which is then assessed and refined in the iterative\nself-refinement step by using a validator. We examine the performance of\nISR-LLM across three distinct planning domains. The results show that ISR-LLM\nis able to achieve markedly higher success rates in task accomplishments\ncompared to state-of-the-art LLM-based planners. Moreover, it also preserves\nthe broad applicability and generalizability of working with natural language\ninstructions.\n",
+    "pdfLink": "http://arxiv.org/pdf/2308.13724v1",
+    "authors": [
+      "Zhehua Zhou",
+      "Jiayang Song",
+      "Kunpeng Yao",
+      "Zhan Shu",
+      "Lei Ma"
+    ]
+  },
+  {
+    "id": "2308.14296",
+    "title": "RecMind: Large Language Model Powered Agent For Recommendation",
+    "abstract": "  While the recommendation system (RS) has advanced significantly through deep\nlearning, current RS approaches usually train and fine-tune models on\ntask-specific datasets, limiting their generalizability to new recommendation\ntasks and their ability to leverage external knowledge due to model scale and\ndata size constraints. Thus, we designed an LLM-powered autonomous recommender\nagent, RecMind, which is capable of leveraging external knowledge, utilizing\ntools with careful planning to provide zero-shot personalized recommendations.\nWe propose a Self-Inspiring algorithm to improve the planning ability. At each\nintermediate step, the LLM self-inspires to consider all previously explored\nstates to plan for the next step. This mechanism greatly improves the model's\nability to comprehend and utilize historical information in planning for\nrecommendation. We evaluate RecMind's performance in various recommendation\nscenarios. Our experiment shows that RecMind outperforms existing zero/few-shot\nLLM-based recommendation baseline methods in various tasks and achieves\ncomparable performance to a fully trained recommendation model P5.\n",
+    "pdfLink": "http://arxiv.org/pdf/2308.14296v3",
+    "authors": [
+      "Yancheng Wang",
+      "Ziyan Jiang",
+      "Zheng Chen",
+      "Fan Yang",
+      "Yingxue Zhou",
+      "Eunah Cho",
+      "Xing Fan",
+      "Xiaojiang Huang",
+      "Yanbin Lu",
+      "Yingzhen Yang"
+    ]
+  },
+  {
+    "id": "2305.01157",
+    "title": "Complex Logical Reasoning over Knowledge Graphs using Large Language\n  Models",
+    "abstract": "  Reasoning over knowledge graphs (KGs) is a challenging task that requires a\ndeep understanding of the complex relationships between entities and the\nunderlying logic of their relations. Current approaches rely on learning\ngeometries to embed entities in vector space for logical query operations, but\nthey suffer from subpar performance on complex queries and dataset-specific\nrepresentations. In this paper, we propose a novel decoupled approach,\nLanguage-guided Abstract Reasoning over Knowledge graphs (LARK), that\nformulates complex KG reasoning as a combination of contextual KG search and\nlogical query reasoning, to leverage the strengths of graph extraction\nalgorithms and large language models (LLM), respectively. Our experiments\ndemonstrate that the proposed approach outperforms state-of-the-art KG\nreasoning methods on standard benchmark datasets across several logical query\nconstructs, with significant performance gain for queries of higher complexity.\nFurthermore, we show that the performance of our approach improves\nproportionally to the increase in size of the underlying LLM, enabling the\nintegration of the latest advancements in LLMs for logical reasoning over KGs.\nOur work presents a new direction for addressing the challenges of complex KG\nreasoning and paves the way for future research in this area.\n",
+    "pdfLink": "http://arxiv.org/pdf/2305.01157v3",
+    "authors": [
+      "Nurendra Choudhary",
+      "Chandan K. Reddy"
+    ]
+  },
+  {
+    "id": "2404.05966",
+    "title": "THOUGHTSCULPT: Reasoning with Intermediate Revision and Search",
+    "abstract": "  We present THOUGHTSCULPT, a general reasoning and search method for tasks\nwith outputs that can be decomposed into components. THOUGHTSCULPT explores a\nsearch tree of potential solutions using Monte Carlo Tree Search (MCTS),\nbuilding solutions one action at a time and evaluating according to any\ndomain-specific heuristic, which in practice is often simply an LLM evaluator.\nCritically, our action space includes revision actions: THOUGHTSCULPT may\nchoose to revise part of its previous output rather than continuing to build\nthe rest of its output. Empirically, THOUGHTSCULPT outperforms state-of-the-art\nreasoning methods across three challenging tasks: Story Outline Improvement (up\nto +30% interestingness), Mini-Crosswords Solving (up to +16% word success\nrate), and Constrained Generation (up to +10% concept coverage).\n",
+    "pdfLink": "http://arxiv.org/pdf/2404.05966v1",
+    "authors": [
+      "Yizhou Chi",
+      "Kevin Yang",
+      "Dan Klein"
+    ]
+  }
+]

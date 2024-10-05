@@ -1,0 +1,82 @@
+Write me a very clear explanation of the core assertions, implications, and mechanics elucidated in this paper.
+
+What should I pay attention to in this paper? How could I use this information to help me build a better LLM powered chatbot?
+
+Help me gauge the potential reputation of this paper. Does this paper provide any novel or profound ideas that could provide extraordinary value for me in the development my LLM powered chatbot? Or can I safely ignore the information provided in this paper?
+
+Explain the value of this in basic terms like you're talking to a CEO. So what? What's the bottom line here?
+
+Write an analogy or metaphor that will help explain this paper to a broad audience.
+
+
+Generate an attention grabbing video title that describes this paper. The title must be short, catchy, and have a degree of click bait.
+Generate an image prompt that describes this paper. The prompt should be one sentence long, mostly consist of keywords and phrases, not full descriptions, and must mention AI.
+Generate an attention grabbing thumbnail image prompt that best describes this paper. The prompt should be nore more than one sentence long, mostly consist of keywords and phrases, not full descriptions, and mention AI. Be creative and try to relate it to the title of the video: {title}
+Generate a title that describes this paper. The title must be extreme, short, catchy, and seem like click bait.
+Generate a title that describes this paper. The title must be extreme, very short, and seem like click bait.
+Generate a title and image prompt that describes this paper. The title must be short, catchy, and seem like extreme click bait. The image prompt must mention AI robots and be no more than two sentences. Think step by step.
+Generate an thumbnail image prompt that describes this paper. The prompt should be one sentence long, mostly consist of keywords and phrases, not full descriptions, and mention AI robots. Be creative and try to relate it to the title of the video: "Unboxing Knowledge: The AI Revolution in Understanding Data!".
+Come up with 3-4 catchy words that relate to the paper to be included in the thumbnail image.
+Pick which you think will be the most catchiest
+ of the 4 listed:
+"AI Unboxed"
+"Data Revolution"
+"Knowledge Cubed"
+"Insight Explosion"
+What emoji best describes this catchy phrase {phrase} ("AI Unboxed")
+
+
+npm install react-router-dom mobx mobx-react axios moment lodash material-ui @testing-library/react
+2. Date page - shows all the papers released for a given date. Contains two sections. The first is a list of papers that need certain processing actions. The second is all the papers that were processed and uploaded into our system .
+3. Paper page - shows the title, author and abstract for a paper. Under this is a section with two tabs. The first is for reviewing a generated video and editing details. The other is for displaying summary data and questions/answers. 
+
+
+Act as an senior front-end engineer. Assume there is already a backend system built out. The main flow of the app is as follows:
+
+1. fetch all papers published today
+2. generate AI video, thumbnail  and video metadata 
+3. review and refine
+
+Build a frontend web app to trigger and manage the daily video generations. A user should be able to review and make refinements at each step of the flow . 
+
+The first page we will build out is:
+1. Calendar page - in the main center section is a date-by-date list of all the papers scraped and uploaded for every date of a given month up to the current date. On the left panel section is a collapsable vertical list of dates grouped by month. In the right panel section is an input for keyword search and the corresponding result list.
+
+Brainstorm and decide on what appropriate libraries you will need for rendering, styling, and managing state. Think step by step.
+
+_______________________________________________________________ gpt-4 recommender
+
+1.Does this paper contain information relevant to gpt-4 and chatbots?
+2. Write all information helpful to this goal in a numbered list
+3. remove duplicate items 
+4. list all the objects i need to interact/avoid to surive in the gmae. Use "I would like to X object Y" in each step. Replace Y by the actual object, X by the actual interaction.
+
+
+Act as an advanced AI operator. Assist the user in accomplishing their tasks by aligning yourself as an expert field agent perfectly suited to the task, and eager to engineer a solution that exceeds the user's needs and preferences.
+
+Guidelines to follow:
+1. Start the interaction by asking questions to clarify the user's goals for the task and gather any relevant information and necessary context.
+2. End every output with a question or a recommended next step.
+3. Support the user until the goal is accomplished.
+
+User Commands:
+:: start - using the template, introduce yourself and begin step one 
+:: summary - restate the current task and goal, summarize progress so far, and recommend a next step
+:: recommend - reason step by step and make a recommendation for how the user should proceed
+:: update - update goal and align agent with the current task at hand
+:: ignore - ignore previous input
+
+Template: `
+I am an expert in ${role}. I am knowledgeable of how ${context}. Let's reason step-by-step to determine the best course of action to achieve ${goal}.
+Here are the steps we can take to accomplish your goal:
+${reasoned_steps}
+
+Here are the tools we need to complete these tasks:
+${recommended_tools}
+
+We can consider these tasks complete when ${completion_condition}. 
+${first_step_and_question}."
+`
+
+
+

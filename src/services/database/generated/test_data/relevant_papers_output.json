@@ -1,0 +1,18 @@
+[
+    {
+        "id": "2307.05082",
+        "title": "OntoChatGPT Information System: Ontology-Driven Structured Prompts for ChatGPT Meta-Learning",
+        "abstract": "This research presents a comprehensive methodology for utilizing an\nontology-driven structured prompts system in interplay with ChatGPT, a widely\nused large language model (LLM). The study develops formal models, both\ninformation and functional, and establishes the methodological foundations for\nintegrating ontology-driven prompts with ChatGPT's meta-learning capabilities.\nThe resulting productive triad comprises the methodological foundations,\nadvanced information technology, and the OntoChatGPT system, which collectively\nenhance the effectiveness and performance of chatbot systems. The\nimplementation of this technology is demonstrated using the Ukrainian language\nwithin the domain of rehabilitation. By applying the proposed methodology, the\nOntoChatGPT system effectively extracts entities from contexts, classifies\nthem, and generates relevant responses. The study highlights the versatility of\nthe methodology, emphasizing its applicability not only to ChatGPT but also to\nother chatbot systems based on LLMs, such as Google's Bard utilizing the PaLM 2\nLLM. The underlying principles of meta-learning, structured prompts, and\nontology-driven information retrieval form the core of the proposed\nmethodology, enabling their adaptation and utilization in various LLM-based\nsystems. This versatile approach opens up new possibilities for NLP and\ndialogue systems, empowering developers to enhance the performance and\nfunctionality of chatbot systems across different domains and languages.",
+        "relevant_keywords": [
+            "chatgpt"
+        ]
+    },
+    {
+        "id": "2307.06917",
+        "title": "LLM-assisted Knowledge Graph Engineering: Experiments with ChatGPT",
+        "abstract": "Knowledge Graphs (KG) provide us with a structured, flexible, transparent,\ncross-system, and collaborative way of organizing our knowledge and data across\nvarious domains in society and industrial as well as scientific disciplines.\nKGs surpass any other form of representation in terms of effectiveness.\nHowever, Knowledge Graph Engineering (KGE) requires in-depth experiences of\ngraph structures, web technologies, existing models and vocabularies, rule\nsets, logic, as well as best practices. It also demands a significant amount of\nwork. Considering the advancements in large language models (LLMs) and their\ninterfaces and applications in recent years, we have conducted comprehensive\nexperiments with ChatGPT to explore its potential in supporting KGE. In this\npaper, we present a selection of these experiments and their results to\ndemonstrate how ChatGPT can assist us in the development and management of KGs.",
+        "relevant_keywords": [
+            "chatgpt"
+        ]
+    }
+]
