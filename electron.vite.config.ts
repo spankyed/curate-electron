@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { resolve } from 'node:path'
 import { defineConfig, externalizeDepsPlugin, loadEnv } from 'electron-vite'
 import react from '@vitejs/plugin-react'
@@ -37,10 +38,7 @@ export default defineConfig(({ command, mode }) => {
     renderer: {
       resolve: {
         alias: {
-          // '~': resolve(__dirname, './src/renderer/src'),
-          // '~': resolve('src/renderer/src'),
           '@config': resolve('./config.ts'),
-          // '~': resolve('src/renderer/src')
           '@renderer': resolve('src/renderer')
         }
       },

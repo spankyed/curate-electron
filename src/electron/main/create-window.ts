@@ -8,7 +8,7 @@ export function createWindow(): void {
     width: 1500,
     height: 900,
     show: false,
-    title: "CurateGPT",
+    title: 'CurateGPT',
     // transparent: true,
     // autoHideMenuBar: true,
     titleBarStyle: 'hidden',

@@ -1,3 +1,4 @@
+# example https://github.com/vladimiry/ElectronMail/blob/master/electron-builder.yml
 appId: com.electron.app
 productName: CurateGPT
 directories:
