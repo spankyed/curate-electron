@@ -37,10 +37,26 @@
 // export const streamResponse = (params) => axios.post(`${apiUrl}/streamResponse`, params);
 // export const regenerateResponse = (params) => axios.post(`${apiUrl}/regenerateResponse`, params);
 
+export const loadBatchDates = window.api['load-batch-dates']
+export const getBatchDates = window.api['get-batch-dates']
+export const scrapeBatch = window.api['scrape-batch']
+
 export const getCalendarModelData = window.api['get-calendar']
 export const calendarLoadMore = window.api['load-more']
 export const calendarLoadMonth = window.api['load-month']
 export const resetDateStatus = window.api.reset
+
+export const initializeChat = window.api['initialize-chat']
+export const getThreads = window.api['get-threads']
+export const getMessages = window.api['get-messages']
+export const createThread = window.api['create-thread']
+export const branchThread = window.api['branch-thread']
+export const toggleHideMessage = window.api['toggle-hide-message']
+export const deleteMessage = window.api['delete-message']
+export const sendMessage = window.api['send-message']
+export const streamResponse = window.api['stream-response']
+export const stopMessageStream = window.api['stop-message-stream']
+export const regenerateResponse = window.api['regenerate-response']
 
 export const fetchPdf = window.api['fetch-pdf']
 export const getPaperById = window.api['paper-by-id']
@@ -53,24 +69,8 @@ export const checkIsNewUser = () => ({ data: false })
 
 // export const updateWorkStatus = window.api['update-work-status']
 
-export const getSidebarDatesForYear = window.api['get-dates-by-year']
-export const scrapeDate = window.api['scrape-date']
-export const initializeChat = window.api['initialize-chat']
-export const getThreads = window.api['get-threads']
-export const getMessages = window.api['get-messages']
-
-export const createThread = window.api['create-thread']
-export const branchThread = window.api['branch-thread']
-export const toggleHideMessage = window.api['toggle-hide-message']
-export const deleteMessage = window.api['delete-message']
-export const sendMessage = window.api['send-message']
-export const streamResponse = window.api['stream-response']
-export const stopMessageStream = window.api['stop-message-stream']
-export const regenerateResponse = window.api['regenerate-response']
-
-export const loadBatchDates = window.api['load-batch-dates']
-export const getBatchDates = window.api['get-batch-dates']
-export const scrapeBatch = window.api['scrape-batch']
-
 export const addInitialReferences = window.api['add-initial-references']
 export const onboard = window.api['onboard-new-user']
+
+export const getSidebarDatesForYear = window.api['get-dates-by-year']
+export const scrapeDate = window.api['scrape-date']

@@ -1,7 +1,7 @@
 import cron from 'node-cron';
 import scrapeAndRankPapers from '@services/worker/scripts/scrape';
-import repository from '@services/maintenance/repository';
-import { getCurrentDate } from './add-dates';
+import repository from '@services/web/onboard/repository';
+import { getCurrentDate } from '../backfill/add-dates';
 import { getConfig } from '@services/shared/utils/get-config';
 
 type Jobs = { [key: string]: cron.ScheduledTask };

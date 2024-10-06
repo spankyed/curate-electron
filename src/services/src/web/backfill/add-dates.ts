@@ -1,6 +1,6 @@
-import repository from '../repository';
-import { setConfigSettings } from '@services/shared/utils/set-config';
-import { Config } from '@services/shared/utils/get-config';
+import repository from '../onboard/repository';
+// import { setConfigSettings } from '@services/shared/utils/set-config';
+// import { Config } from '@services/shared/utils/get-config';
 
 // usage: backfill from current date to May 1, 2023
 // backfillDates('2023-05-01');
@@ -38,21 +38,21 @@ export function getDatesBetween(startDate: DateParam, endDate: DateParam): strin
   return dates;
 }
 
-export function getCurrentDate() {
-  const date = new Date();
-  return new Date(date.setHours(0, 0, 0, 0)).toISOString().split('T')[0];
-}
+// export function getCurrentDate() {
+//   const date = new Date();
+//   return new Date(date.setHours(0, 0, 0, 0)).toISOString().split('T')[0];
+// }
 
-export function backfillInitialDates() {
-  const currentDate = new Date();
-  const currentYear = currentDate.getFullYear();
-  const previousYear = currentYear - 1;
+// export function backfillInitialDates() {
+//   const currentDate = new Date();
+//   const currentYear = currentDate.getFullYear();
+//   const previousYear = currentYear - 1;
 
-  const startOfPreviousYear = new Date(previousYear, 0, 1);
-  const today = new Date(currentDate.setHours(0, 0, 0, 0));
+//   const startOfPreviousYear = new Date(previousYear, 0, 1);
+//   const today = new Date(currentDate.setHours(0, 0, 0, 0));
 
-  return backfillDates(startOfPreviousYear, today);
-}
+//   return backfillDates(startOfPreviousYear, today);
+// }
 
 
 // export function getDateNDaysBack(n: string) {

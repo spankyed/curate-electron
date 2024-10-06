@@ -1,12 +1,12 @@
 import scrapeAndRankPapers from '@services/worker/scripts/scrape';
-import repository from '../repository';
+import repository from '../onboard/repository';
 import { notifyClient } from '@services/shared/status';
 
 export async function scrapeBatch(dates?: any[]) {
   if (!dates || dates.length === 0) {
     return;
   }
-  
+
   // const results = [];
   const batchSize = 3; 
 

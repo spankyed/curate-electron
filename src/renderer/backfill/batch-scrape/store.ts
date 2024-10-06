@@ -38,11 +38,10 @@ export const getDatesAtom = atom(
       const oppositeDirection = direction.includes('right') ? 'left' : 'right';
       const cursor = direction === 'right' ? get(batchDatesAtom).slice(-1)[0] : get(batchDatesAtom)[0];
       const formattedCursor = cursor?.value
-      const response = await api.getBatchDates({
-        cursor: useCursor ? formattedCursor : undefined,
-        direction: useCursor ? direction : oppositeDirection, // ! don't ask questions just go with it
-      });
-      const records = response.data;
+      const records = await api.getBatchDates(
+        useCursor ? formattedCursor : undefined,
+        useCursor ? direction : oppositeDirection, // ! don't ask questions just go with it
+      );
 
       const responseHasDates = records.length > 0;
 

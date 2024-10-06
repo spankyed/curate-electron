@@ -7,19 +7,6 @@ import { WorkerPath } from "../../shared/constants";
 import createRequest from "../../shared/request";
 
 const workerService = createRequest(WorkerPath);
-// const maintenanceService = createRequest(MaintenancePath);
-
-// async function gateway(method: string){
-//   return async (request: any, h: any) => {
-//     try {
-//       const result: any = await maintenanceService.post(method, request.payload);
-//       return result;
-//     } catch (err) {
-//       console.error('Error in gateway: ', err);
-//       return
-//     }
-//   }
-// }
 
 async function updateStatus(type, { key, status, data, final }) {
   console.log('updateStatus: ', {type, key, status, data: !!data, final});
@@ -57,12 +44,3 @@ export default {
   'get-dates-by-year': getDatesByYear,
   'scrape-date': scrapePapers,
 }
-
-// export default [
-//   route.post('/scrapeBatch', gateway('scrapeBatch')),
-//   route.post('/getBatchDates', gateway('getBatchDates')),
-//   route.post('/loadBatchDates', gateway('loadBatchDates')),
-//   route.post('/onboardNewUser', gateway('onboardNewUser')),
-//   route.post('/addInitialReferences', gateway('addInitialReferences')),
-
-// ]

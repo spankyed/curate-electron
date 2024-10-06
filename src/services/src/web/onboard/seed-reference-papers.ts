@@ -1,5 +1,5 @@
 import * as sharedRepository from '@services/shared/repository';
-import repository from '@services/maintenance/repository';
+import repository from './repository';
 import scrapePapersByIds from "./scrape-papers-by-ids";
 import { getConfig } from '@services/shared/utils/get-config';
 
@@ -43,7 +43,7 @@ async function scrapeAndStoreReferencePapers(ids =  null) {
     .filter((date, index, array) => array.indexOf(date) === index); // Remove duplicates
 
   await repository.storeDates(datesToStore)
-  
+
   await Promise.all([
     repository.storeReferencePapers(scrapedIds),
     sharedRepository.storePapers(referencePapers)

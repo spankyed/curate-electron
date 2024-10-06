@@ -3,20 +3,15 @@ import { contextBridge, ipcRenderer } from 'electron'
 declare global {
   interface Window {
     api: {
+      'load-batch-dates': (start, end) => Promise<void>
+      'get-batch-dates': (cursor: string | undefined, direction: string) => Promise<void>
+      'scrape-batch': (dates: Record<string, string>) => Promise<void>
+
       'get-calendar': () => Promise<string>
-      'load-more': (cursor) => Promise<void>
-      'load-month': (cursor: number) => Promise<void>
+      'load-more': (cursor: string | undefined) => Promise<void>
+      'load-month': (cursor: string | undefined) => Promise<void>
       reset: (date: string) => Promise<void>
-      'fetch-pdf': (paperId: string) => Promise<void>
-      'paper-by-id': (paperId: string) => Promise<void>
-      'star-paper': (paperId: string, value: boolean) => Promise<void>
-      'update-paper-status': (paperId: string, status: string) => Promise<void>
-      'get-date-entry': (date: string) => Promise<void>
-      'search-papers': (form: Record<string, string>) => Promise<void>
-      'check-is-new-user': () => Promise<void>
-      'update-work-status': (paperId: string, status: string) => Promise<void>
-      'get-dates-by-year': (year: number) => Promise<void>
-      'scrape-date': (date: string) => Promise<void>
+
       'initialize-chat': (paperId: string) => Promise<void>
       'get-threads': (paperId: string) => Promise<void>
       'get-messages': (threadId: string) => Promise<void>
@@ -28,12 +23,21 @@ declare global {
       'stream-response': (params: Record<string, string>) => Promise<void>
       'stop-message-stream': (threadId: string) => Promise<void>
       'regenerate-response': (params: Record<string, string>) => Promise<void>
-      'load-batch-dates': (dateRange: Record<string, string>) => Promise<void>
-      'get-batch-dates': (params: Record<string, string>) => Promise<void>
-      'scrape-batch': (dates: Record<string, string>) => Promise<void>
+
+      'fetch-pdf': (paperId: string) => Promise<void>
+      'paper-by-id': (paperId: string) => Promise<void>
+      'star-paper': (paperId: string, value: boolean) => Promise<void>
+      'update-paper-status': (paperId: string, status: string) => Promise<void>
+      'get-date-entry': (date: string) => Promise<void>
+      'search-papers': (form: Record<string, string>) => Promise<void>
+      'check-is-new-user': () => Promise<void>
+      'update-work-status': (paperId: string, status: string) => Promise<void>
       // onboarding
       'add-initial-references': (form: Record<string, string>) => Promise<void>
       'onboard-new-user': (form: Record<string, string>) => Promise<void>
+      // shared
+      'get-dates-by-year': (year: number) => Promise<void>
+      'scrape-date': (date: string) => Promise<void>
     }
     socket: {
       on: (channel, callback: () => void) => void
@@ -43,22 +47,15 @@ declare global {
 }
 
 contextBridge.exposeInMainWorld('api', {
+  'load-batch-dates': (start, end) => ipcRenderer.invoke('load-batch-dates', start, end),
+  'get-batch-dates': (cursor, direction) => ipcRenderer.invoke('get-batch-dates', cursor, direction),
+  'scrape-batch': (dates) => ipcRenderer.invoke('scrape-batch', dates),
+
   'get-calendar': () => ipcRenderer.invoke('get-calendar'),
   'load-more': (cursor) => ipcRenderer.invoke('load-more', cursor),
   'load-month': (cursor) => ipcRenderer.invoke('load-month', cursor),
   reset: (date) => ipcRenderer.invoke('reset', date),
-  'fetch-pdf': (paperId) => ipcRenderer.invoke('fetch-pdf', paperId),
-  'paper-by-id': (paperId) => ipcRenderer.invoke('paper-by-id', paperId),
-  'star-paper': (paperId, value) => ipcRenderer.invoke('star-paper', paperId, value),
-  'update-paper-status': (paperId, status) =>
-    ipcRenderer.invoke('update-paper-status', paperId, status),
-  'get-date-entry': (date) => ipcRenderer.invoke('get-date-entry', date),
-  'search-papers': (form) => ipcRenderer.invoke('search-papers', form),
-  'check-is-new-user': () => ipcRenderer.invoke('check-is-new-user'),
-  'update-work-status': (paperId, status) =>
-    ipcRenderer.invoke('update-work-status', paperId, status),
-  'get-dates-by-year': (year) => ipcRenderer.invoke('get-dates-by-year', year),
-  'scrape-date': (date) => ipcRenderer.invoke('scrape-date', date),
+
   'initialize-chat': (paperId) => ipcRenderer.invoke('initialize-chat', paperId),
   'get-threads': (paperId) => ipcRenderer.invoke('get-threads', paperId),
   'get-messages': (threadId) => ipcRenderer.invoke('get-messages', threadId),
@@ -70,12 +67,24 @@ contextBridge.exposeInMainWorld('api', {
   'stream-response': (params) => ipcRenderer.invoke('stream-response', params),
   'stop-message-stream': (threadId) => ipcRenderer.invoke('stop-message-stream', threadId),
   'regenerate-response': (params) => ipcRenderer.invoke('regenerate-response', params),
-  'load-batch-dates': (dateRange) => ipcRenderer.invoke('load-batch-dates', dateRange),
-  'get-batch-dates': (params) => ipcRenderer.invoke('get-batch-dates', params),
-  'scrape-batch': (dates) => ipcRenderer.invoke('scrape-batch', dates),
+
+  'fetch-pdf': (paperId) => ipcRenderer.invoke('fetch-pdf', paperId),
+  'paper-by-id': (paperId) => ipcRenderer.invoke('paper-by-id', paperId),
+  'star-paper': (paperId, value) => ipcRenderer.invoke('star-paper', paperId, value),
+  'update-paper-status': (paperId, status) =>
+    ipcRenderer.invoke('update-paper-status', paperId, status),
+  'get-date-entry': (date) => ipcRenderer.invoke('get-date-entry', date),
+  'search-papers': (form) => ipcRenderer.invoke('search-papers', form),
+  'check-is-new-user': () => ipcRenderer.invoke('check-is-new-user'),
+  'update-work-status': (paperId, status) =>
+    ipcRenderer.invoke('update-work-status', paperId, status),
+
   // onboarding
   'add-initial-references': (form) => ipcRenderer.invoke('add-initial-references', form),
-  'onboard-new-user': (form) => ipcRenderer.invoke('onboard-new-user', form)
+  'onboard-new-user': (form) => ipcRenderer.invoke('onboard-new-user', form),
+  // shared
+  'get-dates-by-year': (year) => ipcRenderer.invoke('get-dates-by-year', year),
+  'scrape-date': (date) => ipcRenderer.invoke('scrape-date', date),
 })
 
 contextBridge.exposeInMainWorld('socket', {

@@ -6,6 +6,8 @@ import dateEntryController from './web/date-entry';
 import searchController from './web/search';
 import sharedController from './web/shared';
 import chatController from './web/chat';
+import backfill from './web/backfill';
+import onboard from './web/onboard';
 
 // import type { Paper } from './web/search/repository';
 // import type { Paper } from '@services/search/repository';
@@ -20,6 +22,8 @@ export default {
   ...searchController,
   ...sharedController,
   ...chatController,
+  ...backfill,
+  ...onboard,
 }
 
 export const io: any = {};

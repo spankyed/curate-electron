@@ -34,8 +34,7 @@ export const loadDatesAtom = atom(
         set(dateEndAtom, date)
       }
 
-      const response = await api.loadBatchDates(dateRange);
-      const dates = response.data;
+      const dates = await api.loadBatchDates(dateRange.start, dateRange.end);
       console.log('dates: ', dates);
 
       // set(setSidebarDataAtom, dateList);
