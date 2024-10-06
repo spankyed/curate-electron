@@ -23,8 +23,8 @@ export default function PdfViewer({ paperId, width }) {
   useEffect(() => {
     const fetchPdf = async (arxivId) => {
       try {
-        const response = await api.fetchPdf(arxivId);
-        const pdfBlob = new Blob([response.data], { type: 'application/pdf' });
+        const blob = await api.fetchPdf(arxivId);
+        const pdfBlob = new Blob([blob], { type: 'application/pdf' });
         const url = URL.createObjectURL(pdfBlob);
         setPdfUrl(url);
       } catch (error) {
