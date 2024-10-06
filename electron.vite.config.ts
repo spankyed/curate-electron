@@ -17,7 +17,7 @@ export default defineConfig(({ command, mode }) => {
           // '~': resolve('src/renderer/src'),
           '@config': resolve('./config.ts'),
           // '~': resolve('src/renderer/src')
-          '@services': resolve('src/services/src')
+          '@services': resolve('src/services')
         }
       },
       build: {

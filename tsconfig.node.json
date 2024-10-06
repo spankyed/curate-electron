@@ -6,7 +6,7 @@
     "types": ["electron-vite/node"],
     "paths": {
       "@services/*": [
-        "./src/services/src/*"
+        "./src/services/*"
       ],
       "@config": [
         "./config.ts"
