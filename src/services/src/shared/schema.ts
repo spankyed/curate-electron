@@ -1,11 +1,14 @@
 import { Sequelize, DataTypes, Model } from "sequelize";
+import path from 'node:path';
 
-const dbRoot = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/sqlite';
+// const dbRoot = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/sqlite';
+const dbPath = path.join(__dirname, '../../src/services/database/sqlite/curate.db');
 
 export const sequelize = new Sequelize({
   // other options
   dialect: 'sqlite',
-  storage: `${dbRoot}/curate.db`,
+  // storage: `${dbRoot}/curate.db`,
+  storage: dbPath,
   logging: false,  // This disables logging
   // pool: {
   //   max: 10, // Maximum number of connections in pool
