@@ -1,13 +1,13 @@
 import { io } from "../..";
-import * as repository from './repository';
+// import * as repository from './repository';
 import * as sharedRepository from '@services/shared/repository';
 import { groupDatesByMonth } from "./transform";
 import { getConfig } from "@services/shared/utils/get-config";
-import { WorkerPath, MaintenancePath } from "../../shared/constants";
+import { WorkerPath } from "../../shared/constants";
 import createRequest from "../../shared/request";
 
 const workerService = createRequest(WorkerPath);
-const maintenanceService = createRequest(MaintenancePath);
+// const maintenanceService = createRequest(MaintenancePath);
 
 // async function gateway(method: string){
 //   return async (request: any, h: any) => {
@@ -40,8 +40,8 @@ async function checkIsNewUser(){
 
 async function getDatesByYear(year){
   const dates = await sharedRepository.getDatesByYear(year);
-  const dateList = groupDatesByMonth(dates as any);
-  
+  const dateList = groupDatesByMonth(dates);
+
   return dateList;
 }
 

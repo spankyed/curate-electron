@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { socket } from './fetch';
 import { atom, useAtom } from 'jotai';
 
 const pagesListening = atom({});
@@ -14,8 +13,7 @@ const SocketListener = ({ eventName, handleEvent, id = '' }) => {
 
     if (!id || !listeningPages[id]) {
       // If no ID is provided or the ID hasn't been registered yet, add the listener
-      console.log('on: ');
-      socket.on(eventName, eventHandler);
+      window.socket.on(eventName, eventHandler as any);
 
       if (id) {
         setListeningPages((prevPages) => ({
@@ -27,7 +25,7 @@ const SocketListener = ({ eventName, handleEvent, id = '' }) => {
 
     return () => {
       if (!id) {
-        socket.off(eventName, eventHandler);
+        window.socket.off(eventName, eventHandler as any);
       }
     };
   }, [eventName, handleEvent]);

@@ -1,6 +1,6 @@
 import { DatesTable, PapersTable } from './schema';
 import { ChromaClient } from 'chromadb';
-import { createEmbedder } from '@services/shared/embedder';
+// import { createEmbedder } from '@services/shared/embedder';
 import { ReferenceCollectionName } from './constants';
 import type { DateRecord, PaperRecord } from './types';
 import moment from 'moment';
@@ -23,9 +23,9 @@ async function getDatesByYear(year: string) {
   const existingDatesSet = new Set(existingDates.map(date => date.value));
 
   const allDates = [];
-  const startDate = moment(`${year}-01-01`);
+  const startDate = moment(`${year}-01-01`, 'YYYY-MM-DD');
   const isCurrentYear = moment().year().toString() === year;
-  const endDate = isCurrentYear ? moment().endOf('day') : moment(`${year}-12-31`);
+  const endDate = isCurrentYear ? moment().endOf('day') : moment(`${year}-12-31`, 'YYYY-MM-DD');
 
   for (let m = startDate; m.isSameOrBefore(endDate); m.add(1, 'days')) {
     const dateStr = m.format('YYYY-MM-DD');
@@ -33,7 +33,7 @@ async function getDatesByYear(year: string) {
 
     // If the date is missing in the database, insert it
     if (!existingDatesSet.has(dateStr)) {
-      await DatesTable.create(date);
+      await DatesTable.create(date, { ignoreDuplicates: true });
       allDates.push(date);
     } else {
       allDates.push(existingDates.find(d => d.value === dateStr));

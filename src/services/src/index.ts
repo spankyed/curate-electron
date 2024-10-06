@@ -7,7 +7,7 @@ import searchController from './web/search';
 import sharedController from './web/shared';
 import chatController from './web/chat';
 
-import type { Paper } from './web/search/repository';
+// import type { Paper } from './web/search/repository';
 // import type { Paper } from '@services/search/repository';
 
 // import mocks from '../../../tests/mocks';

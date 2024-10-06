@@ -22,8 +22,7 @@ export const fetchDatesSidebarDataAtom = atom(
     // set(calendarStateAtom, 'loading');
     try {
       const currentYear = get(currentYearAtom);
-      const response = await api.getSidebarDatesForYear(currentYear);
-      const dateList = response.data;
+      const dateList = await api.getSidebarDatesForYear(currentYear);
       console.log('Sidebar dates:', {dateList});
       set(setSidebarDataAtom, dateList);
 
@@ -39,7 +38,6 @@ export const fetchDatesSidebarDataAtom = atom(
 export const updateSidebarDataAtom = atom(
   null, // write-only atom
   async (get, set, { key, count, status }) => {
-    
     set(datesRowsAtom, (prevModel) => {
       const month = dayjs(key).format('MMMM YYYY');
       const updatedModel = prevModel.map((item) => {

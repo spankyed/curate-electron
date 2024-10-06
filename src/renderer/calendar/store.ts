@@ -18,8 +18,7 @@ export const fetchCalendarModelAtom = atom(
       set(calendarStateAtom, 'loading');
       set(lastRecordReachedAtom, false);
 
-      const response = await api.getCalendarModelData();
-      const calendarModel = response.data as CalendarModel;
+      const calendarModel: CalendarModel = await api.getCalendarModelData();
       console.log('Calendar Model: ', calendarModel);
       set(calendarModelAtomBase, calendarModel);
 
@@ -40,8 +39,7 @@ export const calendarLoadMoreAtom = atom(
       // set(calendarStateAtom, 'loading');
       set(lastRecordReachedAtom, false);
 
-      const response = await api.calendarLoadMore(date);
-      const calendarModel = response.data as CalendarModel;
+      const calendarModel: CalendarModel = await api.calendarLoadMore(date);
       set(calendarModelAtomBase, [...get(calendarModelAtomBase), ...calendarModel]);
 
       if (calendarModel.length === 0) {
@@ -64,8 +62,7 @@ export const calendarLoadMonthAtom = atom(
     set(lastRecordReachedAtom, false);
 
     try {
-      const response = await api.calendarLoadMonth(date);
-      const calendarModel = response.data as CalendarModel;
+      const calendarModel: CalendarModel = await api.calendarLoadMonth(date);
       set(calendarModelAtomBase, calendarModel);
       set(calendarStateAtom, 'ready');
       // set(selectedDateAtom, dateList[0]?.dates[0]?.value ?? '');
