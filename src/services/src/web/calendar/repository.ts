@@ -23,9 +23,6 @@ async function fetchCalendarData(beforeDate?: string, include = false): Promise<
   }
 
   const recentDates = await DatesTable.findAll(queryOptions)
-
-  // console.log('recentDates: ', recentDates);
-
   const recentDateValues = recentDates.map((date) => date.value)
 
   const papersWithDates = await PapersTable.findAll({
