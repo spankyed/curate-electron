@@ -1,12 +1,12 @@
-import fs from 'fs/promises';
-import path from 'path';
+import fs from 'node:fs/promises';
+import path from 'node:path';
 import { fileURLToPath } from 'url';
 
 // ! config cannot have trailing commas
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const configPath = path.join(__dirname, '../../../../config.ts');
+const configPath = path.join(__dirname, '../../config.ts');
 
 export type Config = {
   settings: {
@@ -28,9 +28,11 @@ export async function getConfig(): Promise<Config> {
   let config: Config;
 
   try {
+    console.log('json: ', json);
     config = JSON.parse(json);
   } catch (error) {
-    throw new Error(`Error parsing config file, theres probably a trailing comma`);
+    console.log('error: ', error);
+    // throw new Error(`Error parsing config file, theres probably a trailing comma`);
   }
 
   return config
