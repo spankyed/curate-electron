@@ -6,7 +6,6 @@ import MessageList from './messages';
 import { useAtom, useSetAtom } from 'jotai';
 import { chatStateAtom, loadChatDataAtom } from './store';
 
-
 export default function ChatTab({ paperId }) {
   const loadChatData = useSetAtom(loadChatDataAtom);
   const setChatState = useSetAtom(chatStateAtom);
@@ -14,12 +13,12 @@ export default function ChatTab({ paperId }) {
   useEffect(() => {
     return () => {
       setChatState('loading');
-    }
-  }, []); 
+    };
+  }, []);
 
   useEffect(() => {
     loadChatData(paperId);
-  }, [paperId]); 
+  }, [paperId]);
 
   return (
     <Box sx={{ marginTop: 2, mb: 1 }}>

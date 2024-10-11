@@ -1,31 +1,30 @@
 import * as repository from './repository';
-// import getPdfText from './scripts/get-pdf-text';
 import initializeChat from './scripts/initialize-chat';
 import startChatStream from './scripts/start-chat-stream';
 import type { ChatCompletionStream } from 'openai/resources/beta/chat/completions';
 
-async function initChat(paperId){
+async function initChat(paperId) {
   try {
     const textLength = await initializeChat(paperId);
     const pdfTokenCount = textLength / 4;
-  
+
     return pdfTokenCount;
   } catch (error) {
     console.error('Failed to initialize chat: ', error);
-    return { error: 'Failed to initialize chat'};
+    return { error: 'Failed to initialize chat' };
   }
 }
 
-async function getMessages(threadId) {
+async function getMessages(threadId = '') {
   const messages = await repository.getMessages({ threadId, includeHidden: true });
   // const messages = await repository.getMessages(paperId, selectedThread);
 
   return messages;
 }
 
-async function getThreads(paperId){
+async function getThreads(paperId) {
   let threads = await repository.getAllThreads(paperId);
-  
+
   let thread: any;
 
   if (!threads.length) {
@@ -37,7 +36,6 @@ async function getThreads(paperId){
 
     threads = [thread];
   }
-
 
   setTimeout(() => {
     initializeChat(paperId);
@@ -61,9 +59,14 @@ async function createThread({ paperId, description }) {
 }
 
 async function branchThread({ paperId, parentThreadId, messageId, description }) {
-  const duplicateThreadDescriptions = await repository.findDuplicateDescriptions(paperId, description);
+  const duplicateThreadDescriptions = await repository.findDuplicateDescriptions(
+    paperId,
+    description
+  );
   const newDescription = description;
-  const duplicateNumber = duplicateThreadDescriptions?.length ? duplicateThreadDescriptions?.length + 1 : null;
+  const duplicateNumber = duplicateThreadDescriptions?.length
+    ? duplicateThreadDescriptions?.length + 1
+    : null;
 
   const newThread = await repository.addThread({
     paperId,
@@ -129,15 +132,14 @@ async function sendMessage({ paperId, threadId, text }) {
   return messageRecord.id;
 }
 
-const threadStreams: { [key: string]: {
-  stream: Promise<ChatCompletionStream | undefined>,
-  messageId: string,
-} } = {};
+const threadStreams: {
+  [key: string]: {
+    stream: Promise<ChatCompletionStream | undefined>;
+    messageId: string;
+  };
+} = {};
 
 async function streamResponse({ paperId, threadId }) {
-  console.log('paperId: ', paperId);
-  console.log('streaming response');
-
   const thread = await repository.getThread(threadId);
 
   if (!thread) {
@@ -150,7 +152,7 @@ async function streamResponse({ paperId, threadId }) {
     paperId,
     thread,
     model,
-  })
+  });
 
   threadStreams[threadId] = {
     stream,
@@ -165,7 +167,7 @@ async function stopMessageStream({ threadId }) {
 
   if (threadStream) {
     const { stream, messageId } = threadStream;
-    stream.then(async s => {
+    stream.then(async (s) => {
       s?.controller.abort();
 
       await repository.updateMessage(messageId, {
@@ -193,7 +195,7 @@ async function regenerateResponse({ paperId, threadId, messageId }) {
     thread,
     model,
     messageId,
-  })
+  });
 
   threadStreams[threadId] = {
     stream,
@@ -216,4 +218,4 @@ export default {
   'stream-response': streamResponse,
   'stop-message-stream': stopMessageStream,
   'regenerate-response': regenerateResponse,
-}
+};

@@ -2,9 +2,16 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import DateRows from './dates-rows';
 import DatesPlaceholder from './placeholder';
-import { fetchCalendarModelAtom, calendarStateAtom, calendarLoadMonthAtom } from '@renderer/calendar/store';
+import {
+  fetchCalendarModelAtom,
+  calendarStateAtom,
+  calendarLoadMonthAtom,
+} from '@renderer/calendar/store';
 import { BackfillComponent } from '../../onboard/components/dates';
-import { openMonthAtom, datesRowsAtom } from '@renderer/shared/components/layout/sidebar/dates/store';
+import {
+  openMonthAtom,
+  datesRowsAtom,
+} from '@renderer/shared/components/layout/sidebar/dates/store';
 import './main.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -25,10 +32,10 @@ function CalendarMain(): React.ReactElement {
   }, [calendarState]);
 
   useEffect(() => {
-    const firstDateOfMonth = datesRows.find(d => d.month === openMonth)?.dates[0]?.value; // first date of the open month in sidebar
+    const firstDateOfMonth = datesRows.find((d) => d.month === openMonth)?.dates[0]?.value; // first date of the open month in sidebar
 
     if (openMonth && firstDateOfMonth) {
-      loadMonth(firstDateOfMonth)
+      loadMonth(firstDateOfMonth);
     } else {
       fetchData();
     }
@@ -36,7 +43,7 @@ function CalendarMain(): React.ReactElement {
 
   return (
     <>
-      <MainContent/>
+      <MainContent />
     </>
   );
 }
@@ -49,14 +56,13 @@ function MainContent(): React.ReactElement {
 
   return (
     <>
-      { isLoading
-        ? <DatesPlaceholder />
-        : (
-          isError || isEmpty
-            ? <div className=' place-self-center mt-10'>Failed to fetch calendar data</div>
-            : <DateRows />
-        )
-      }
+      {isLoading ? (
+        <DatesPlaceholder />
+      ) : isError || isEmpty ? (
+        <div className=" place-self-center mt-10">Failed to fetch calendar data</div>
+      ) : (
+        <DateRows />
+      )}
     </>
   );
 }

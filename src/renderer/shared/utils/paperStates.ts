@@ -18,4 +18,4 @@ export const paperStates = {
     label: 'published',
     color: 'secondary',
   },
-}
+};

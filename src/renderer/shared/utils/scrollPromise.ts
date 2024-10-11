@@ -14,12 +14,15 @@ type ScrollContainer = {
  * @returns {Promise<boolean>} - Resolves to true if the scroll ended naturally, false if it timed out.
  */
 export function scrollToElement({
-  element, container = {}, options, method = 'scrollIntoView',
+  element,
+  container = {},
+  options,
+  method = 'scrollIntoView',
 }: {
-  element: Element,
-  container?: ScrollContainer,
-  options: any, // Assuming ScrollOptions is defined elsewhere according to the options API of scrollIntoView or scrollTo
-  method?: 'scrollIntoView' | 'scrollTo'
+  element: Element;
+  container?: ScrollContainer;
+  options: any; // Assuming ScrollOptions is defined elsewhere according to the options API of scrollIntoView or scrollTo
+  method?: 'scrollIntoView' | 'scrollTo';
 }) {
   const scrollEl = container.current || element; // Use element if container is not provided or invalid
   const timeout = 1500;

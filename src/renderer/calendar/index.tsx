@@ -21,7 +21,6 @@ const Calendar: React.FC = () => {
     setScrollableContainerRef(containerRef);
   }, [setScrollableContainerRef]);
 
-
   const handleScroll = () => {
     // Logic to close the summary popover on scroll
     if (isOpen) {
@@ -34,8 +33,8 @@ const Calendar: React.FC = () => {
 
   const handleDateStatusUpdate = ({ key, status: newStatus, data }) => {
     if (newStatus === 'error') {
-      const id = dayjs(key).format('MM/DD/YYYY')
-      addAlert({message: `There was a problem scraping papers for ${id}`, id })
+      const id = dayjs(key).format('MM/DD/YYYY');
+      addAlert({ message: `There was a problem scraping papers for ${id}`, id });
     }
 
     setCalendarModelBase((prevModel) => {
@@ -52,21 +51,21 @@ const Calendar: React.FC = () => {
       return updatedModel;
     });
 
-    updateSidebarData({ key, status: newStatus, count: data?.length});
+    updateSidebarData({ key, status: newStatus, count: data?.length });
   };
 
   return (
-      <PageLayout
-        // padding={2}
-        compact={false}
-        ref={containerRef}
-        onScroll={handleScroll}
-        className="calendar"
-      >
-        <CalendarMain />
-        <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} />
-      </PageLayout>
+    <PageLayout
+      // padding={2}
+      compact={false}
+      ref={containerRef}
+      onScroll={handleScroll}
+      className="calendar"
+    >
+      <CalendarMain />
+      <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} />
+    </PageLayout>
   );
-}
+};
 
 export default Calendar;

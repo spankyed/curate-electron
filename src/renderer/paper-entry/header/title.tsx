@@ -39,25 +39,24 @@ const PaperTitle: React.FC<{ title?: string; id?: string | null }> = ({ title, i
   const navigate = useNavigate();
 
   const onTitleClick = (e) => {
-    e.stopPropagation()
+    e.stopPropagation();
 
     if (!id) {
       navigate(`/calendar`);
 
-      return
+      return;
     }
 
-    window.open(`https://arxiv.org/abs/${id}`, '_blank')
-  }
+    window.open(`https://arxiv.org/abs/${id}`, '_blank');
+  };
 
   return (
     <GradientBackground onClick={onTitleClick} sx={{ cursor: 'pointer' }}>
-      { title && (
-        <EntryTitleStyled variant="h4" gutterBottom sx={{maxWidth:'none', width: '100%'}}>
+      {title && (
+        <EntryTitleStyled variant="h4" gutterBottom sx={{ maxWidth: 'none', width: '100%' }}>
           {title}
         </EntryTitleStyled>
-        )
-      }
+      )}
     </GradientBackground>
   );
 };

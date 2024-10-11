@@ -1,46 +1,46 @@
-import { DatesTable, PapersTable } from '../../shared/schema'
-import { Sequelize, DataTypes, Op, type FindOptions } from 'sequelize'
+import { DatesTable, PapersTable } from '../../shared/schema';
+import { Sequelize, DataTypes, Op, type FindOptions } from 'sequelize';
 
-export const calendarPageSize = 5
+export const calendarPageSize = 5;
 
-type CalendarData = [DatesTable[], PapersTable[]]
+type CalendarData = [DatesTable[], PapersTable[]];
 
 async function fetchCalendarData(beforeDate?: string, include = false): Promise<CalendarData> {
   const queryOptions: FindOptions = {
     raw: true,
     order: [['value', 'DESC']],
-    limit: calendarPageSize
+    limit: calendarPageSize,
     // attributes: ['value'], // if we only need the 'value' field for the join
-  }
+  };
 
   if (beforeDate) {
     // If a cursor is provided, adjust the query to fetch records after the cursor
     queryOptions.where = {
       value: {
-        [include ? Op.lte : Op.lt]: beforeDate
-      }
-    }
+        [include ? Op.lte : Op.lt]: beforeDate,
+      },
+    };
   }
 
-  const recentDates = await DatesTable.findAll(queryOptions)
-  const recentDateValues = recentDates.map((date) => date.value)
+  const recentDates = await DatesTable.findAll(queryOptions);
+  const recentDateValues = recentDates.map((date) => date.value);
 
   const papersWithDates = await PapersTable.findAll({
     include: [
       {
         model: DatesTable,
-        where: { value: { [Op.in]: recentDateValues } } // Use [Op.in] for matching any value in the array
+        where: { value: { [Op.in]: recentDateValues } }, // Use [Op.in] for matching any value in the array
         // where: { value: recentDateValues }, // Filters the PapersTable entries to those that match the recent dates
-      }
+      },
     ],
     order: [['date', 'DESC']], // Ensures papers are sorted by their date
-    raw: true
-  })
+    raw: true,
+  });
 
-  return [recentDates, papersWithDates]
+  return [recentDates, papersWithDates];
 }
 
-export { fetchCalendarData }
+export { fetchCalendarData };
 
 /**
  * Fetches a page of papers sorted by date for cursor-based pagination.

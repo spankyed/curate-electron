@@ -10,8 +10,9 @@ const verticalRotate = 0;
 const arrowY = 0.2;
 const arrowRotate = 25;
 
-const invert = value => value * (-1);
-const transformString = (y, rotate) => `translateX(${baseX}%) translateY(${y}rem) rotate(${rotate}deg)`
+const invert = (value) => value * -1;
+const transformString = (y, rotate) =>
+  `translateX(${baseX}%) translateY(${y}rem) rotate(${rotate}deg)`;
 
 const transformValues = {
   top: {
@@ -32,10 +33,12 @@ function SidebarToggleButton() {
 
   useEffect(() => {
     const toggleSidebar = (event) => {
-      if (event.target.tagName === 'INPUT' || 
-          event.target.tagName === 'TEXTAREA' || 
-          event.target.tagName === 'SELECT' || 
-          event.target.isContentEditable) {
+      if (
+        event.target.tagName === 'INPUT' ||
+        event.target.tagName === 'TEXTAREA' ||
+        event.target.tagName === 'SELECT' ||
+        event.target.isContentEditable
+      ) {
         return;
       }
 

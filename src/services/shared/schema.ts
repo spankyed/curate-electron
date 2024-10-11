@@ -1,4 +1,4 @@
-import { Sequelize, DataTypes, Model } from "sequelize";
+import { Sequelize, DataTypes, Model } from 'sequelize';
 import path from 'node:path';
 
 // const dbRoot = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/sqlite';
@@ -9,7 +9,7 @@ export const sequelize = new Sequelize({
   dialect: 'sqlite',
   // storage: `${dbRoot}/curate.db`,
   storage: dbPath,
-  logging: false,  // This disables logging
+  logging: false, // This disables logging
   // pool: {
   //   max: 10, // Maximum number of connections in pool
   //   min: 0, // Minimum number of connections in pool
@@ -68,114 +68,132 @@ export class PdfDocumentTable extends Model {
   declare content: string;
 }
 
-PdfDocumentTable.init({
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    unique: true
+PdfDocumentTable.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+    },
+    paperId: DataTypes.STRING,
+    viewMode: DataTypes.STRING, // 'whole' or 'summary' 1 | 0
+    content: DataTypes.STRING,
   },
-  paperId: DataTypes.STRING,
-  viewMode: DataTypes.STRING, // 'whole' or 'summary' 1 | 0
-  content: DataTypes.STRING,
-}, {
-  sequelize,
-  modelName: 'PdfDocumentTable',
-  tableName: 'PdfDocuments',
-  timestamps: true,
-});
+  {
+    sequelize,
+    modelName: 'PdfDocumentTable',
+    tableName: 'PdfDocuments',
+    timestamps: true,
+  }
+);
 
-MessagesTable.init({
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    unique: true
+MessagesTable.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+    },
+    parentId: DataTypes.INTEGER,
+    hidden: DataTypes.BOOLEAN,
+    threadId: DataTypes.STRING,
+    text: DataTypes.STRING,
+    role: DataTypes.STRING,
+    status: DataTypes.INTEGER,
+    // timestamp: DataTypes.STRING,
   },
-  parentId: DataTypes.INTEGER,
-  hidden: DataTypes.BOOLEAN,
-  threadId: DataTypes.STRING,
-  text: DataTypes.STRING,
-  role: DataTypes.STRING,
-  status: DataTypes.INTEGER,
-  // timestamp: DataTypes.STRING,
-}, {
-  sequelize,
-  modelName: 'MessagesTable',
-  tableName: 'Messages',
-  paranoid: true, // This enables soft deletes
-  timestamps: true, // Ensure timestamps are true for paranoid to work
-  // deletedAt: 'deletedAt',
-});
+  {
+    sequelize,
+    modelName: 'MessagesTable',
+    tableName: 'Messages',
+    paranoid: true, // This enables soft deletes
+    timestamps: true, // Ensure timestamps are true for paranoid to work
+    // deletedAt: 'deletedAt',
+  }
+);
 
-ThreadsTable.init({
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    unique: true
+ThreadsTable.init(
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+      unique: true,
+    },
+    description: DataTypes.STRING,
+    duplicateNumber: DataTypes.INTEGER,
+    paperId: DataTypes.STRING,
+    messageId: DataTypes.STRING,
+    viewMode: DataTypes.INTEGER,
   },
-  description: DataTypes.STRING,
-  duplicateNumber: DataTypes.INTEGER,
-  paperId: DataTypes.STRING,
-  messageId: DataTypes.STRING,
-  viewMode: DataTypes.INTEGER,
-}, {
-  sequelize,
-  modelName: 'ThreadsTable',
-  tableName: 'Threads',
-  timestamps: true,
-});
+  {
+    sequelize,
+    modelName: 'ThreadsTable',
+    tableName: 'Threads',
+    timestamps: true,
+  }
+);
 
-ReferencePapersTable.init({
-  id: {
-    type: DataTypes.STRING,
-    primaryKey: true,
-    unique: true
+ReferencePapersTable.init(
+  {
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+      unique: true,
+    },
+    // chroma_id: DataTypes.STRING,
   },
-  // chroma_id: DataTypes.STRING,
-}, {
-  sequelize,
-  modelName: 'ReferencePapersTable',
-  tableName: 'ReferencePapers',
-  paranoid: true, // This enables soft deletes
-  timestamps: true, // Ensure timestamps are true for paranoid to work
-  deletedAt: 'deletedAt',
-});
+  {
+    sequelize,
+    modelName: 'ReferencePapersTable',
+    tableName: 'ReferencePapers',
+    paranoid: true, // This enables soft deletes
+    timestamps: true, // Ensure timestamps are true for paranoid to work
+    deletedAt: 'deletedAt',
+  }
+);
 
-DatesTable.init({
-  value: {
-    type: DataTypes.STRING,
-    primaryKey: true,
-    unique: true
+DatesTable.init(
+  {
+    value: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+      unique: true,
+    },
+    status: {
+      type: DataTypes.STRING,
+    },
+    count: DataTypes.INTEGER,
   },
-  status: {
-    type: DataTypes.STRING,
-  },
-  count: DataTypes.INTEGER,
-}, { sequelize, modelName: 'DatesTable', tableName: 'Dates' });
+  { sequelize, modelName: 'DatesTable', tableName: 'Dates' }
+);
 
-PapersTable.init({
-  id: {
-    type: DataTypes.STRING,
-    primaryKey: true,
-    unique: true
+PapersTable.init(
+  {
+    id: {
+      type: DataTypes.STRING,
+      primaryKey: true,
+      unique: true,
+    },
+    date: DataTypes.STRING,
+    title: DataTypes.STRING,
+    abstract: DataTypes.STRING,
+    authors: DataTypes.STRING, // semi-colon separated list
+    // metadata
+    status: DataTypes.INTEGER,
+    relevancy: DataTypes.INTEGER,
+    isStarred: DataTypes.BOOLEAN,
+    keywords: DataTypes.STRING, // semi-colon separated list
   },
-  date: DataTypes.STRING,
-  title: DataTypes.STRING,
-  abstract: DataTypes.STRING,
-  authors: DataTypes.STRING, // semi-colon separated list
-  // metadata
-  status: DataTypes.INTEGER,
-  relevancy: DataTypes.INTEGER,
-  isStarred: DataTypes.BOOLEAN,
-  keywords: DataTypes.STRING, // semi-colon separated list
-}, {
-  sequelize,
-  modelName: 'PapersTable',
-  tableName: 'Papers',
-  indexes: [{ unique: false, fields: ['date']}]
-});
+  {
+    sequelize,
+    modelName: 'PapersTable',
+    tableName: 'Papers',
+    indexes: [{ unique: false, fields: ['date'] }],
+  }
+);
 
 PapersTable.belongsTo(DatesTable, { foreignKey: 'date', targetKey: 'value' });
 DatesTable.hasMany(PapersTable, { foreignKey: 'date', sourceKey: 'value' });

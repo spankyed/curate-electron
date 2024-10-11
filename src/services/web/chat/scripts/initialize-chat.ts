@@ -9,7 +9,7 @@ export default async function initializeChat(paperId: string) {
     await repository.addPdfDocument({
       paperId,
       viewMode: 0,
-      content: pdfText
+      content: pdfText,
     });
 
     return pdfText.length;

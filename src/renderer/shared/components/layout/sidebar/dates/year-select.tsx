@@ -17,7 +17,7 @@ const YearSelect = () => {
     setSelectedYear(year);
     fetchSidebarData();
   };
-  
+
   return (
     <Select
       sx={{
@@ -29,7 +29,7 @@ const YearSelect = () => {
         width: '100%',
         borderRadius: '0',
       }}
-      size='medium'
+      size="medium"
       labelId="search-field-label"
       id="search-field-select"
       value={selectedYear}
@@ -37,35 +37,32 @@ const YearSelect = () => {
       label=""
       startAdornment={<CalendarMonthIcon />}
     >
-      {
-        yearsList.map((year) => (
-          <MenuItem
-            key={year}
-            value={year}
-            sx={{
-              borderTop: '1px solid #e0e0e025',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            {year}
-          </MenuItem>
-        ))
-      }
+      {yearsList.map((year) => (
+        <MenuItem
+          key={year}
+          value={year}
+          sx={{
+            borderTop: '1px solid #e0e0e025',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
+          {year}
+        </MenuItem>
+      ))}
     </Select>
   );
-}
+};
 
 function createYearList(startYear: number): number[] {
   const currentYear = new Date().getFullYear();
   const years: number[] = [];
 
   for (let year = startYear; year <= currentYear; year++) {
-      years.push(year);
+    years.push(year);
   }
 
   return years;
 }
-
 
 export default YearSelect;

@@ -1,4 +1,4 @@
-function createQueue(){
+function createQueue() {
   const queue: any[] = [];
   let isProcessing = false;
 
@@ -19,4 +19,4 @@ function createQueue(){
     }
     isProcessing = false;
   }
-};
+}

@@ -1,5 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Box, TextField, IconButton, Typography, List, ListItem, Button, Tooltip } from '@mui/material';
+import {
+  Box,
+  TextField,
+  IconButton,
+  Typography,
+  List,
+  ListItem,
+  Button,
+  Tooltip,
+} from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CloseIcon from '@mui/icons-material/Close';
 import { useSetAtom, useAtom, useAtomValue } from 'jotai';
@@ -22,7 +31,7 @@ const PromptMenu = () => {
     inputRef?.current?.focus();
   };
 
-  const removePrompt = index => (event) => {
+  const removePrompt = (index) => (event) => {
     event.stopPropagation();
 
     setPromptPresets(promptPresets.filter((_, i) => i !== index));
@@ -31,7 +40,10 @@ const PromptMenu = () => {
   useEffect(() => {
     const handleOutsideClick = (event) => {
       const isDescendantOfMenuToggle = (target) => {
-        return target.classList.contains('menu-toggle-button') || target.closest('.menu-toggle-button') != null;
+        return (
+          target.classList.contains('menu-toggle-button') ||
+          target.closest('.menu-toggle-button') != null
+        );
       };
 
       if (!event.target.closest('#autofill-menu') && !isDescendantOfMenuToggle(event.target)) {
@@ -47,7 +59,7 @@ const PromptMenu = () => {
   }, []);
 
   return (
-    <div id="autofill-menu" className='absolute w-full z-50 left-0 bottom-0'>
+    <div id="autofill-menu" className="absolute w-full z-50 left-0 bottom-0">
       <AddPrompt />
 
       <Box
@@ -63,10 +75,7 @@ const PromptMenu = () => {
           // borderTop: '1px solid rgba(57, 61, 64, .3)',
         }}
       >
-
-        <List
-          sx={{ padding: 0 }}
-        >
+        <List sx={{ padding: 0 }}>
           {promptPresets.map((prompt, index) => (
             <ListItem
               key={index}
@@ -96,15 +105,15 @@ const PromptMenu = () => {
   );
 };
 
-function AddPrompt(){
+function AddPrompt() {
   const [promptPresets, setPromptPresets] = useAtom(promptOptionsAtom);
-  const [newPrompt, setNewPrompt] = useState("");
+  const [newPrompt, setNewPrompt] = useState('');
   const [isAddingPrompt, setIsAddingPrompt] = useState(false);
-  
+
   const handleAddNewPrompt = () => {
     if (newPrompt.trim()) {
-      setPromptPresets([ { text: newPrompt.trim() }, ...promptPresets]);
-      setNewPrompt("");
+      setPromptPresets([{ text: newPrompt.trim() }, ...promptPresets]);
+      setNewPrompt('');
     }
 
     setIsAddingPrompt(false);
@@ -118,56 +127,49 @@ function AddPrompt(){
   };
   return (
     <div>
-      {
-      isAddingPrompt
-        ? (
-          <Box display="flex" alignItems="center" bgcolor="background.paper">
-            <TextField
-              color='secondary'
-              autoFocus
-              multiline
-              // label="New Prompt"
-              value={newPrompt}
-              onChange={(e) => setNewPrompt(e.target.value)}
-              fullWidth
-              onKeyDown={handleKeyPress}
-              InputProps={{
-                sx: { borderRadius: 0, borderBottom: 'none' },
-                endAdornment: (
-                  <IconButton
-                    onClick={handleAddNewPrompt}
-                  >
-                    <AddIcon />
-                  </IconButton>
-                )
-              }}
-
-            />
-          </Box>
-          )
-        : (
-          <Button
-            variant="contained"
+      {isAddingPrompt ? (
+        <Box display="flex" alignItems="center" bgcolor="background.paper">
+          <TextField
             color="secondary"
-            // color="primary"
-            onClick={() => setIsAddingPrompt(!isAddingPrompt)}
-            endIcon={<AddIcon />}
-            sx={{
-              borderBottomLeftRadius: 0,
-              borderBottomRightRadius: 0,
-              // borderTopLeftRadius: 0,
-              // borderBottom: '1px solid rgba(57, 61, 64, .3)',
-              borderTop: `3px solid rgba(0, 0, 0, 0.3 )`,
-              borderBottom: '1px solid rgba(57, 61, 64, .3)',
-              boxShadow: 'none',
-              px: 2.2,
-              // boxShadow: 'none'
+            autoFocus
+            multiline
+            // label="New Prompt"
+            value={newPrompt}
+            onChange={(e) => setNewPrompt(e.target.value)}
+            fullWidth
+            onKeyDown={handleKeyPress}
+            InputProps={{
+              sx: { borderRadius: 0, borderBottom: 'none' },
+              endAdornment: (
+                <IconButton onClick={handleAddNewPrompt}>
+                  <AddIcon />
+                </IconButton>
+              ),
             }}
-          >
-            Add New Prompt
-          </Button>
-          )
-      }
+          />
+        </Box>
+      ) : (
+        <Button
+          variant="contained"
+          color="secondary"
+          // color="primary"
+          onClick={() => setIsAddingPrompt(!isAddingPrompt)}
+          endIcon={<AddIcon />}
+          sx={{
+            borderBottomLeftRadius: 0,
+            borderBottomRightRadius: 0,
+            // borderTopLeftRadius: 0,
+            // borderBottom: '1px solid rgba(57, 61, 64, .3)',
+            borderTop: `3px solid rgba(0, 0, 0, 0.3 )`,
+            borderBottom: '1px solid rgba(57, 61, 64, .3)',
+            boxShadow: 'none',
+            px: 2.2,
+            // boxShadow: 'none'
+          }}
+        >
+          Add New Prompt
+        </Button>
+      )}
     </div>
   );
 }

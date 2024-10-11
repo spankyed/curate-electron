@@ -1,5 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { AppBar, Toolbar, Typography, Box, IconButton, Button, InputBase, TextField } from '@mui/material';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  IconButton,
+  Button,
+  InputBase,
+  TextField,
+} from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import { useAtom } from 'jotai';
@@ -20,38 +29,34 @@ function Layout(): React.ReactElement {
 
   const checkIsNewUser = useCallback(async () => {
     const { data: newUserCheck } = await api.checkIsNewUser();
-  
+
     if (newUserCheck) {
       setIsNewUser(true);
       navigate('/onboard');
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    checkIsNewUser()
-      .catch(console.error);
+    checkIsNewUser().catch(console.error);
   }, [checkIsNewUser]);
 
   return (
     <>
-      <Box sx={{
-        display: 'flex',
-        // maxHeight: height,
-        height: '100vh',
-        maxHeight: '100vh',
-        transition: 'all 0.5s ease-in-out',
-        backgroundColor: colors.palette.background.default,
-        // backgroundColor: colors.palette.background.paper,
-        // backgroundColor: '#000',
-      }}
+      <Box
+        sx={{
+          display: 'flex',
+          // maxHeight: height,
+          height: '100vh',
+          maxHeight: '100vh',
+          transition: 'all 0.5s ease-in-out',
+          backgroundColor: colors.palette.background.default,
+          // backgroundColor: colors.palette.background.paper,
+          // backgroundColor: '#000',
+        }}
       >
-        <TitleArea isNewUser={isNewUser}/>
+        <TitleArea isNewUser={isNewUser} />
 
-        {
-          !isNewUser && (
-            <Sidebar />
-          )
-        }
+        {!isNewUser && <Sidebar />}
         <Box component="main" sx={{ flexGrow: 1 }}>
           <AppBar
             position="sticky"
@@ -64,24 +69,18 @@ function Layout(): React.ReactElement {
               boxShadow: 'none',
               // backgroundImage: 'none',
             }}
-            style={{
-              WebkitAppRegion: 'drag', 
-            // biome-ignore lint/suspicious/noExplicitAny: Apply webkitAppRegion here to drag window
-            } as any}
-            >
-            <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+            style={
               {
-                !isNewUser && (
-                  <SearchInput />
-                )
-              }
+                WebkitAppRegion: 'drag',
+                // biome-ignore lint/suspicious/noExplicitAny: Apply webkitAppRegion here to drag window
+              } as any
+            }
+          >
+            <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+              {!isNewUser && <SearchInput />}
             </Toolbar>
           </AppBar>
-          {
-            !isNewUser && (
-              <SidebarToggleButton/>
-            )
-          }
+          {!isNewUser && <SidebarToggleButton />}
           <Outlet />
         </Box>
       </Box>
@@ -89,7 +88,7 @@ function Layout(): React.ReactElement {
       <NotificationManager />
     </>
   );
-};
+}
 
 function TitleArea({ isNewUser }) {
   const [, setSidebarOpen] = useAtom(sidebarOpenAtom); // Assuming you have a setter function for the sidebar open state
@@ -99,14 +98,18 @@ function TitleArea({ isNewUser }) {
   };
 
   return (
-    <div style={{
-      display: 'flex', marginLeft: '.4rem', width: '230px',
-      position: 'absolute',
-      top: '.9rem',
-      left: '1.4rem',
-      zIndex: 9999,
-      WebkitAppRegion: 'drag', 
-    }}>
+    <div
+      style={{
+        display: 'flex',
+        marginLeft: '.4rem',
+        width: '230px',
+        position: 'absolute',
+        top: '.9rem',
+        left: '1.4rem',
+        zIndex: 9999,
+        WebkitAppRegion: 'drag',
+      }}
+    >
       {/* {
         !isNewUser && (
           <IconButton
@@ -122,23 +125,27 @@ function TitleArea({ isNewUser }) {
       } */}
 
       <Link
-      color="inherit"
-      to={isNewUser ? '/onboard' : "/calendar"}
-      style={{ WebkitAppRegion: 'no-drag' }} // Exclude the Link from being draggable
+        color="inherit"
+        to={isNewUser ? '/onboard' : '/calendar'}
+        style={{ WebkitAppRegion: 'no-drag' }} // Exclude the Link from being draggable
       >
         <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <Typography variant="subtitle1" component="div" sx={{
-            borderRadius: '10%',
-            padding: '1px 7px',
-            // border: '2px solid white',
-            // backgroundColor: '#4a39ab7a',
-            // backgroundColor: 'rgba(0, 0, 0, 0.3)',
-            backgroundColor: '#3b278e',
-            alignContent: 'center',
-            marginLeft: '4rem',
-            pointerEvents: 'initial',
-            // backgroundColor: colors.palette.primary.light,
-          }}>
+          <Typography
+            variant="subtitle1"
+            component="div"
+            sx={{
+              borderRadius: '10%',
+              padding: '1px 7px',
+              // border: '2px solid white',
+              // backgroundColor: '#4a39ab7a',
+              // backgroundColor: 'rgba(0, 0, 0, 0.3)',
+              backgroundColor: '#3b278e',
+              alignContent: 'center',
+              marginLeft: '4rem',
+              pointerEvents: 'initial',
+              // backgroundColor: colors.palette.primary.light,
+            }}
+          >
             Curate
           </Typography>
           <Typography variant="subtitle1" component="div" sx={{ padding: '4px 4px' }}>
@@ -150,7 +157,7 @@ function TitleArea({ isNewUser }) {
   );
 }
 
-function SearchInput(){
+function SearchInput() {
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState('');
 
@@ -168,7 +175,9 @@ function SearchInput(){
   };
 
   return (
-    <form onSubmit={handleSearch} style={{ display: 'flex', WebkitAppRegion: 'no-drag' }}> {/* Form submission */}
+    <form onSubmit={handleSearch} style={{ display: 'flex', WebkitAppRegion: 'no-drag' }}>
+      {' '}
+      {/* Form submission */}
       <TextField
         id="query-input"
         label="Keyword"
@@ -187,8 +196,8 @@ function SearchInput(){
             borderBottomRightRadius: '0',
           },
         }}
-        
-        fullWidth/>
+        fullWidth
+      />
       <Button
         type="submit"
         color="secondary"
@@ -196,7 +205,7 @@ function SearchInput(){
         sx={{
           borderTopLeftRadius: '0',
           borderBottomLeftRadius: '0',
-          boxShadow: 'none'
+          boxShadow: 'none',
         }}
       >
         Search

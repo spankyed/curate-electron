@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { useAtom } from 'jotai';
 import { FormControl, FormLabel, Checkbox, FormControlLabel, Grid } from '@mui/material';
-import { approvedStateAtom, generatedStateAtom, initialStateAtom, publishedStateAtom } from '../store';
+import {
+  approvedStateAtom,
+  generatedStateAtom,
+  initialStateAtom,
+  publishedStateAtom,
+} from '../store';
 
 const StateControl: React.FC<{}> = () => {
   const [initialState, setInitialState] = useAtom(initialStateAtom);
@@ -11,15 +16,18 @@ const StateControl: React.FC<{}> = () => {
 
   return (
     <FormControl sx={{}} component="fieldset" variant="standard">
-      <FormLabel component="legend" sx={{color:'#9e9e9e !important'}}>State</FormLabel>
+      <FormLabel component="legend" sx={{ color: '#9e9e9e !important' }}>
+        State
+      </FormLabel>
       <Grid container spacing={1} justifyContent="flex-end">
         <Grid item xs={6}>
           <FormControlLabel
             control={
-            <Checkbox
-              checked={initialState}
-              onChange={(e) => setInitialState(e.target.checked)}
-              name={`states.initial`} />
+              <Checkbox
+                checked={initialState}
+                onChange={(e) => setInitialState(e.target.checked)}
+                name={`states.initial`}
+              />
             }
             label={'Initial'}
           />
@@ -27,10 +35,11 @@ const StateControl: React.FC<{}> = () => {
         <Grid item xs={6}>
           <FormControlLabel
             control={
-            <Checkbox
-              checked={approvedState}
-              onChange={(e) => setApprovedState(e.target.checked)}
-              name={`states.approved`} />
+              <Checkbox
+                checked={approvedState}
+                onChange={(e) => setApprovedState(e.target.checked)}
+                name={`states.approved`}
+              />
             }
             label={'Approved'}
           />
@@ -38,10 +47,11 @@ const StateControl: React.FC<{}> = () => {
         <Grid item xs={6}>
           <FormControlLabel
             control={
-            <Checkbox
-              checked={generatedState}
-              onChange={(e) => setGeneratedState(e.target.checked)}
-              name={`states.generated`} />
+              <Checkbox
+                checked={generatedState}
+                onChange={(e) => setGeneratedState(e.target.checked)}
+                name={`states.generated`}
+              />
             }
             label={'Generated'}
           />
@@ -49,18 +59,18 @@ const StateControl: React.FC<{}> = () => {
         <Grid item xs={6}>
           <FormControlLabel
             control={
-            <Checkbox
-              checked={publishState}
-              onChange={(e) => setPublishedState(e.target.checked)}
-              name={`states.published`} />
+              <Checkbox
+                checked={publishState}
+                onChange={(e) => setPublishedState(e.target.checked)}
+                name={`states.published`}
+              />
             }
             label={'Published'}
           />
         </Grid>
       </Grid>
-
     </FormControl>
   );
-}
+};
 
 export default StateControl;

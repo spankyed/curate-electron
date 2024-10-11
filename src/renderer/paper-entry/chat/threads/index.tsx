@@ -9,14 +9,14 @@ import {
   InputLabel,
   FormControl,
   Paper,
-  Typography
+  Typography,
 } from '@mui/material';
 import AltRouteIcon from '@mui/icons-material/AltRoute';
 import {
   threadOptionsAtom,
   selectedThreadsAtom,
   addNewThreadAtom,
-  selectAndLoadMessagesAtom
+  selectAndLoadMessagesAtom,
 } from './store';
 import { paperAtom } from '@renderer/paper-entry/store';
 import { truncateText } from '@renderer/shared/utils/truncateText';
@@ -56,9 +56,9 @@ export default function ThreadOptions() {
               sx: {
                 backgroundColor: colors.palette.secondary.main,
                 borderRadius: 0,
-                borderTopLeftRadius: 0
-              }
-            }
+                borderTopLeftRadius: 0,
+              },
+            },
           }}
           color="secondary"
           labelId="thread-select-label"
@@ -77,7 +77,7 @@ export default function ThreadOptions() {
                 backgroundColor:
                   option.id === selectedThread?.id
                     ? `${colors.palette.secondary.dark} !important`
-                    : 'transparent'
+                    : 'transparent',
               }}
             >
               {option.description.length > 25
@@ -98,7 +98,7 @@ export default function ThreadOptions() {
               // borderTop: `1px solid rgba(255, 255, 255, 0.1)`,
               borderBottom: `3px solid rgba(0, 0, 0, 0.3 )`,
               borderTopRightRadius: 0,
-              borderTopLeftRadius: 0
+              borderTopLeftRadius: 0,
             }}
           >
             Start new thread

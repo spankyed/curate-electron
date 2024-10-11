@@ -1,5 +1,13 @@
 import type React from 'react';
-import { Box, Divider, List, ListItem, ListItemIcon, ListItemText, ListSubheader } from '@mui/material';
+import {
+  Box,
+  Divider,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  ListSubheader,
+} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 import DateRangeIcon from '@mui/icons-material/DateRange';
@@ -38,13 +46,16 @@ const Sidebar: React.FC = () => {
         paddingTop: '4rem',
       }}
     >
-      <List component="nav" sx={{
-        // paddingBottom: 0,
-        // marginTop: '2rem',
-        borderTop: '1px solid rgba(0, 0, 0, 0.12)',
-        backgroundColor: colors.palette.background.default,
-        borderBottom: '1px solid rgba(140, 130, 115, 0.22)', 
-      }}>
+      <List
+        component="nav"
+        sx={{
+          // paddingBottom: 0,
+          // marginTop: '2rem',
+          borderTop: '1px solid rgba(0, 0, 0, 0.12)',
+          backgroundColor: colors.palette.background.default,
+          borderBottom: '1px solid rgba(140, 130, 115, 0.22)',
+        }}
+      >
         {/* <NavItem onClick={() => navigate('calendar')}>
           <ListItemIcon>
             <DateRangeIcon />
@@ -53,16 +64,16 @@ const Sidebar: React.FC = () => {
         </NavItem> */}
         <NavItem
           onClick={() => navigate('search')}
-          sx={{
-            // borderBottom: '1px solid rgba(140, 130, 115, 0.22)', 
-          }}
+          sx={
+            {
+              // borderBottom: '1px solid rgba(140, 130, 115, 0.22)',
+            }
+          }
         >
           <ListItemIcon>
             <SearchIcon />
           </ListItemIcon>
-          <ListItemText
-          sx={{ marginLeft: '1rem' }}
-          primary="Search" />
+          <ListItemText sx={{ marginLeft: '1rem' }} primary="Search" />
         </NavItem>
 
         {/* <NavItem onClick={() => navigate('analytics')}>
@@ -76,14 +87,12 @@ const Sidebar: React.FC = () => {
           <ListItemIcon>
             <ChecklistIcon />
           </ListItemIcon>
-          <ListItemText
-          sx={{ marginLeft: '1rem' }}
-          primary="Backfill" />
+          <ListItemText sx={{ marginLeft: '1rem' }} primary="Backfill" />
         </NavItem>
       </List>
       <Dates />
     </Box>
   );
-}
+};
 
 export default Sidebar;

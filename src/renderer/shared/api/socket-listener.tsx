@@ -33,5 +33,4 @@ const SocketListener = ({ eventName, handleEvent, id = '' }) => {
   return null;
 };
 
-
 export default SocketListener;

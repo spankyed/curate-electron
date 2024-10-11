@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {  Button, Pagination,  } from '@mui/material';
+import { Button, Pagination } from '@mui/material';
 import { Paper } from '@renderer/shared/utils/types';
 import { resetDateStatusCalenderAtom } from '../../store';
 import ResetState from '@renderer/shared/components/date/reset';
@@ -20,46 +20,43 @@ function List({ papers, date }: { papers: Paper[]; date: string }): React.ReactE
   return (
     <div className="wrapper" style={{ margin: '1em' }}>
       <div className="carousel-container">
-        {
-          papers.length === 0 ? (
-            <ResetState date={date} resetStatusAtom={resetDateStatusCalenderAtom}/>
-          ) : (
-            <>
-              <Carousel
-                papers={papers}
-                imagesPerPage={imagesPerPage}
-                previousPage={previousPage}
-                currentPage={currentPage}
+        {papers.length === 0 ? (
+          <ResetState date={date} resetStatusAtom={resetDateStatusCalenderAtom} />
+        ) : (
+          <>
+            <Carousel
+              papers={papers}
+              imagesPerPage={imagesPerPage}
+              previousPage={previousPage}
+              currentPage={currentPage}
+            />
+            <div className="pagination-wrapper">
+              <Pagination
+                count={Math.ceil(totalImages / imagesPerPage)}
+                shape="rounded"
+                color="secondary"
+                page={currentPage}
+                onChange={handlePageChange}
               />
-              <div className="pagination-wrapper">
-                <Pagination
-                  count={Math.ceil(totalImages / imagesPerPage)}
-                  shape="rounded"
-                  color="secondary"
-                  page={currentPage}
-                  onChange={handlePageChange}
-                />
-              </div>
-            </>
-          )
-        }
+            </div>
+          </>
+        )}
       </div>
     </div>
-  ); 
+  );
 }
 
 function Carousel({ papers, imagesPerPage, previousPage, currentPage }) {
   const emPxUnit = parseInt(getComputedStyle(document.documentElement).fontSize);
   const margin = 1; // in em, 1em = 16px
-  const carouselWidth = imagesPerPage * (320 + (emPxUnit * margin * 2));
+  const carouselWidth = imagesPerPage * (320 + emPxUnit * margin * 2);
 
   return (
     <div
       className="carousel-wrapper"
       style={{ transform: `translateX(-${(currentPage - 1) * carouselWidth}px)` }}
     >
-    {
-      papers.map((paper, index) => {
+      {papers.map((paper, index) => {
         return (
           <PaperTile
             paper={paper}
@@ -70,10 +67,9 @@ function Carousel({ papers, imagesPerPage, previousPage, currentPage }) {
             key={paper.id}
             inCarousel={true}
           />
-        )
-      })
-    }
-  </div>
+        );
+      })}
+    </div>
   );
 }
 

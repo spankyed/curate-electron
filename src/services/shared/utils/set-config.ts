@@ -11,7 +11,6 @@ const __dirname = path.dirname(__filename);
 const configPath = path.join(__dirname, '../../../../config.ts');
 
 export async function setConfigSettings(newSettings: Config['settings']): Promise<void> {
-
   const updatedConfig = merge({}, (oldConfig as any).default, { settings: newSettings });
 
   const serializedConfig = `export default ${JSON.stringify(updatedConfig, null, 2)};\n`;

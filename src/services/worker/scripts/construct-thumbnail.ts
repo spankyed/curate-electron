@@ -25,17 +25,21 @@ function getEmojiUrl(unicode: string) {
 }
 
 async function createCircularImage(imagePath: string, size: number): Promise<Buffer> {
-  const circleSvg = `<svg><circle cx="${size/2}" cy="${size/2}" r="${size/2}"/></svg>`;
+  const circleSvg = `<svg><circle cx="${size / 2}" cy="${size / 2}" r="${size / 2}"/></svg>`;
   const compositeOptions = [{ input: Buffer.from(circleSvg), blend: 'dest-in' as const }];
 
-  return await sharp(imagePath)
-    .resize(size, size)
-    .composite(compositeOptions)
-    .toBuffer();
+  return await sharp(imagePath).resize(size, size).composite(compositeOptions).toBuffer();
 }
 
-export default async function createThumbnail(backgroundPath: string, themePath: string, decorationPath: string, outputPath: string, width: number, height: number): Promise<void> {
-  console.clear()
+export default async function createThumbnail(
+  backgroundPath: string,
+  themePath: string,
+  decorationPath: string,
+  outputPath: string,
+  width: number,
+  height: number
+): Promise<void> {
+  console.clear();
   console.log('Creating thumbnail...');
 
   const size = height * 1.3; // Increase the size of the theme image by 3/10ths
@@ -64,10 +68,10 @@ export default async function createThumbnail(backgroundPath: string, themePath:
     const packageEmoji = await loadImage(packageEmojiPath);
 
     // Calculate positions
-    const themePosition = width * .45; // Move the theme image to the right such that 55% is visible
+    const themePosition = width * 0.45; // Move the theme image to the right such that 55% is visible
     const themeVerticalPosition = (height - theme.height) / 2;
-    const decorationVerticalPosition = height - (decoration.height * .35);
-    const decorationHorizontalPosition = (width - decoration.width) * .52;
+    const decorationVerticalPosition = height - decoration.height * 0.35;
+    const decorationHorizontalPosition = (width - decoration.width) * 0.52;
 
     // Draw images on canvas
     console.log('Drawing images on canvas...');
@@ -78,13 +82,25 @@ export default async function createThumbnail(backgroundPath: string, themePath:
     ctx.lineWidth = 7.5; // Adjust as needed
     ctx.globalAlpha = 0.85; // Set the opacity to 50%
     ctx.beginPath();
-    ctx.arc(themePosition + theme.width / 2, themeVerticalPosition + theme.height / 2, theme.width / 2, 0, 2 * Math.PI);
+    ctx.arc(
+      themePosition + theme.width / 2,
+      themeVerticalPosition + theme.height / 2,
+      theme.width / 2,
+      0,
+      2 * Math.PI
+    );
     ctx.stroke();
     ctx.globalAlpha = 1.0;
 
     // Draw theme image
     ctx.drawImage(theme, themePosition, themeVerticalPosition, theme.width, theme.height);
-    ctx.drawImage(decoration, decorationHorizontalPosition, decorationVerticalPosition, decoration.width, decoration.height);
+    ctx.drawImage(
+      decoration,
+      decorationHorizontalPosition,
+      decorationVerticalPosition,
+      decoration.width,
+      decoration.height
+    );
 
     // Add text
     console.log('Adding text...');
@@ -92,7 +108,7 @@ export default async function createThumbnail(backgroundPath: string, themePath:
     const lineHeight = fontSize * 0.8;
     const letterSpacing = fontSize * 0.09;
     const textX = width * 0.03;
-    const textY = height * .4;
+    const textY = height * 0.4;
     ctx.font = `${fontSize}px Roboto`;
     ctx.fillStyle = '#FFFFFF';
     ctx.fillText('AI', textX, textY);
@@ -103,9 +119,15 @@ export default async function createThumbnail(backgroundPath: string, themePath:
     console.log('Adding emoji images...');
     const emojiFontSize = 170;
     const emojiTextX = textX;
-    const emojiTextY = textY + lineHeight + letterSpacing + emojiFontSize * .9;
+    const emojiTextY = textY + lineHeight + letterSpacing + emojiFontSize * 0.9;
     ctx.drawImage(robotEmoji, emojiTextX, emojiTextY, emojiFontSize, emojiFontSize);
-    ctx.drawImage(packageEmoji, emojiTextX + emojiFontSize, emojiTextY, emojiFontSize, emojiFontSize);
+    ctx.drawImage(
+      packageEmoji,
+      emojiTextX + emojiFontSize,
+      emojiTextY,
+      emojiFontSize,
+      emojiFontSize
+    );
 
     // Write the result to a file
     console.log('Writing result to file...');

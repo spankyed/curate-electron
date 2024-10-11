@@ -1,4 +1,4 @@
-import { PaperRecord } from "../types";
+import type { PaperRecord } from '../types';
 
 export type TransformOptions = {
   isStarred?: boolean;
@@ -8,11 +8,13 @@ export type TransformOptions = {
 export const transformPaperModel = async (rawPapers: any, options: TransformOptions = {}) => {
   const { isStarred } = options;
 
-  return rawPapers.map((paper: any): PaperRecord => ({
-    ...paper,
-    status: 0,
-    relevancy: isStarred ?? 0,
-    isStarred: !!isStarred,
-    authors: paper.authors.join('; ')
-  }));
+  return rawPapers.map(
+    (paper: any): PaperRecord => ({
+      ...paper,
+      status: 0,
+      relevancy: isStarred ?? 0,
+      isStarred: !!isStarred,
+      authors: paper.authors.join('; '),
+    })
+  );
 };

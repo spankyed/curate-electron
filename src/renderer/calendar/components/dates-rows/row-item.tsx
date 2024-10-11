@@ -10,7 +10,13 @@ import { scrapePapersAtom } from '@renderer/calendar/store';
 import ScrapeStatus from '@renderer/shared/components/date/status';
 import { colors } from '@renderer/shared/styles/theme';
 
-function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow>; isFocalElement: boolean }): React.ReactElement {
+function RowItem({
+  dateAtom,
+  isFocalElement,
+}: {
+  dateAtom: PrimitiveAtom<DateRow>;
+  isFocalElement: boolean;
+}): React.ReactElement {
   const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
   const { date, papers } = useAtomValue(dateAtom); // Access the state of each individual date atom
   const { value, status } = date;
@@ -25,26 +31,26 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
     });
   }, []);
 
-  const onDateClick = date => e => {
-    const is = tag => e.target.tagName === tag;
+  const onDateClick = (date) => (e) => {
+    const is = (tag) => e.target.tagName === tag;
     const ignore = is('BUTTON') || is('path') || is('svg') || is('LI');
 
     if (ignore) return;
 
     navigate(`/date/${date.value}`);
-  }
+  };
 
   const transparentBg = status === 'complete';
 
   return (
-    <Box 
+    <Box
       // onMouseEnter={() => setSelectedDate(value)}
-      sx={{ 
-        display: 'flex', 
-        flexDirection: 'column', 
-        alignItems: 'center', 
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
         // borderBottom: '4px solid rgba(0, 0, 0, 0.2)',
-        paddingTop: 2,  
+        paddingTop: 2,
         paddingBottom: 2,
         alignSelf: 'center',
         width: '65%',
@@ -55,20 +61,21 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
         marginBottom: '.2rem',
       }}
     >
-
       <Typography
         onClick={onDateClick(date)}
         className="date-row-title"
-        variant="h5" 
+        variant="h5"
         sx={{
           '&:hover': {
             backgroundColor: colors.palette.secondary.main,
           },
-          textDecoration: 'none', 
+          textDecoration: 'none',
           marginBottom: '4px',
           marginTop: '.5em',
           // background: '#FE6B8B', // Adjust the gradient colors as needed
-          backgroundColor: !transparentBg ? colors.palette.background.default : colors.palette.background.paper,
+          backgroundColor: !transparentBg
+            ? colors.palette.background.default
+            : colors.palette.background.paper,
           webkitBackgroundClip: 'text',
           webkitTextFillColor: 'transparent',
           padding: '.25em 1em .25em 1em',
@@ -88,11 +95,11 @@ function RowItem({ dateAtom, isFocalElement }: { dateAtom: PrimitiveAtom<DateRow
         {reformatDateMemo(value)}
       </Typography>
 
-      {
-        status === 'complete'
-        ? <List papers={papers} date={value} />
-        : <ScrapeStatus status={status} date={value} scrapeAtom={scrapePapersAtom}/>
-      }
+      {status === 'complete' ? (
+        <List papers={papers} date={value} />
+      ) : (
+        <ScrapeStatus status={status} date={value} scrapeAtom={scrapePapersAtom} />
+      )}
     </Box>
   );
 }

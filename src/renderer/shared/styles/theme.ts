@@ -1,6 +1,16 @@
 import { createTheme } from '@mui/material/styles';
 import './index.css';
-import { purple, deepPurple, grey, red, amber, blue, deepOrange, indigo, green } from '@mui/material/colors';
+import {
+  purple,
+  deepPurple,
+  grey,
+  red,
+  amber,
+  blue,
+  deepOrange,
+  indigo,
+  green,
+} from '@mui/material/colors';
 import darkScrollbar from '@mui/material/darkScrollbar';
 
 // export const colors = {
@@ -32,20 +42,20 @@ export const colors = createTheme({
   components: {
     MuiSelect: {
       defaultProps: {
-        size: "small",
-        color: "secondary",
-      }
+        size: 'small',
+        color: 'secondary',
+      },
     },
     MuiTextField: {
       defaultProps: {
-        size: "small",
-        color: "secondary",
-      }
+        size: 'small',
+        color: 'secondary',
+      },
     },
     MuiButton: {
       defaultProps: {
-        size: "small",
-      }
+        size: 'small',
+      },
     },
     MuiCssBaseline: {
       styleOverrides: (themeParam) => ({
@@ -84,7 +94,7 @@ export const colors = createTheme({
       // paper: '#333',
       paper: grey[900],
     },
-    warning:{
+    warning: {
       main: red[900],
     },
     amber: {
@@ -96,11 +106,6 @@ export const colors = createTheme({
     },
     mom: {
       main: deepPurple[900],
-    }
+    },
   },
 });
-
-
-
-
-

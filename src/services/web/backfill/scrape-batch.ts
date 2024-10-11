@@ -8,11 +8,11 @@ export async function scrapeBatch(dates?: any[]) {
   }
 
   // const results = [];
-  const batchSize = 3; 
+  const batchSize = 3;
 
   const completedDates = await repository.getDates(dates, 'complete');
   // results.push(...completedDates);
-  const pendingDates = dates.filter(date => !completedDates.map(d => d.value).includes(date));
+  const pendingDates = dates.filter((date) => !completedDates.map((d) => d.value).includes(date));
 
   for (let i = 0; i < pendingDates.length; i += batchSize) {
     const batch = pendingDates.slice(i, i + batchSize);

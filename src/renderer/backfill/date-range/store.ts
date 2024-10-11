@@ -21,17 +21,17 @@ export const loadDatesAtom = atom(
       // todo limit batch dates to 730 days
       const dateRange = {
         start: get(dateStartAtom)?.format('YYYY-MM-DD'),
-        end: get(dateEndAtom)?.format('YYYY-MM-DD')
+        end: get(dateEndAtom)?.format('YYYY-MM-DD'),
       };
 
       if (changed === 'start') {
         dateRange.start = date?.format('YYYY-MM-DD');
 
-        set(dateStartAtom, date)
+        set(dateStartAtom, date);
       } else {
         dateRange.end = date?.format('YYYY-MM-DD');
 
-        set(dateEndAtom, date)
+        set(dateEndAtom, date);
       }
 
       const dates = await api.loadBatchDates(dateRange.start, dateRange.end);
@@ -39,18 +39,20 @@ export const loadDatesAtom = atom(
 
       // set(setSidebarDataAtom, dateList);
 
-      set(batchDatesAtom, dates.map(d => ({
-        value: d.value,
-        status: d.status,
-      })))
+      set(
+        batchDatesAtom,
+        dates.map((d) => ({
+          value: d.value,
+          status: d.status,
+        }))
+      );
 
       set(backfillStateAtom, 'pending');
-      
+
       // set(addSnackAtom, { message: `Added ${newCount} dates`, autoClose: true });
     } catch (error) {
-      console.error("Failed to backfill data", error);
+      console.error('Failed to backfill data', error);
       // set(calendarStateAtom, 'error');
     }
   }
 );
-

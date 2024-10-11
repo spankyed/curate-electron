@@ -25,51 +25,55 @@ export default function Message({ message }) {
   const opacity = isHidden ? 0.4 : 1;
 
   return (
+    <Box
+      mb={1}
+      p={2}
+      pb={0}
+      pt={3}
+      sx={{
+        textAlign: 'left',
+        whiteSpace: 'pre-wrap',
+        backgroundColor: isBranchMessage ? blueRGBA : isHidden ? yellowRGBA : '',
+        // isHidden ? yellowRGBA : isAssistant ? 'rgba(0, 0, 0, 0.1)' : '',
+        // borderRight: isBranchMessage ? `4px solid ${colors.palette.grey[300]}` : 'none',
+        borderLeft: errored
+          ? `4px solid ${colors.palette.error.main}`
+          : isAssistant
+            ? `4px solid ${colors.palette.primary.main}`
+            : `4px solid ${colors.palette.grey[300]}`,
+      }}
+      onMouseEnter={() => showActions(true)}
+      onMouseLeave={() => showActions(false)}
+    >
       <Box
-        mb={1}
-        p={2}
-        pb={0}
-        pt={3}
         sx={{
-          textAlign: 'left',
-          whiteSpace: 'pre-wrap',
-          backgroundColor:
-            isBranchMessage ? blueRGBA :
-            isHidden ? yellowRGBA : '',
-            // isHidden ? yellowRGBA : isAssistant ? 'rgba(0, 0, 0, 0.1)' : '',
-          // borderRight: isBranchMessage ? `4px solid ${colors.palette.grey[300]}` : 'none',
-          borderLeft: errored 
-            ? `4px solid ${colors.palette.error.main}` :
-            isAssistant
-              ? `4px solid ${colors.palette.primary.main}`
-              : `4px solid ${colors.palette.grey[300]}`,
-        }}
-        onMouseEnter={() => showActions(true)}
-        onMouseLeave={() => showActions(false)}
-      >
-
-        <Box sx={{
-          opacity, display: 'flex',
+          opacity,
+          display: 'flex',
           flexDirection: 'column',
-          ml: message.text === '...' ? .5 : 0,
-          }}>
-          <ReactMarkdown
-            skipHtml={true}
-            remarkPlugins={[remarkGfm]}
-            components={{
-              h3: ({ node, ...props }) => <div><h3 className="md-h3" {...props} /></div>,
-              p: ({ node, ...props }) => <div className="md-p" {...props} />,
-              ul: ({ children }) => <ul className="md-list-ul">{children}</ul>,
-              ol: ({ children }) => <ol className="md-list-ol">{children}</ol>,
-              li: ({ children }) => <li className="md-list-item">{children}</li>,
-              strong: ({ children }) => <strong className="md-strong">{children}</strong>,
-            }}
-          >
-            {message.text}
-          </ReactMarkdown>
-        </Box>
-        <div className='flex items-center'>
-          {/* <Tooltip
+          ml: message.text === '...' ? 0.5 : 0,
+        }}
+      >
+        <ReactMarkdown
+          skipHtml={true}
+          remarkPlugins={[remarkGfm]}
+          components={{
+            h3: ({ node, ...props }) => (
+              <div>
+                <h3 className="md-h3" {...props} />
+              </div>
+            ),
+            p: ({ node, ...props }) => <div className="md-p" {...props} />,
+            ul: ({ children }) => <ul className="md-list-ul">{children}</ul>,
+            ol: ({ children }) => <ol className="md-list-ol">{children}</ol>,
+            li: ({ children }) => <li className="md-list-item">{children}</li>,
+            strong: ({ children }) => <strong className="md-strong">{children}</strong>,
+          }}
+        >
+          {message.text}
+        </ReactMarkdown>
+      </Box>
+      <div className="flex items-center">
+        {/* <Tooltip
             title={dayjs(message.timestamp).format('MMM D, YYYY h:mm A')}
             placement='top'
           >
@@ -88,12 +92,11 @@ export default function Message({ message }) {
             </p>
           </Tooltip> */}
 
-          <Box sx={{ height: '2.2rem'}}>
-            {actionsShowing && <Actions message={message} />}
-            {/* <Actions message={message} /> */}
-          </Box>
-        </div>
-      </Box>
+        <Box sx={{ height: '2.2rem' }}>
+          {actionsShowing && <Actions message={message} />}
+          {/* <Actions message={message} /> */}
+        </Box>
+      </div>
+    </Box>
   );
 }
-

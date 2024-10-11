@@ -9,8 +9,8 @@ export default function DocumentSection() {
   const [paper] = useAtom(paperAtom);
 
   return (
-    <Box px={2} pb={2} className='bg-slate-100'>
-      <div className='flex justify-between'>
+    <Box px={2} pb={2} className="bg-slate-100">
+      <div className="flex justify-between">
         <Typography variant="h6">{paper?.title}</Typography>
         {/* <Select
           sx={{ ml: 2, height: '2rem', mb: 1, px: 2 }}
@@ -25,14 +25,16 @@ export default function DocumentSection() {
         </Select> */}
       </div>
 
-      <p className='inline'>{truncateText(330, paper?.abstract)}...</p>
+      <p className="inline">{truncateText(330, paper?.abstract)}...</p>
       {/* read more link */}
       <Typography
-        variant="body2" color="textSecondary" sx={{ display: 'inline', ml: 1, cursor: 'pointer' }}
+        variant="body2"
+        color="textSecondary"
+        sx={{ display: 'inline', ml: 1, cursor: 'pointer' }}
         onClick={() => setPdfOpen(true)}
-        >
+      >
         Read more
       </Typography>
     </Box>
   );
-};
+}

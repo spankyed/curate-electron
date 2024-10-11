@@ -1,5 +1,5 @@
-import { Op } from "sequelize";
-import { PapersTable, ReferencePapersTable } from "../../shared/schema";
+import { Op } from 'sequelize';
+import { PapersTable, ReferencePapersTable } from '../../shared/schema';
 import * as sharedRepository from '@services/shared/repository';
 
 function getPaperById(id: number): Promise<any> {
@@ -11,7 +11,7 @@ function getPaperById(id: number): Promise<any> {
 
 /**
  * Updates the 'isStarred' status of a paper identified by its ID.
- * 
+ *
  * @param id - The ID of the paper to update.
  * @param field - The paper field to update.
  * @param value - The new value for the paper field.
@@ -27,10 +27,10 @@ async function storeReferencePaper(referencePaperId: string): Promise<any> {
     where: {
       id: referencePaperId,
       deletedAt: {
-        [Op.ne]: null // Looks for a record that is soft deleted
-      }
+        [Op.ne]: null, // Looks for a record that is soft deleted
+      },
     },
-    paranoid: false // Includes soft-deleted records in the search
+    paranoid: false, // Includes soft-deleted records in the search
   });
 
   if (found) {
@@ -43,20 +43,15 @@ async function storeReferencePaper(referencePaperId: string): Promise<any> {
 
 export function deleteReferencePaper(id: string): Promise<number> {
   return ReferencePapersTable.destroy({
-    where: { id }
+    where: { id },
   });
 }
 
-export {
-  storeReferencePaper,
-  getPaperById,
-  updatePaperField,
-  chroma,
-}
+export { storeReferencePaper, getPaperById, updatePaperField, chroma };
 
 const chroma = {
-  deleteReferencePaperChroma
-}
+  deleteReferencePaperChroma,
+};
 
 async function deleteReferencePaperChroma(paperId: string) {
   const collection = await sharedRepository.chroma.getReferenceCollection();

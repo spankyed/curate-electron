@@ -1,4 +1,4 @@
-import { DatesTable, PapersTable } from "../../shared/schema";
+import { DatesTable, PapersTable } from '../../shared/schema';
 
 function getDateByValue(value: string): Promise<any> {
   return DatesTable.findOne({
@@ -7,6 +7,4 @@ function getDateByValue(value: string): Promise<any> {
   });
 }
 
-export {
-  getDateByValue
-}
+export { getDateByValue };

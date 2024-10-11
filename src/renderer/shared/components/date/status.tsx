@@ -6,23 +6,23 @@ import Ranking from './ranking';
 import ActionButton from './action-button';
 import ErrorState from './error';
 
-function ScrapeStatus({ date, scrapeAtom, status }: { date: string; scrapeAtom: any, status: string }): React.ReactElement {
+function ScrapeStatus({
+  date,
+  scrapeAtom,
+  status,
+}: {
+  date: string;
+  scrapeAtom: any;
+  status: string;
+}): React.ReactElement {
   const contentByStatus = {
-    pending: <ActionButton date={date} scrapeAtom={scrapeAtom}/>,
+    pending: <ActionButton date={date} scrapeAtom={scrapeAtom} />,
     scraping: <Scraping />,
     ranking: <Ranking />,
-    error: <ErrorState />
+    error: <ErrorState />,
   };
 
-  return (
-    <>
-      {
-        status
-        ? contentByStatus[status]
-        : contentByStatus.error
-      }
-    </>
-  );
+  return <>{status ? contentByStatus[status] : contentByStatus.error}</>;
 }
 
 export default ScrapeStatus;

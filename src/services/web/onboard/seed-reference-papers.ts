@@ -1,6 +1,6 @@
 import * as sharedRepository from '@services/shared/repository';
 import repository from './repository';
-import scrapePapersByIds from "./scrape-papers-by-ids";
+import scrapePapersByIds from './scrape-papers-by-ids';
 import { getConfig } from '@services/shared/utils/get-config';
 
 // const path =  "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/research-papers.json";
@@ -13,13 +13,13 @@ export function doesReferenceCollectionExist() {
 }
 
 export async function seedReferencePapers(papers?: any[], ids = null) {
-  await sharedRepository.chroma.initializeReferenceCollection()
+  await sharedRepository.chroma.initializeReferenceCollection();
 
   if (!papers || !papers.length) {
-    papers = await scrapeAndStoreReferencePapers(ids)
+    papers = await scrapeAndStoreReferencePapers(ids);
   }
 
-  await sharedRepository.chroma.addToReferenceCollection(papers)
+  await sharedRepository.chroma.addToReferenceCollection(papers);
 
   const count = await sharedRepository.chroma.getReferenceCollectionCount();
 
@@ -30,23 +30,22 @@ export async function seedReferencePapers(papers?: any[], ids = null) {
   return papers;
 }
 
-
-async function scrapeAndStoreReferencePapers(ids =  null) {
+async function scrapeAndStoreReferencePapers(ids = null) {
   const seedReferencesIds = ids || (await getConfig()).seedReferencesIds!;
   console.log('Scraping and storing reference papers: ', ids);
 
   const referencePapers = await scrapePapersByIds(seedReferencesIds);
 
-  const scrapedIds = referencePapers.map(paper => paper.id);
+  const scrapedIds = referencePapers.map((paper) => paper.id);
   const datesToStore = referencePapers
-    .map(paper => paper.date)
+    .map((paper) => paper.date)
     .filter((date, index, array) => array.indexOf(date) === index); // Remove duplicates
 
-  await repository.storeDates(datesToStore)
+  await repository.storeDates(datesToStore);
 
   await Promise.all([
     repository.storeReferencePapers(scrapedIds),
-    sharedRepository.storePapers(referencePapers)
+    sharedRepository.storePapers(referencePapers),
   ]);
 
   console.log('Reference papers added.', ids);

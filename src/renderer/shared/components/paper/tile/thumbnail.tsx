@@ -18,7 +18,13 @@ import { colors } from '@renderer/shared/styles/theme';
 //   3: 'rgba(156, 39, 176, 1)',
 // }
 
-function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean }): React.ReactElement {
+function Thumbnail({
+  paper,
+  shadow = false,
+}: {
+  paper: Paper;
+  shadow?: boolean;
+}): React.ReactElement {
   const navigate = useNavigate();
 
   const onThumbnailClick = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -31,68 +37,65 @@ function Thumbnail ({ paper, shadow = false }: { paper: Paper, shadow?: boolean 
 
     // console.log('paper: ', paper);
     navigate(`/paper/${paper.id}`);
-  }
+  };
 
   const color = getColorShadeRedToGreen(paper);
 
   return (
-
     <Box
-      onClick={onThumbnailClick} key={paper.id}
-      sx={{ 
+      onClick={onThumbnailClick}
+      key={paper.id}
+      sx={{
         cursor: 'pointer',
         position: 'relative',
-        width: '320px', 
-        height: '180px',  
+        width: '320px',
+        height: '180px',
         border: `2px solid ${color}`,
         borderBottom: `10px solid ${color}`,
         // boxShadow: shadow ? '0px 2px 15px rgba(0, 0, 0, 0.6)' : 'none',
         '&:hover': {
           border: `2px solid ${colors.palette.secondary.main}`,
-          borderBottom: `10px solid ${colors.palette.secondary.main}`
-        }
+          borderBottom: `10px solid ${colors.palette.secondary.main}`,
+        },
       }}
-      className='thumb-img'
+      className="thumb-img"
     >
-      <img src={getThumbnailUrl(paper)} alt={paper.title} 
-        style={{ 
-          width: '100%', 
+      <img
+        src={getThumbnailUrl(paper)}
+        alt={paper.title}
+        style={{
+          width: '100%',
           height: '100%',
           borderRadius: '4px',
           borderBottomRightRadius: '0px',
           borderBottomLeftRadius: '0px',
-      }}/>
+        }}
+      />
       {/* <LikeBtn paper={paper} /> */}
       <Actions paper={paper} />
       <PaperTitle paper={paper} />
     </Box>
-  )
+  );
 }
-function Actions ({ paper }: { paper: Paper }): React.ReactElement {
-  const notUploaded = (paper: Paper) => paper.status !== PaperState.published
-  const showReject = (paper: Paper) => paper.status === PaperState.approved
-  
-  const onViewClick = (e) => {
-    e.stopPropagation()
+function Actions({ paper }: { paper: Paper }): React.ReactElement {
+  const notUploaded = (paper: Paper) => paper.status !== PaperState.published;
+  const showReject = (paper: Paper) => paper.status === PaperState.approved;
 
-    window.open(`https://arxiv.org/abs/${paper.id}`, '_blank')
-  }
+  const onViewClick = (e) => {
+    e.stopPropagation();
+
+    window.open(`https://arxiv.org/abs/${paper.id}`, '_blank');
+  };
 
   return (
     <>
-      <ButtonGroup 
-        variant='outlined' 
-        aria-label="paper actions"
-
-      >
-
+      <ButtonGroup variant="outlined" aria-label="paper actions">
         {/* <Button onClick={onViewClick}>
           <Tooltip title='View on Arxiv'>
             <VisibilityIcon color="info" style={{ marginRight: '4px' }} />
           </Tooltip>
         </Button> */}
-      {
-        /*
+        {/*
         // notUploaded(paper) && (
           <>
             <PaperAction paper={paper} />
@@ -103,8 +106,7 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
           }
           </>
         // )
-        */
-      }
+        */}
       </ButtonGroup>
       <div
         style={{
@@ -121,12 +123,12 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
           borderBottomLeftRadius: '4px',
           borderBottomRightRadius: '4px',
           zIndex: 999,
-          }}
-        >
-        <Favorite paper={paper}/>
+        }}
+      >
+        <Favorite paper={paper} />
       </div>
     </>
-  )
+  );
 }
 // function LikeBtn ({ paper }: { paper: Paper }): React.ReactElement {
 //   return (
@@ -144,25 +146,24 @@ function Actions ({ paper }: { paper: Paper }): React.ReactElement {
 //     </div>
 //   )
 // }
-function PaperTitle ({ paper }: { paper: Paper }): React.ReactElement {
+function PaperTitle({ paper }: { paper: Paper }): React.ReactElement {
   return (
-    <div style={{
-      position: 'absolute',
-      bottom: 0,
-      left: 0,
-      right: 0,
-      padding: '8px',
-      backgroundColor: 'rgba(0, 0, 0, 0.8)', // Translucent black background
-      color: 'white',
-      textAlign: 'left',
-    }}>
-
+    <div
+      style={{
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        padding: '8px',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)', // Translucent black background
+        color: 'white',
+        textAlign: 'left',
+      }}
+    >
       {/* <Relevancy paper={paper}/> */}
-      <span>
-        {paper.title}
-      </span>
+      <span>{paper.title}</span>
     </div>
-  )
+  );
 }
 
 export default Thumbnail;

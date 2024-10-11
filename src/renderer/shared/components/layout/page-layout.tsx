@@ -13,76 +13,73 @@ interface PageLayoutProps {
 
 const height = 'calc(100vh - 65px)';
 
-const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(({
-  children,
-  compact = true,
-  ...props
-}, ref: React.ForwardedRef<HTMLDivElement>) => {
-  const [showScroll, setShowScroll] = useState(false);
-  ref = ref || createRef<HTMLDivElement>();
+const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
+  ({ children, compact = true, ...props }, ref: React.ForwardedRef<HTMLDivElement>) => {
+    const [showScroll, setShowScroll] = useState(false);
+    ref = ref || createRef<HTMLDivElement>();
 
-  const checkScrollTop = () => {
-    if (ref && 'current' in ref && ref.current) {
-      const { scrollTop } = ref.current;
-      setShowScroll(scrollTop > 200);
-    }
-  };
+    const checkScrollTop = () => {
+      if (ref && 'current' in ref && ref.current) {
+        const { scrollTop } = ref.current;
+        setShowScroll(scrollTop > 200);
+      }
+    };
 
-  useEffect(() => {
-    const element = ref && 'current' in ref ? ref.current : null;
+    useEffect(() => {
+      const element = ref && 'current' in ref ? ref.current : null;
 
-    if (element) {
-      element.addEventListener('scroll', checkScrollTop);
-      return () => element.removeEventListener('scroll', checkScrollTop);
-    }
-  }, [ref]);
+      if (element) {
+        element.addEventListener('scroll', checkScrollTop);
+        return () => element.removeEventListener('scroll', checkScrollTop);
+      }
+    }, [ref]);
 
-  const scrollTop = () => {
-    if (ref && 'current' in ref && ref.current) {
-      ref.current.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  };
+    const scrollTop = () => {
+      if (ref && 'current' in ref && ref.current) {
+        ref.current.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    };
 
-  return (
-    <Box
-      ref={ref} // Use the forwarded ref
-      sx={{
-        overflowY: 'auto',
-        flexGrow: 1,
-        height,
-        justifyContent: 'center',
-        display: 'flex',
-        overflowAnchor: 'none'
-
-      }}
-      {...props}
-    >
-      <div
-        style={{
-          width: compact ? '90%' : '100%',
+    return (
+      <Box
+        ref={ref} // Use the forwarded ref
+        sx={{
+          overflowY: 'auto',
+          flexGrow: 1,
+          height,
+          justifyContent: 'center',
           display: 'flex',
-          flexDirection: 'column',
-          // padding: compact ? 2 : 4,
+          overflowAnchor: 'none',
         }}
+        {...props}
       >
-        {children}
-        {showScroll && (
-          <Fab
-            color="secondary"
-            size="small"
-            onClick={scrollTop}
-            sx={{
-              position: 'fixed',
-              bottom: '2rem',
-              right: '2rem',
-            }}
-          >
-            <KeyboardArrowUpIcon />
-          </Fab>
-        )}
-      </div>
-    </Box>
-  );
-});
+        <div
+          style={{
+            width: compact ? '90%' : '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            // padding: compact ? 2 : 4,
+          }}
+        >
+          {children}
+          {showScroll && (
+            <Fab
+              color="secondary"
+              size="small"
+              onClick={scrollTop}
+              sx={{
+                position: 'fixed',
+                bottom: '2rem',
+                right: '2rem',
+              }}
+            >
+              <KeyboardArrowUpIcon />
+            </Fab>
+          )}
+        </div>
+      </Box>
+    );
+  }
+);
 
 export default PageLayout;

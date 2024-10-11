@@ -14,10 +14,10 @@ const style = {
   maxHeight: '98vh',
   minHeight: '20vh',
   overflowY: 'auto',
-  color: '#fff'
+  color: '#fff',
 };
 
-function ModalWrapper({ children, open, handleClose, width = 500}) {
+function ModalWrapper({ children, open, handleClose, width = 500 }) {
   return (
     <Modal
       open={open}
@@ -25,9 +25,7 @@ function ModalWrapper({ children, open, handleClose, width = 500}) {
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >
-      <Box sx={{...style, width }}>
-        {children}
-      </Box>
+      <Box sx={{ ...style, width }}>{children}</Box>
     </Modal>
   );
 }

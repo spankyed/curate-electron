@@ -9,7 +9,6 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 
-
 const ScoreBadge = styled(Badge)<{ count: number }>(({ theme, count }) => ({
   '& .MuiBadge-badge': {
     // top: 8,
@@ -30,7 +29,7 @@ const ScoreBadge = styled(Badge)<{ count: number }>(({ theme, count }) => ({
   },
 }));
 
-const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count }) => {
+const PageTitle: React.FC<{ value: string; count: number }> = ({ value, count }) => {
   const [dateEntryState] = useAtom(dateEntryStateAtom);
   const navigate = useNavigate();
 
@@ -42,7 +41,7 @@ const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count })
       day: '2-digit',
       year: 'numeric',
     });
-  
+
     return `${weekday}, ${month} ${day}, ${year}`;
   }, [value]);
 
@@ -50,24 +49,16 @@ const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count })
     const date = dayjs(value);
     const newDate = direction === 'next' ? date.add(1, 'day') : date.subtract(1, 'day');
     navigate(`/date/${newDate.format('YYYY-MM-DD')}`);
-  }
+  };
 
   return (
     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
-      <IconButton
-        sx={{ mr: 8 }}
-        aria-label="next"
-        onClick={() => handleArrowClick('prev')}
-      >
-        <ArrowBackIosNewIcon fontSize='large'/>
+      <IconButton sx={{ mr: 8 }} aria-label="next" onClick={() => handleArrowClick('prev')}>
+        <ArrowBackIosNewIcon fontSize="large" />
       </IconButton>
-      <ScoreBadge 
-        badgeContent={`${count}`} 
-        count={count}
-        max={999}
-        invisible={count === 0}
-      >
-        <Typography variant="h4"
+      <ScoreBadge badgeContent={`${count}`} count={count} max={999} invisible={count === 0}>
+        <Typography
+          variant="h4"
           sx={{
             background: colors.palette.background.paper,
             // background: colors.palette.secondary.main,
@@ -75,30 +66,20 @@ const PageTitle: React.FC<{ value: string, count: number }> = ({ value, count })
             // boxShadow: `0 3px 5px 2px ${colors.primary}`,
             padding: '.5em 2em .5em 2em',
             // border: `2px solid white`,
-          // fontWeight: 'bold',
+            // fontWeight: 'bold',
             borderRadius: '5px',
             letterSpacing: '0.0075em',
             // marginTop: '20px',
           }}
         >
-          {
-            dateEntryState === 'error'
-            ? `Error loading date ${value}`
-            : formattedDate
-          }
-          
+          {dateEntryState === 'error' ? `Error loading date ${value}` : formattedDate}
         </Typography>
       </ScoreBadge>
-      <IconButton
-        sx={{ ml: 8 }}
-        aria-label="next"
-        onClick={() => handleArrowClick('next')}
-      >
-        <ArrowForwardIosIcon fontSize='large'/>
+      <IconButton sx={{ ml: 8 }} aria-label="next" onClick={() => handleArrowClick('next')}>
+        <ArrowForwardIosIcon fontSize="large" />
       </IconButton>
-
     </Box>
   );
-}
+};
 
 export default PageTitle;

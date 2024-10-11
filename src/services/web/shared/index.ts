@@ -1,15 +1,15 @@
-import { io } from "../..";
+import { io } from '../..';
 // import * as repository from './repository';
 import * as sharedRepository from '@services/shared/repository';
-import { groupDatesByMonth } from "./transform";
-import { getConfig } from "@services/shared/utils/get-config";
-import { WorkerPath } from "../../shared/constants";
-import createRequest from "../../shared/request";
+import { groupDatesByMonth } from './transform';
+import { getConfig } from '@services/shared/utils/get-config';
+import { WorkerPath } from '../../shared/constants';
+import createRequest from '../../shared/request';
 
 const workerService = createRequest(WorkerPath);
 
 async function updateStatus(type, { key, status, data, final }) {
-  console.log('updateStatus: ', {type, key, status, data: !!data, final});
+  console.log('updateStatus: ', { type, key, status, data: !!data, final });
 
   // type Status = { current: string; updated?: boolean; final?: boolean; data?: any };
   // io.to(user).emit('status', { type, key, status, data, final });
@@ -18,21 +18,21 @@ async function updateStatus(type, { key, status, data, final }) {
   return 'success';
 }
 
-async function checkIsNewUser(){
+async function checkIsNewUser() {
   const config = await getConfig();
   const isNewUser = config.settings.isNewUser;
 
   return isNewUser;
 }
 
-async function getDatesByYear(year){
+async function getDatesByYear(year) {
   const dates = await sharedRepository.getDatesByYear(year);
   const dateList = groupDatesByMonth(dates);
 
   return dateList;
 }
 
-async function scrapePapers(date){
+async function scrapePapers(date) {
   workerService.post('scrape', { date });
 
   return 'Scraping started';
@@ -43,4 +43,4 @@ export default {
   'update-work-status': updateStatus,
   'get-dates-by-year': getDatesByYear,
   'scrape-date': scrapePapers,
-}
+};

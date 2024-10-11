@@ -9,25 +9,25 @@ import ClearOutlinedIcon from '@mui/icons-material/ClearOutlined';
 import * as api from '@renderer/shared/api/fetch';
 
 const updateStatus = (status: keyof typeof PaperState) => (paper) => async () => {
-  const id = paper.id
+  const id = paper.id;
   if (!id) {
     return;
   }
 
   const newStatus = PaperState[status];
-  
-  await api.updatePaperStatus(id, newStatus)
+
+  await api.updatePaperStatus(id, newStatus);
 
   const event = new CustomEvent('paperUpdate', {
     detail: {
       id,
       date: paper.date,
-      changes: { field: 'status', value: newStatus  }
+      changes: { field: 'status', value: newStatus },
     },
   });
 
   window.dispatchEvent(event);
-}
+};
 
 const actions = {
   approve: {
@@ -57,23 +57,20 @@ const actions = {
   // },
   reject: {
     title: 'Undo Approval',
-    icon: <ClearOutlinedIcon color='error' style={{ marginRight: '4px' }}/>,
+    icon: <ClearOutlinedIcon color="error" style={{ marginRight: '4px' }} />,
     handler: updateStatus('initial'),
   },
-}
+};
 
 const ActionComponent = ({ type, paper }) => {
   const action = actions[type];
-  
+
   return (
     <Button onClick={action.handler(paper)}>
-      <Tooltip title={action.title}>
-        {action.icon}
-      </Tooltip>
+      <Tooltip title={action.title}>{action.icon}</Tooltip>
     </Button>
-  )
+  );
 };
-
 
 const PaperAction = ({ paper }) => {
   const state = paper.status;
@@ -81,28 +78,22 @@ const PaperAction = ({ paper }) => {
   const renderAction = () => {
     switch (state) {
       case PaperState.initial:
-        return <ActionComponent type='approve' paper={paper} />;
+        return <ActionComponent type="approve" paper={paper} />;
       case PaperState.approved:
-        return <ActionComponent type='generate' paper={paper} />;
+        return <ActionComponent type="generate" paper={paper} />;
       case PaperState.generated: // from generated status, consider a draft action instead of upload/publish action
-        return <ActionComponent type='upload' paper={paper} />;
+        return <ActionComponent type="upload" paper={paper} />;
       case PaperState.published:
-        return <ActionComponent type='view' paper={paper} />;
+        return <ActionComponent type="view" paper={paper} />;
       default:
         return <div>Unknown State</div>;
     }
   };
 
-  return (
-    <>
-      {renderAction()}
-    </>
-  );
+  return <>{renderAction()}</>;
 };
 
-const RejectAction = ({ paper }) => (
-  <ActionComponent type='reject' paper={paper} />
-);
+const RejectAction = ({ paper }) => <ActionComponent type="reject" paper={paper} />;
 
 export { RejectAction };
 export default PaperAction;

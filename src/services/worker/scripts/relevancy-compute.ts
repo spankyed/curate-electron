@@ -2,21 +2,17 @@ import { ReferenceCollectionName } from '@services/shared/constants';
 import repository from '../repository';
 import * as sharedRepository from '@services/shared/repository';
 
-
-export async function getRelevancyScores(
-  papers: any[],
-  nResults = 5
-): Promise<any[]> {
-  console.log("Starting getRelevancyScores...");
+export async function getRelevancyScores(papers: any[], nResults = 5): Promise<any[]> {
+  console.log('Starting getRelevancyScores...');
 
   if (!sharedRepository.chroma.checkForExistingReferenceCollection()) {
     throw new Error(`Collection ${ReferenceCollectionName} does not exist`);
   }
 
-  console.log("Number of papers:", papers.length);
+  console.log('Number of papers:', papers.length);
 
-  const paperTexts = papers.map((paper) => paper.title + ". " + paper.abstract)
-    // .slice(0, 125); // ! TODO: Remove this slice
+  const paperTexts = papers.map((paper) => paper.title + '. ' + paper.abstract);
+  // .slice(0, 125); // ! TODO: Remove this slice
 
   try {
     const results = await repository.chroma.queryReferenceCollection(paperTexts, nResults);
@@ -24,13 +20,10 @@ export async function getRelevancyScores(
 
     // Map over results and papers to set relevancy properties
     papers.forEach((paper, index) => {
-      const relevancyScores = results.distances?.[index]
-      ? results.distances?.[index]
-      : [];
+      const relevancyScores = results.distances?.[index] ? results.distances?.[index] : [];
       // console.log('relevancyScores: ', relevancyScores);
       const avgRelevancy =
-        relevancyScores.reduce((a, b) => a + b, 0) /
-        (relevancyScores.length || 1);
+        relevancyScores.reduce((a, b) => a + b, 0) / (relevancyScores.length || 1);
 
       paper.relevancy = avgRelevancy ? 1 - avgRelevancy : 0;
 
@@ -40,6 +33,6 @@ export async function getRelevancyScores(
     console.error(err);
   }
 
-  console.log("Completed getRelevancyScores");
+  console.log('Completed getRelevancyScores');
   return papers;
 }

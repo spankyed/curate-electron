@@ -15,13 +15,13 @@ interface UpdateListItemParams {
   papersListAtom: Atom<Paper[]>;
   id: string;
   field: string;
-  newValue: any 
+  newValue: any;
 }
 interface UpdateItemParams {
   paperAtom: Atom<Paper | undefined>;
   id: string;
   field: string;
-  newValue: any 
+  newValue: any;
 }
 
 export const updatePaperAtom = atom(
@@ -37,11 +37,10 @@ export const updatePaperInListAtom = atom(
   null,
   (get, set, { papersListAtom, id, field, newValue }: UpdateListItemParams) => {
     const papersList = get(papersListAtom);
-    const updatedItemList = papersList.map(item =>
+    const updatedItemList = papersList.map((item) =>
       item.id === id ? { ...item, [field]: newValue } : item
     );
 
     set(papersListAtom as any, updatedItemList);
   }
 );
-

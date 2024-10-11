@@ -12,9 +12,8 @@ export const WebServerPath = `http://localhost:${ports.web}`;
 export const WorkerPath = `http://localhost:${ports.worker}`;
 export const MaintenancePath = `http://localhost:${ports.maintenance}`;
 
-export const ReferenceCollectionName = "paper-embeddings";
+export const ReferenceCollectionName = 'paper-embeddings';
 // export const ReferenceCollectionName = "reference-papers";
-
 
 // export const seedReferencePaperIds =  [
 //   '2308.05481',

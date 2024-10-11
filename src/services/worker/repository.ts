@@ -9,12 +9,12 @@ async function queryReferenceCollection(corpus: any[], nResults = 5) {
   return collection.query({
     queryTexts: corpus,
     nResults: nResults, // ! not optimized
-  })
+  });
 }
 
 const chroma = {
-  queryReferenceCollection
-}
+  queryReferenceCollection,
+};
 
 export default {
   chroma,

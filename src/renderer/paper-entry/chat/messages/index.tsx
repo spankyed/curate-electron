@@ -9,7 +9,7 @@ import PromptMenu from './prompt-menu';
 import { chatStateAtom } from '../store';
 import CircularProgress from '@mui/material/CircularProgress';
 
-export default function MessageList () {
+export default function MessageList() {
   const promptPresetsOpen = useAtomValue(promptPresetsOpenAtom);
   const messages = useAtomValue(messagesAtom);
   const [scrollableContainerRef] = useAtom(scrollableContainerRefAtom);
@@ -27,7 +27,7 @@ export default function MessageList () {
   useEffect(() => {
     setTimeout(() => {
       if (containerRef.current) {
-      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+        containerRef.current.scrollTop = containerRef.current.scrollHeight;
       }
     }, 500);
   }, []);
@@ -42,11 +42,11 @@ export default function MessageList () {
     setTimeout(() => {
       scrollableElement.scrollTo({ top: scrollableElement.scrollHeight, behavior: 'smooth' });
     }, 250);
-    }, [scrollableContainerRef]); 
+  }, [scrollableContainerRef]);
 
   return (
     <>
-      <div className='relative'>
+      <div className="relative">
         {(promptPresetsOpen || isLoading) && (
           <Box
             sx={{
@@ -60,21 +60,19 @@ export default function MessageList () {
             }}
           />
         )}
-        {
-          isError && (
-            <Box
-              sx={{
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                backgroundColor: 'rgba(255, 0, 0, 0.1)',
-                zIndex: 1,
-              }}
-            />
-          )
-        }
+        {isError && (
+          <Box
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+              backgroundColor: 'rgba(255, 0, 0, 0.1)',
+              zIndex: 1,
+            }}
+          />
+        )}
         <Box
           ref={containerRef}
           sx={{
@@ -92,28 +90,25 @@ export default function MessageList () {
             // overflowAnchor: 'none',
           }}
         >
-          {
-            isLoading 
-            ? <Loader />
-            : <>
-                {messages.map((message) => (
-                  <Message message={message} />
-                ))}
-              </>
-            
-          }
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <>
+              {messages.map((message) => (
+                <Message message={message} />
+              ))}
+            </>
+          )}
         </Box>
 
-        {
-          promptPresetsOpen && <PromptMenu/>
-        }
+        {promptPresetsOpen && <PromptMenu />}
       </div>
       <ChatInput />
     </>
   );
-};
+}
 
-function Loader () {
+function Loader() {
   return (
     <Box
       sx={{
@@ -124,7 +119,7 @@ function Loader () {
         width: '100%',
       }}
     >
-      <CircularProgress color='secondary'/>
+      <CircularProgress color="secondary" />
     </Box>
   );
 }

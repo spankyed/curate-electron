@@ -5,7 +5,15 @@ import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import * as api from '@renderer/shared/api/fetch';
 import { paperAtom } from '@renderer/paper-entry/store';
-import { inputAtom, promptPresetsOpenAtom, sendMessageAtom, messagesAtom, tokenUsageAtom, inputEnabledAtom, inputRefAtom } from './store';
+import {
+  inputAtom,
+  promptPresetsOpenAtom,
+  sendMessageAtom,
+  messagesAtom,
+  tokenUsageAtom,
+  inputEnabledAtom,
+  inputRefAtom,
+} from './store';
 import { chatStateAtom } from '../store';
 import { selectedThreadsAtom } from '../threads/store';
 
@@ -53,10 +61,8 @@ export const ChatInput = () => {
 
   return (
     <Box display="flex" position="relative" flexDirection={'column'}>
-
-
       <TextField
-        color='secondary'
+        color="secondary"
         inputRef={inputRef}
         disabled={!ready}
         multiline
@@ -72,15 +78,15 @@ export const ChatInput = () => {
               // color="secondary"
               sx={{ mr: 1 }}
               disabled={!ready}
-              onClick={handleMenuToggle} className="menu-toggle-button">
+              onClick={handleMenuToggle}
+              className="menu-toggle-button"
+            >
               <MoreVertIcon />
             </IconButton>
           ),
           endAdornment: (
             <>
-              <IconButton
-                disabled={!ready}
-                onClick={handleSend}>
+              <IconButton disabled={!ready} onClick={handleSend}>
                 <SendIcon />
               </IconButton>
             </>
@@ -97,27 +103,35 @@ const TokenUsage = () => {
   const [tokenUsage, setTokenUsage] = useAtom(tokenUsageAtom);
   const messages = useAtomValue(messagesAtom);
   const chatState = useAtomValue(chatStateAtom);
-  const overLimit = tokenUsage.total > (tokenUsage.max * .95);
-  const reachingLimit = tokenUsage.total > (tokenUsage.max * .7);
+  const overLimit = tokenUsage.total > tokenUsage.max * 0.95;
+  const reachingLimit = tokenUsage.total > tokenUsage.max * 0.7;
 
   useEffect(() => {
     const newTokenUsage = messages
-      .filter(message => !message.hidden)
+      .filter((message) => !message.hidden)
       .reduce((acc, message) => acc + (message.text ? message.text.length / 4 : 0), 0);
 
     const totalTokensRounded = Number(((tokenUsage.document + newTokenUsage) / 1000).toFixed(1));
 
     if (tokenUsage.total === totalTokensRounded) {
       return;
-    } 
+    }
 
-    setTokenUsage(prev => ({ ...prev, total: totalTokensRounded }))
+    setTokenUsage((prev) => ({ ...prev, total: totalTokensRounded }));
   }, [tokenUsage, messages]);
 
   return (
-    <Typography variant="caption" mt={1} mb={3} pl={1} sx={{
-      opacity: '.7',
-      color: reachingLimit ? 'orange' : overLimit ? 'red' : '',
-    }}>Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total}k / {tokenUsage.max}k</Typography>
+    <Typography
+      variant="caption"
+      mt={1}
+      mb={3}
+      pl={1}
+      sx={{
+        opacity: '.7',
+        color: reachingLimit ? 'orange' : overLimit ? 'red' : '',
+      }}
+    >
+      Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total}k / {tokenUsage.max}k
+    </Typography>
   );
-}
+};

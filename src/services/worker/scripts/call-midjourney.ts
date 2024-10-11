@@ -1,5 +1,5 @@
-import "dotenv/config";
-import { Midjourney } from "midjourney";
+import 'dotenv/config';
+import { Midjourney } from 'midjourney';
 
 // todo shorten prompt
 // generate multiple prompts and pool for best prompt
@@ -30,11 +30,12 @@ async function main() {
 
   await client.Connect();
 
-  const prompt = "AI Brainstorm, Mining, Business";
+  const prompt = 'AI Brainstorm, Mining, Business';
 
   // Using the Imagine method of the client
-  const Imagine = await client.Imagine(prompt, (uri: string, progress: string) => { // Callback function for loading
-    console.log("Imagine.loading", uri, "progress", progress); // Logging the progress
+  const Imagine = await client.Imagine(prompt, (uri: string, progress: string) => {
+    // Callback function for loading
+    console.log('Imagine.loading', uri, 'progress', progress); // Logging the progress
   });
 
   console.log({ Imagine });
@@ -99,11 +100,11 @@ async function main() {
 
 main()
   .then(() => {
-    console.log("finished");
+    console.log('finished');
     process.exit(0);
   })
   .catch((err) => {
-    console.log("finished");
+    console.log('finished');
     console.error(err);
     process.exit(1);
-  }); 
+  });

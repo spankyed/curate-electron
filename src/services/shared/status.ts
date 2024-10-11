@@ -1,5 +1,5 @@
-import { WebServerPath } from "./constants";
-import createRequest from "./request";
+import { WebServerPath } from './constants';
+import createRequest from './request';
 
 const webService = createRequest(WebServerPath);
 

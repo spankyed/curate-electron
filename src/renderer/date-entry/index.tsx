@@ -3,7 +3,15 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 // import SearchIcon from '@mui/icons-material/Search';
 import { useParams } from 'react-router-dom'; // Import useParams
-import { dateEntryPapersAtom, dateEntryStateAtom, fetchPapersByDateAtom, filteredPapersAtom, resetDateEntryStatusAtom, scrapePapersDateEntryAtom, scrapingStateAtom } from './store';
+import {
+  dateEntryPapersAtom,
+  dateEntryStateAtom,
+  fetchPapersByDateAtom,
+  filteredPapersAtom,
+  resetDateEntryStatusAtom,
+  scrapePapersDateEntryAtom,
+  scrapingStateAtom,
+} from './store';
 import PageTitle from './components/page-title';
 import MainTabs from './components/main';
 import PageLayout from '@renderer/shared/components/layout/page-layout';
@@ -27,16 +35,13 @@ function DateEntryPage(): React.ReactElement {
     fetchData(dateId);
     return () => {
       setPageState('loading');
-    }
+    };
   }, [dateId]);
 
   return (
-    <PageLayout padding={3} style={{ marginTop: 3, margin: '0 auto'}}>
+    <PageLayout padding={3} style={{ marginTop: 3, margin: '0 auto' }}>
       <PageTitle value={dateId} count={papers.length} />
-      <RenderByState
-        dateId={dateId}
-        state={state}
-      />
+      <RenderByState dateId={dateId} state={state} />
     </PageLayout>
   );
 }
@@ -62,27 +67,35 @@ function RenderByState({ dateId, state }) {
     }
 
     if (newStatus === 'error') {
-      const id = dayjs(key).format('MM/DD/YYYY')
-      addAlert({message: `There was a problem scraping papers for ${id}`, id })
+      const id = dayjs(key).format('MM/DD/YYYY');
+      addAlert({ message: `There was a problem scraping papers for ${id}`, id });
     }
 
-    updateSidebarData({ key, status: newStatus, count: papers?.length});
+    updateSidebarData({ key, status: newStatus, count: papers?.length });
   };
 
   switch (state) {
     case 'loading':
-      return <MainTabs isLoading={true} slideUp={true}/>;
+      return <MainTabs isLoading={true} slideUp={true} />;
     case 'error':
       return <></>;
     case 'unexpected':
-      return <div><ResetState date={dateId} resetStatusAtom={resetDateEntryStatusAtom} /></div>;
+      return (
+        <div>
+          <ResetState date={dateId} resetStatusAtom={resetDateEntryStatusAtom} />
+        </div>
+      );
     case 'pending':
       return (
         <>
-          <ScrapeStatus status={scrapeStatus} date={dateId} scrapeAtom={scrapePapersDateEntryAtom}/>
+          <ScrapeStatus
+            status={scrapeStatus}
+            date={dateId}
+            scrapeAtom={scrapePapersDateEntryAtom}
+          />
           <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} />
         </>
-      )
+      );
     case 'complete':
     default:
       return <MainTabs papersAtom={filteredPapersAtom} slideUp={true} />;

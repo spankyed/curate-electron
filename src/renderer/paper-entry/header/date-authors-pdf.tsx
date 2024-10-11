@@ -20,24 +20,24 @@ const DateAuthorsPdf: React.FC<{ paper: Paper | undefined }> = ({ paper }) => {
   const [, setOpen] = useAtom(pdfModalOpen);
 
   const { date, authors } = paper || {};
-  const authorsList = authors?.split(';').map(p => p.trim()) || [];
+  const authorsList = authors?.split(';').map((p) => p.trim()) || [];
 
   const handleOpen = () => setOpen(true);
 
-  const onDateClick = date => e => {
+  const onDateClick = (date) => (e) => {
     navigate(`/date/${date}`);
-  }
+  };
 
   const formattedDate = formatDate(date || '', {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   });
 
   return (
     <Box display="flex" justifyContent="space-between" alignItems="center" marginBottom={2}>
-      { date && (
-          <Typography
+      {date && (
+        <Typography
           variant="subtitle1"
           color="textSecondary"
           onClick={onDateClick(date)}
@@ -45,17 +45,21 @@ const DateAuthorsPdf: React.FC<{ paper: Paper | undefined }> = ({ paper }) => {
           sx={{
             '&:hover': {
               textDecoration: 'underline',
-            }
+            },
           }}
-          >
-            {formattedDate}
-          </Typography>
-        )
-      }
+        >
+          {formattedDate}
+        </Typography>
+      )}
       <Box sx={{ maxWidth: '70%' }}>
         {authorsList.map((author, index) => (
           <React.Fragment key={index}>
-            <Link href={createAuthorSearchURL(author)} color="secondary.light" underline="hover" target="_blank">
+            <Link
+              href={createAuthorSearchURL(author)}
+              color="secondary.light"
+              underline="hover"
+              target="_blank"
+            >
               {author}
             </Link>
             {index < authorsList.length - 1 ? ', ' : ''}
@@ -63,11 +67,13 @@ const DateAuthorsPdf: React.FC<{ paper: Paper | undefined }> = ({ paper }) => {
         ))}
       </Box>
       <Box sx={{ display: 'flex' }}>
-        <Favorite paper={paper}/>
-        <Button sx={{ ml: 2 }} variant="contained" onClick={handleOpen}>View PDF</Button>
+        <Favorite paper={paper} />
+        <Button sx={{ ml: 2 }} variant="contained" onClick={handleOpen}>
+          View PDF
+        </Button>
       </Box>
     </Box>
-  )
+  );
 };
 
 export default DateAuthorsPdf;

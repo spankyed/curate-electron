@@ -1,5 +1,5 @@
 import { type FindOptions, Op } from 'sequelize';
-import { DatesTable, PapersTable, ReferencePapersTable } from '../../shared/schema'
+import { DatesTable, PapersTable, ReferencePapersTable } from '../../shared/schema';
 
 type getBackfillDateParams = {
   cursor: string | undefined;
@@ -8,8 +8,8 @@ type getBackfillDateParams = {
 };
 
 function getBackfillDates(params: getBackfillDateParams): Promise<DatesTable[]> {
-  const { cursor, direction, count } = params
-  const isRight = !direction || direction === 'right'
+  const { cursor, direction, count } = params;
+  const isRight = !direction || direction === 'right';
   const queryOptions: FindOptions<DatesTable> = {
     raw: true,
     order: [['value', isRight ? 'ASC' : 'DESC']],
@@ -17,28 +17,26 @@ function getBackfillDates(params: getBackfillDateParams): Promise<DatesTable[]> 
     where: {
       ...(cursor && {
         value: {
-          [isRight ? Op.gt : Op.lt]: cursor
-        }
+          [isRight ? Op.gt : Op.lt]: cursor,
+        },
       }),
-      status: 'pending'
-    }
-  }
+      status: 'pending',
+    },
+  };
 
   return DatesTable.findAll(queryOptions)
     .then((results) => {
       // If direction is left, reverse the results to maintain ascending order
       if (!isRight) {
-        results.reverse()
+        results.reverse();
       }
-      return results
+      return results;
     })
     .catch((error) => {
-      console.error('Error fetching dates:', error)
-      throw error // Properly propagate errors
-    })
+      console.error('Error fetching dates:', error);
+      throw error; // Properly propagate errors
+    });
 }
-
-
 
 async function getPendingDatesBetween(start: string, end: string) {
   console.log('end: ', end);
@@ -48,14 +46,11 @@ async function getPendingDatesBetween(start: string, end: string) {
     order: [['value', 'ASC']],
     where: {
       value: {
-        [Op.between]: [start, end]
+        [Op.between]: [start, end],
       },
-      status: 'pending'
-    }
+      status: 'pending',
+    },
   });
 }
 
-export {
-  getBackfillDates,
-  getPendingDatesBetween
-}
+export { getBackfillDates, getPendingDatesBetween };

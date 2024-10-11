@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { FormControl, Box, List, ListItem, ListItemButton, ListItemText, Button, Stack, IconButton, Tooltip } from '@mui/material';
+import {
+  FormControl,
+  Box,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Button,
+  Stack,
+  IconButton,
+  Tooltip,
+} from '@mui/material';
 import styled from '@emotion/styled';
 
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
@@ -9,7 +20,14 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import HelpOutlineIcon from '@mui/icons-material/HelpOutline';
 import { LoadingButton } from '@mui/lab';
-import { DateItem, batchDatesAtom, batchScrapeAtom, batchStateAtom, buttonsDisabledAtom, getDatesAtom } from './store';
+import {
+  DateItem,
+  batchDatesAtom,
+  batchScrapeAtom,
+  batchStateAtom,
+  buttonsDisabledAtom,
+  getDatesAtom,
+} from './store';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 import { throttle } from '@renderer/shared/utils/throttle';
@@ -29,7 +47,7 @@ const DualListContainer = styled(Box)(({ theme }) => ({
 const StyledList = styled(List)({
   padding: 0,
   // border: `.01rem solid ${borderColor}`,
-    flex: 1,
+  flex: 1,
 });
 
 // Styled ListItem for underlining each element
@@ -42,16 +60,17 @@ const StyledListItem = styled(ListItem)<{ status: string }>(({ status }) => {
     error: colors.palette.warning.main, // red hex
   };
 
-  return ({
+  return {
     margin: '2px',
     borderRadius: '4px',
     backgroundColor: colorByStatus[status],
-    border: `.01rem solid rgba(81, 81, 81, 1)`,  // Apply bottom border to all items
+    border: `.01rem solid rgba(81, 81, 81, 1)`, // Apply bottom border to all items
     padding: '2px 12px',
-    '.MuiTypography-root': { // Targeting the ListItemText directly
+    '.MuiTypography-root': {
+      // Targeting the ListItemText directly
       letterSpacing: '3px', // Adding letter-spacing
     },
-  });
+  };
 });
 
 const BatchTable: React.FC = () => {
@@ -70,22 +89,22 @@ const BatchTable: React.FC = () => {
   const buttonsDisabled = useAtomValue(buttonsDisabledAtom);
   const navBlocked = dates.length === 0 || state === 'loading';
 
-  const goTo = direction => () => {
+  const goTo = (direction) => () => {
     fetchDates(direction);
-  }
+  };
 
   const handleDateClick = (day: string) => {
     if (!day) return;
     const date = dayjs(day).format('YYYY-MM-DD');
     navigate(`/date/${date}`);
-  }
+  };
 
   useEffect(() => {
     // Initial load: retrieves the most recent date records
     if (dates.length === 0 || state === 'idle') {
       fetchDates('rightEnd');
     }
-  } , []);
+  }, []);
 
   const splitList = dates.reduce((acc, date, index) => {
     const sectionIndex = Math.floor(index / itemsPerColumn);
@@ -105,7 +124,7 @@ const BatchTable: React.FC = () => {
       }
       const amountToFill = itemsPerColumn - currSection.length;
       const emptyColumn = new Array(amountToFill).fill({ status: 'default' });
-      
+
       if (currSection.length) {
         list[i] = currSection.concat(emptyColumn);
       } else {
@@ -113,42 +132,48 @@ const BatchTable: React.FC = () => {
       }
     }
     return list;
-  }
-
+  };
 
   return (
-    <Box sx={{
+    <Box
+      sx={{
         alignItems: 'center',
-        display: 'flex', justifyContent: "center",
+        display: 'flex',
+        justifyContent: 'center',
         flexDirection: 'column',
         width: '100%',
         pb: 5,
-    }}>
+      }}
+    >
       <DualListContainer>
-        <div className='flex flex-col'>
-        <Stack
+        <div className="flex flex-col">
+          <Stack
             sx={{
               p: 1.5,
               // borderBottom: `.0005rem solid ${borderColor}`, px: 2, py: 1,
               backgroundColor: colors.palette.background.paper,
             }}
-            direction="row" justifyContent="space-between" padding={0} className=''>
+            direction="row"
+            justifyContent="space-between"
+            padding={0}
+            className=""
+          >
             <IconButton onClick={goTo('leftEnd')} disabled={navBlocked || buttonsDisabled.leftEnd}>
               <KeyboardDoubleArrowLeftIcon />
             </IconButton>
             <IconButton onClick={goTo('left')} disabled={navBlocked || buttonsDisabled.left}>
               <KeyboardArrowLeftIcon />
             </IconButton>
-            <span className='mx-4 text-center self-center mr-2' style={{ color: '#ffffff89' }}>
+            <span className="mx-4 text-center self-center mr-2" style={{ color: '#ffffff89' }}>
               Batch Size
               <strong
-                className='px-3 py-1 ml-3'
+                className="px-3 py-1 ml-3"
                 style={{
                   color: `${colors.palette.text.primary}`,
                   borderRadius: '8px',
                   backgroundColor: `rgba(0,0,0, 0.1)`,
                   // backgroundColor: `${colors.palette.background.default}`,
-                  border: `.1rem solid ${borderColor}`
+                  border: `.1rem solid ${borderColor}`,
                 }}
               >
                 {dates.length}
@@ -157,23 +182,32 @@ const BatchTable: React.FC = () => {
             <IconButton onClick={goTo('right')} disabled={navBlocked || buttonsDisabled.right}>
               <KeyboardArrowRightIcon />
             </IconButton>
-            <IconButton onClick={goTo('rightEnd')} disabled={navBlocked || buttonsDisabled.rightEnd}>
+            <IconButton
+              onClick={goTo('rightEnd')}
+              disabled={navBlocked || buttonsDisabled.rightEnd}
+            >
               <KeyboardDoubleArrowRightIcon />
             </IconButton>
           </Stack>
-          <div className='flex'>
-            {
-              splitList.length > 0
-              ? populateEmptySections(splitList).map((dates, index) => (
+          <div className="flex">
+            {splitList.length > 0 ? (
+              populateEmptySections(splitList).map((dates, index) => (
                 <StyledList key={`list-${index}`}>
                   {dates.map((date, index) => (
                     <StyledListItem
                       onClick={() => handleDateClick(date.value)}
-                      disablePadding key={`${date.value}-${index}`} status={date.status}
-                      sx={{ height: '3em', maxHeight: '3em', width: '14rem',
+                      disablePadding
+                      key={`${date.value}-${index}`}
+                      status={date.status}
+                      sx={{
+                        height: '3em',
+                        maxHeight: '3em',
+                        width: '14rem',
                         cursor: date.value ? 'pointer' : 'default',
                         '&:hover': {
-                          border: date.value ? `.01rem solid white` : `.01rem solid rgba(81, 81, 81, 1)`,
+                          border: date.value
+                            ? `.01rem solid white`
+                            : `.01rem solid rgba(81, 81, 81, 1)`,
                         },
                       }}
                     >
@@ -189,20 +223,24 @@ const BatchTable: React.FC = () => {
                   ))}
                 </StyledList>
               ))
-              : <Box sx={{
+            ) : (
+              <Box
+                sx={{
                   display: 'flex',
                   justifyContent: 'center',
                   alignItems: 'center',
-                  width: 420, height: 120, placeSelf: 'center', marginBottom: 2,
+                  width: 420,
+                  height: 120,
+                  placeSelf: 'center',
+                  marginBottom: 2,
                   textAlign: 'center',
-                }}>
-                  No dates to scrape
-                </Box>
-            }
+                }}
+              >
+                No dates to scrape
+              </Box>
+            )}
           </div>
-
         </div>
-
       </DualListContainer>
       {/* <Button variant="contained" color='success'>Scrape Batch</Button> */}
     </Box>

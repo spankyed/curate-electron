@@ -1,6 +1,6 @@
 import * as sharedRepository from '@services/shared/repository';
-import { seedReferencePapers } from "./seed-reference-papers";
-import { setConfigSettings } from "@services/shared/utils/set-config";
+import { seedReferencePapers } from './seed-reference-papers';
+import { setConfigSettings } from '@services/shared/utils/set-config';
 
 async function onboardNewUser(form) {
   const { config } = form;
@@ -10,10 +10,10 @@ async function onboardNewUser(form) {
 
   await Promise.all([
     sharedRepository.getDatesByYear(currentYear.toString()),
-    sharedRepository.chroma.initializeReferenceCollection()
-  ])
+    sharedRepository.chroma.initializeReferenceCollection(),
+  ]);
 
-  setConfigSettings({...config, isNewUser: false })
+  setConfigSettings({ ...config, isNewUser: false });
 
   // runBackgroundScripts();
 
@@ -34,4 +34,4 @@ export default {
   // onboarding
   'add-initial-references': addInitialReferences,
   'onboard-new-user': onboardNewUser,
-}
+};

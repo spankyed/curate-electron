@@ -7,8 +7,8 @@ type AlertType = 'success' | 'error' | 'warning' | 'info';
 interface Alert {
   id?: string;
   message: string;
-  type?: AlertType;  // Adapt types as necessary
-  autoClose?: boolean;  // Defines if the snackbar/alert should auto-close
+  type?: AlertType; // Adapt types as necessary
+  autoClose?: boolean; // Defines if the snackbar/alert should auto-close
 }
 
 interface Snackbar {
@@ -20,31 +20,25 @@ interface Snackbar {
 export const alertsAtom = atom<Alert[]>([]);
 export const snackbarsAtom = atom<Snackbar[]>([]);
 
-export const addAlertAtom = atom(
-  null,
-  (get, set, { id, message, type, autoClose }: Alert) => {
-    const alerts = get(alertsAtom);
+export const addAlertAtom = atom(null, (get, set, { id, message, type, autoClose }: Alert) => {
+  const alerts = get(alertsAtom);
 
-    if (alerts.some(alert => alert.id === id)) {
-      return;
-    }
-
-    set(alertsAtom, [...alerts, { id: id || createId(), message, type, autoClose }]);
+  if (alerts.some((alert) => alert.id === id)) {
+    return;
   }
-);
 
-export const addSnackAtom = atom(
-  null,
-  (get, set, { id, message, autoClose }: Snackbar) => {
-    const snackbars = get(snackbarsAtom);
+  set(alertsAtom, [...alerts, { id: id || createId(), message, type, autoClose }]);
+});
 
-    if (snackbars.some(alert => alert.id === id)) {
-      return;
-    }
+export const addSnackAtom = atom(null, (get, set, { id, message, autoClose }: Snackbar) => {
+  const snackbars = get(snackbarsAtom);
 
-    set(snackbarsAtom, [...snackbars, { id: id || createId(), message, autoClose }]);
+  if (snackbars.some((alert) => alert.id === id)) {
+    return;
   }
-);
+
+  set(snackbarsAtom, [...snackbars, { id: id || createId(), message, autoClose }]);
+});
 
 // export const removeAlertAtom = atom(
 //   null,

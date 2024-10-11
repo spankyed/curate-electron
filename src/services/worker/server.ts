@@ -6,20 +6,18 @@ import routes from './endpoints';
 
 const serverConfig: Hapi.ServerOptions | undefined = { port: ports.worker };
 
-(async function start () {
+(async function start() {
   const server = createServer(serverConfig, routes);
 
   try {
     await server.start();
-  }
-  catch (err) {
+  } catch (err) {
     console.log(err);
     process.exit(1);
   }
 
   console.log('Worker service running at:', server.info.uri);
 })();
-
 
 process.on('unhandledRejection', (err) => {
   console.log(err);

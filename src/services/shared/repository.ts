@@ -20,7 +20,7 @@ async function getDatesByYear(year: string) {
     raw: true,
   });
 
-  const existingDatesSet = new Set(existingDates.map(date => date.value));
+  const existingDatesSet = new Set(existingDates.map((date) => date.value));
 
   const allDates = [];
   const startDate = moment(`${year}-01-01`, 'YYYY-MM-DD');
@@ -36,7 +36,7 @@ async function getDatesByYear(year: string) {
       await DatesTable.create(date, { ignoreDuplicates: true });
       allDates.push(date);
     } else {
-      allDates.push(existingDates.find(d => d.value === dateStr));
+      allDates.push(existingDates.find((d) => d.value === dateStr));
     }
   }
 
@@ -80,7 +80,7 @@ const client = new ChromaClient();
 async function checkForExistingReferenceCollection() {
   const existingCollections = await client.listCollections();
 
-  return existingCollections.map((c) => c.name).includes(ReferenceCollectionName)
+  return existingCollections.map((c) => c.name).includes(ReferenceCollectionName);
 }
 
 async function storeReferencePaperChroma(paper: Partial<PaperRecord>) {
@@ -99,15 +99,14 @@ async function storeReferencePaperChroma(paper: Partial<PaperRecord>) {
   return paper.id;
 }
 
-
 async function addToReferenceCollection(papers: Partial<PaperRecord>[]) {
   const collection = await getReferenceCollection();
 
-  const ids = papers.map(paper => paper.id!);
+  const ids = papers.map((paper) => paper.id!);
   const records = {
-    ids, 
-    documents: papers.map(paper => `${paper.title}. ${paper.abstract}`),
-  }
+    ids,
+    documents: papers.map((paper) => `${paper.title}. ${paper.abstract}`),
+  };
 
   await collection.add(records);
 
@@ -124,7 +123,7 @@ async function initializeReferenceCollection() {
   await client.createCollection({
     name: ReferenceCollectionName,
     // embeddingFunction: embedder,
-    metadata: { "hnsw:space": "cosine" }
+    metadata: { 'hnsw:space': 'cosine' },
   });
 }
 
@@ -156,12 +155,7 @@ const chroma = {
   addToReferenceCollection,
   initializeReferenceCollection,
   deleteReferenceCollection,
-  getReferenceCollectionCount
-}
+  getReferenceCollectionCount,
+};
 
-export {
-  chroma,
-  updateDate,
-  storePapers,
-  getDatesByYear
-}
+export { chroma, updateDate, storePapers, getDatesByYear };

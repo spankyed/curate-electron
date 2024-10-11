@@ -25,33 +25,38 @@ const BackfillPage = () => {
     updateStatus({ key, status: newStatus, count: papers?.length });
 
     if (key === 'batch' && newStatus === 'complete') {
-      addAlert({ type: 'success', message: 'Batch scraping complete!', autoClose: true })
+      addAlert({ type: 'success', message: 'Batch scraping complete!', autoClose: true });
     } else if (newStatus === 'error') {
-      const id = dayjs(key).format('MM/DD/YYYY')
-      addAlert({ id, message: `There was a problem scraping papers for ${id}`, autoClose: true })
+      const id = dayjs(key).format('MM/DD/YYYY');
+      addAlert({ id, message: `There was a problem scraping papers for ${id}`, autoClose: true });
     }
 
-    updateSidebarData({ key, status: newStatus, count: papers?.length});
+    updateSidebarData({ key, status: newStatus, count: papers?.length });
   };
   return (
     <PageLayout padding={3}>
       <Paper
         sx={{ mb: 3, width: 'fit-content', mx: 'auto' }}
         elevation={2}
-        className='flex flex-row w-full p-12'>
+        className="flex flex-row w-full p-12"
+      >
         <DateRange />
         <BatchScrapeButton />
       </Paper>
 
-      <BatchTable/>
+      <BatchTable />
 
       {/* <Button variant="contained" color='success' onClick={()=>{}} style={{ width: '20rem', placeSelf: 'center' }}>
         Scrape Recommended
       </Button> */}
 
-      <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} id='batch-scrape'/>
+      <SocketListener
+        eventName="date_status"
+        handleEvent={handleDateStatusUpdate}
+        id="batch-scrape"
+      />
     </PageLayout>
   );
-}
+};
 
 export default BackfillPage;

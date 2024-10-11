@@ -1,16 +1,10 @@
-import { DatesTable, PapersTable } from "../../shared/schema";
+import { DatesTable, PapersTable } from '../../shared/schema';
 import { Sequelize, DataTypes, Op } from 'sequelize';
 
 type DateInput = string | string[];
 
-function getPapersByDates(
-  date: DateInput,
-  skip = 0,
-  limit: number | null = null
-) {
-  const whereClause = Array.isArray(date)
-    ? { date: { [Op.in]: date } }
-    : { date };
+function getPapersByDates(date: DateInput, skip = 0, limit: number | null = null) {
+  const whereClause = Array.isArray(date) ? { date: { [Op.in]: date } } : { date };
 
   return PapersTable.findAll({
     where: whereClause,
@@ -26,9 +20,4 @@ function getAllDates() {
   });
 }
 
-
-
-export {
-  getAllDates,
-  getPapersByDates,
-}
+export { getAllDates, getPapersByDates };

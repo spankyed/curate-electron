@@ -16,10 +16,7 @@ async function run(title: string, script: string) {
   await page.type('input[type="password"]', process.env.PICTORY_PASS ?? '');
 
   // Click the submit button and wait for navigation to complete
-  await Promise.all([
-    page.waitForNavigation(),
-    page.click('button[type="submit"]'),
-  ]);
+  await Promise.all([page.waitForNavigation(), page.click('button[type="submit"]')]);
 
   // Click the script to video button and wait for navigation to complete
   await Promise.all([
@@ -74,7 +71,6 @@ async function run(title: string, script: string) {
   // Wait 5 seconds
   await page.waitForTimeout(5000);
 
-
   // TODO wait for video to finish processing than click last download button to save to dl folder
 
   // await browser.close();
@@ -82,7 +78,7 @@ async function run(title: string, script: string) {
 
 // run('Test title', 'Test script');
 run(
-  'AI Brainstorm, Process Mining Revolution, Business Superpowers Unleashed!', 
+  'AI Brainstorm, Process Mining Revolution, Business Superpowers Unleashed!',
   `Imagine you're driving a car. The car represents your business, and the journey represents your business processes. Now, traditionally, to navigate the journey, you'd need to understand maps, road signs, and maybe even some complex GPS equipment. This is like the traditional process mining - it's powerful, but it requires specific knowledge and skills.
 
   Now, imagine if your car had an advanced GPS system where you could just tell it where you want to go in plain language, and it would understand and guide you there. Not only that, but it could also understand complex requests like "find a route with the least traffic" or "find a route that passes by a gas station and a Chinese restaurant". This is what the AI in this research is doing for process mining. It's making it as easy to use as telling your GPS where you want to go.

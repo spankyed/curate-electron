@@ -1,6 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Button, Chip, ButtonGroup, Tooltip, Skeleton } from '@mui/material';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Button,
+  Chip,
+  ButtonGroup,
+  Tooltip,
+  Skeleton,
+} from '@mui/material';
 import { Paper, PaperState } from '@renderer/shared/utils/types';
 import Favorite from '@renderer/shared/components/paper/favorite';
 import Relevancy from '@renderer/shared/components/paper/relevancy';
@@ -9,29 +21,30 @@ import PaperAction, { RejectAction } from '@renderer/shared/components/paper/pap
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import { colors } from '@renderer/shared/styles/theme';
 
-const Row = ({paper, index}) => {
-  const statusType = paperStates[paper.status]
-  const notUploaded = paper.status !== PaperState.published
-  const showReject = paper.status === PaperState.approved
+const Row = ({ paper, index }) => {
+  const statusType = paperStates[paper.status];
+  const notUploaded = paper.status !== PaperState.published;
+  const showReject = paper.status === PaperState.approved;
 
   return (
     <TableRow key={index}>
-      <TableCell 
-        align="left" 
-        sx={{ 
-          fontSize: '1.075rem', padding: 0,
+      <TableCell
+        align="left"
+        sx={{
+          fontSize: '1.075rem',
+          padding: 0,
           '&:hover': {
             backgroundColor: colors.palette.background.paper,
-          }
+          },
         }}
       >
-        <Link 
-          to={`/paper/${paper.id}`} 
-          style={{ 
-            display: 'block', 
-            padding: '1em', 
-            textDecoration: 'none', 
-            color: 'inherit', 
+        <Link
+          to={`/paper/${paper.id}`}
+          style={{
+            display: 'block',
+            padding: '1em',
+            textDecoration: 'none',
+            color: 'inherit',
           }}
         >
           <Relevancy paper={paper} />
@@ -39,7 +52,7 @@ const Row = ({paper, index}) => {
         </Link>
       </TableCell>
       <TableCell align="center">
-        <Favorite paper={paper}/>
+        <Favorite paper={paper} />
       </TableCell>
       {/* <TableCell align="center">
         <Chip 
@@ -70,8 +83,8 @@ const Row = ({paper, index}) => {
         </ButtonGroup>
       </TableCell> */}
     </TableRow>
-  )
-}
+  );
+};
 
 const TablePlaceholder = ({ placeholderRows }) => {
   return (
@@ -96,11 +109,11 @@ const TablePlaceholder = ({ placeholderRows }) => {
   );
 };
 
-const PapersTable: React.FC<{ papers?: Paper[]; isLoading?: boolean; placeholderRows?: number }> = ({
-  papers = [],
-  isLoading = false,
-  placeholderRows = 5
-}) => {
+const PapersTable: React.FC<{
+  papers?: Paper[];
+  isLoading?: boolean;
+  placeholderRows?: number;
+}> = ({ papers = [], isLoading = false, placeholderRows = 5 }) => {
   return (
     <TableContainer sx={{ marginTop: 3, margin: '0 auto', minWidth: '100%' }}>
       <Table>
@@ -114,17 +127,15 @@ const PapersTable: React.FC<{ papers?: Paper[]; isLoading?: boolean; placeholder
         </TableHead>
 
         <TableBody>
-          {
-            isLoading
-            ? <TablePlaceholder placeholderRows={placeholderRows}/>
-            : papers.map((paper, index) => (
-              <Row key={index} paper={paper} index={index} />
-            ))
-          }
+          {isLoading ? (
+            <TablePlaceholder placeholderRows={placeholderRows} />
+          ) : (
+            papers.map((paper, index) => <Row key={index} paper={paper} index={index} />)
+          )}
         </TableBody>
       </Table>
     </TableContainer>
   );
-}
+};
 
 export default PapersTable;

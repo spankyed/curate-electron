@@ -24,7 +24,7 @@ export default {
   ...chatController,
   ...backfill,
   ...onboard,
-}
+};
 
 export const io: any = {};
 
@@ -39,12 +39,11 @@ export const io: any = {};
 
 // export let user = '';
 
-(async function start () {
+(async function start() {
   // Object.keys(eventHandlers).forEach((event) => {
   //   const handler = eventHandlers[event as keyof typeof eventHandlers] || (() => {});
   //   socket.on(event, handler);
   // });
 
-
-  console.log('Web service running',);
+  console.log('Web service running');
 })();

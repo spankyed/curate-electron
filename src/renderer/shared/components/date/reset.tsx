@@ -5,7 +5,7 @@ const ResetState = ({ date, resetStatusAtom }) => {
   const [, resetDateStatus] = useAtom(resetStatusAtom);
 
   const reset = () => {
-    resetDateStatus(date)
+    resetDateStatus(date);
   };
 
   return (
@@ -17,7 +17,7 @@ const ResetState = ({ date, resetStatusAtom }) => {
         <li>Maybe we broke something.. again</li>
         <li>Actually no papers submitted (unlikely)</li>
       </ul>
-      <button 
+      <button
         className="bg-red-500 text-white active:bg-red-600 font-bold uppercase text-xs px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none ease-linear transition-all duration-150"
         type="button"
         onClick={reset}

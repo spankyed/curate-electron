@@ -14,16 +14,18 @@ export type Config = {
     lastDateChecked?: string;
     autoScrapeNewDates?: boolean;
     scrapeInterval?: number | string;
-  },
+  };
   features?: string[];
   seedReferencesIds?: string[];
 };
 
 export async function getConfig(): Promise<Config> {
-  const fileContents = await fs.readFile(configPath, 'utf8')
+  const fileContents = await fs.readFile(configPath, 'utf8');
 
-  const json = fileContents.replace('export default ', '').replace(';', '')
-    .replace(`],\n}\n`, `]\n}\n`)
+  const json = fileContents
+    .replace('export default ', '')
+    .replace(';', '')
+    .replace(`],\n}\n`, `]\n}\n`);
 
   let config: Config;
 
@@ -35,5 +37,5 @@ export async function getConfig(): Promise<Config> {
     // throw new Error(`Error parsing config file, theres probably a trailing comma`);
   }
 
-  return config
+  return config;
 }

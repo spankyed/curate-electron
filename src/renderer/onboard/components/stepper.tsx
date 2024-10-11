@@ -1,6 +1,15 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import { StepConnector, stepConnectorClasses, StepIconProps, Stack, Stepper, Step, StepLabel, Box } from '@mui/material';
+import {
+  StepConnector,
+  stepConnectorClasses,
+  StepIconProps,
+  Stack,
+  Stepper,
+  Step,
+  StepLabel,
+  Box,
+} from '@mui/material';
 
 import Check from '@mui/icons-material/Check';
 import DateRangeIcon from '@mui/icons-material/DateRange';
@@ -34,7 +43,7 @@ const StepConnectorStyled = styled(StepConnector)(({ theme }) => ({
 const IconStyled = styled('div')<{
   ownerState: { completed?: boolean; active?: boolean };
 }>(({ theme, ownerState }) => ({
-  backgroundColor:  colors.palette.background.paper,
+  backgroundColor: colors.palette.background.paper,
   zIndex: 1,
   color: '#fff',
   width: 50,
@@ -69,17 +78,21 @@ function IconWrapper(props: StepIconProps) {
 }
 
 export default function OnboardingStepper({ steps, activeStep, completed }) {
-
   return (
-    <Box sx={{ width: '50%' }} className='flex justify-center self-center'>
-      <Stepper sx={{ width: '70%' }} nonLinear activeStep={activeStep} connector={<StepConnectorStyled/>}>
+    <Box sx={{ width: '50%' }} className="flex justify-center self-center">
+      <Stepper
+        sx={{ width: '70%' }}
+        nonLinear
+        activeStep={activeStep}
+        connector={<StepConnectorStyled />}
+      >
         {steps.map((label, index) => (
           <Step key={label} completed={completed[index]}>
             <StepLabel
               StepIconComponent={IconWrapper}
               // onClick={handleStep(index)}
               sx={{ display: 'flex', flexDirection: 'column', width: '5rem' }}
-              className='StepLabel'
+              className="StepLabel"
             >
               {label}
             </StepLabel>

@@ -20,19 +20,16 @@ const QueryControl: React.FC<{}> = () => {
 
   useEffect(() => {
     if (queryParam) {
-      submitSearch({ query: queryParam, queryField: 'all'});
+      submitSearch({ query: queryParam, queryField: 'all' });
     } else if (queryParam !== null) {
-      setQuery(queryParam)
+      setQuery(queryParam);
     }
   }, [queryParam]);
   return (
     <>
       <FormControl variant="outlined" sx={{ minWidth: 120 }} size="small">
-        <InputLabel
-          id="search-field-label"
-          sx={{ color: '#9e9e9e !important' }}
-        >
-            Field
+        <InputLabel id="search-field-label" sx={{ color: '#9e9e9e !important' }}>
+          Field
         </InputLabel>
         <Select
           labelId="search-field-label"
@@ -61,18 +58,25 @@ const QueryControl: React.FC<{}> = () => {
           value={query}
           onKeyDown={handleKeyPress}
           onChange={(e) => setQuery(e.target.value)}
-          onFocus={event => { event.target.select() }}
-          fullWidth/>
+          onFocus={(event) => {
+            event.target.select();
+          }}
+          fullWidth
+        />
       </Box>
 
-      <Box sx={{ display: 'flex', justifyContent: "space-between", placeSelf: 'center'  }}>
+      <Box sx={{ display: 'flex', justifyContent: 'space-between', placeSelf: 'center' }}>
         {/* <Box sx={{ display: 'flex', justifyContent: "space-between", minWidth: 420, placeSelf: 'center', marginTop: 2  }}> */}
-        <Button variant="contained" color='primary' onClick={() => submitSearch()}>Search</Button>
-        <Button variant="contained" color="secondary" onClick={resetFields} sx={{ml:1}}>Reset</Button>
+        <Button variant="contained" color="primary" onClick={() => submitSearch()}>
+          Search
+        </Button>
+        <Button variant="contained" color="secondary" onClick={resetFields} sx={{ ml: 1 }}>
+          Reset
+        </Button>
         {/* <Button variant="contained" color="secondary">Clear Results</Button> */}
       </Box>
     </>
   );
-}
+};
 
 export default QueryControl;

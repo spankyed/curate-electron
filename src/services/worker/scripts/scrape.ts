@@ -10,49 +10,49 @@ import { notifyClient } from '@services/shared/status';
 const scrapeAndRankPapers = async (date: string, alwaysNotify = true) => {
   try {
     console.log('Scraping papers...', date);
-    sharedRepository.updateDate(date, { status: 'scraping' })
+    sharedRepository.updateDate(date, { status: 'scraping' });
     notifyClient({ key: date, status: 'scraping' }, alwaysNotify);
 
     const papers = await scrapePapersByDate(date);
-  
+
     if (papers.length === 0) {
       throw new Error(`No papers found after scraping`);
     }
-  
+
     console.log('Ranking papers...', date);
-    sharedRepository.updateDate(date, { status: 'ranking' })
+    sharedRepository.updateDate(date, { status: 'ranking' });
     notifyClient({ key: date, status: 'ranking' }, alwaysNotify);
-  
+
     const rankedPapers = await getRelevancyScores(papers);
     const paperRecords = rankedPapers.sort((a, b) => b.relevancy - a.relevancy);
-    
+
     console.log('Storing papers in DB...', date);
-  
+
     try {
       Promise.all([
         sharedRepository.storePapers(paperRecords),
-        sharedRepository.updateDate(date, { status: 'complete', count: paperRecords.length })
+        sharedRepository.updateDate(date, { status: 'complete', count: paperRecords.length }),
       ]);
     } catch (error) {
       console.error(`Error storing papers: ${date}`, error);
-  
-      throw error
+
+      throw error;
     }
 
     notifyClient({ key: date, status: 'complete', data: paperRecords, final: true }, alwaysNotify);
-  
+
     console.log('Scraped, ranked, and stored papers for:', date);
-  
-    return paperRecords
+
+    return paperRecords;
   } catch (error) {
     console.error('Error scraping/ranking papers for:', date);
-  
+
     // sharedRepository.updateDate(date, 'error')
-    sharedRepository.updateDate(date, { status: 'pending' })
+    sharedRepository.updateDate(date, { status: 'pending' });
     notifyClient({ key: date, status: 'error', data: [], final: true }, alwaysNotify);
-    
+
     // throw error
-    return []
+    return [];
   }
 };
 

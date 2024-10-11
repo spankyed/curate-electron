@@ -1,5 +1,5 @@
-import { Op } from "sequelize";
-import { PapersTable } from "../../shared/schema";
+import { Op } from 'sequelize';
+import { PapersTable } from '../../shared/schema';
 
 export interface Paper {
   id: string;
@@ -87,7 +87,7 @@ async function searchPapers(form: SearchForm): Promise<Paper[]> {
       where: whereClause,
       order: [
         ['isStarred', 'DESC'],
-        ['relevancy', 'DESC']
+        ['relevancy', 'DESC'],
       ],
       limit: 1000,
       raw: true,
@@ -99,6 +99,4 @@ async function searchPapers(form: SearchForm): Promise<Paper[]> {
   }
 }
 
-export {
-  searchPapers
-};
+export { searchPapers };

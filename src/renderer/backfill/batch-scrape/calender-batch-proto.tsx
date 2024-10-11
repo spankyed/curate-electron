@@ -39,13 +39,13 @@ const CustomPickersDay = styled(PickersDay, {
 function Day(
   props: PickersDayProps<Dayjs> & {
     selectedDays: Dayjs[];
-  },
+  }
 ) {
   const { day, selectedDays, ...other } = props;
-  
-  const isSelected = selectedDays.some(selectedDay => day.isSame(selectedDay, 'day'));
-  const isStart = isSelected && !selectedDays.some(d => d.isSame(day.subtract(1, 'day'), 'day'));
-  const isEnd = isSelected && !selectedDays.some(d => d.isSame(day.add(1, 'day'), 'day'));
+
+  const isSelected = selectedDays.some((selectedDay) => day.isSame(selectedDay, 'day'));
+  const isStart = isSelected && !selectedDays.some((d) => d.isSame(day.subtract(1, 'day'), 'day'));
+  const isEnd = isSelected && !selectedDays.some((d) => d.isSame(day.add(1, 'day'), 'day'));
 
   return (
     <CustomPickersDay
@@ -61,10 +61,16 @@ function Day(
 }
 
 export default function WeekPicker() {
-  const selectedDays = React.useMemo(() => [
-    dayjs('2022-04-15'), dayjs('2022-04-16'), dayjs('2022-04-17'),
-    dayjs('2022-04-18'), dayjs('2022-04-20')
-  ], []);
+  const selectedDays = React.useMemo(
+    () => [
+      dayjs('2022-04-15'),
+      dayjs('2022-04-16'),
+      dayjs('2022-04-17'),
+      dayjs('2022-04-18'),
+      dayjs('2022-04-20'),
+    ],
+    []
+  );
 
   const [value, setValue] = React.useState<Dayjs | null>(dayjs('2022-04-17'));
 
@@ -88,5 +94,3 @@ export default function WeekPicker() {
     </LocalizationProvider>
   );
 }
-
-

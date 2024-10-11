@@ -17,7 +17,7 @@ export async function backfillDates(startDate: DateParam, endDate?: DateParam) {
   console.log('Backfill completed.');
 
   return newRecords;
-};
+}
 
 export function getDatesBetween(startDate: DateParam, endDate: DateParam): string[] {
   const dates: string[] = [];
@@ -31,7 +31,7 @@ export function getDatesBetween(startDate: DateParam, endDate: DateParam): strin
 
   while (from <= endUTC) {
     dates.push(from.toISOString().split('T')[0]);
-    const nextDate = new Date(from.setDate(from.getDate() + 1))
+    const nextDate = new Date(from.setDate(from.getDate() + 1));
     from = nextDate;
   }
 
@@ -54,10 +54,9 @@ export function getDatesBetween(startDate: DateParam, endDate: DateParam): strin
 //   return backfillDates(startOfPreviousYear, today);
 // }
 
-
 // export function getDateNDaysBack(n: string) {
 //   const date = new Date();
 //   const pastDate = new Date(date.setDate(date.getDate() - Number(n)));
 //   return new Date(pastDate.setHours(0, 0, 0, 0)).toISOString().split('T')[0];
 // }
-8
+8;

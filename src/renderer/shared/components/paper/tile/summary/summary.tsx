@@ -3,7 +3,13 @@ import { Paper, Typography, Fade, Badge, Box } from '@mui/material';
 import { styled } from '@mui/system';
 import { getColorShadeRedToGreen } from '../../../../utils/getColorShade';
 import { useAtom } from 'jotai';
-import { anchorElAtom, isSummaryOpenAtom, popoverTargetAtom, popoverRefAtom, hoverTimeoutAtom } from './store';
+import {
+  anchorElAtom,
+  isSummaryOpenAtom,
+  popoverTargetAtom,
+  popoverRefAtom,
+  hoverTimeoutAtom,
+} from './store';
 import { colors } from '@renderer/shared/styles/theme';
 import { roundScore } from '@renderer/shared/utils/roundScore';
 
@@ -21,8 +27,8 @@ const PopoverText = styled(Paper)(({ theme }) => ({
 
 const ScoreDiv = styled(Box)<{ paper: any }>(({ theme, paper }) => {
   const bgColor = getColorShadeRedToGreen(paper);
-  const textColor = bgColor === 'white' ? '#000' : theme.palette.common.white; 
-  return ({
+  const textColor = bgColor === 'white' ? '#000' : theme.palette.common.white;
+  return {
     display: 'inline-block',
     float: 'left', // Ensures the text wraps around the div
     backgroundColor: getColorShadeRedToGreen(paper),
@@ -39,7 +45,7 @@ const ScoreDiv = styled(Box)<{ paper: any }>(({ theme, paper }) => {
     margin: '0 12px 0px 0', // Margin for wrapping text around the div
     // black tint
     filter: 'brightness(0.9)',
-  });
+  };
 });
 
 const SummaryPopover: React.FC = () => {
@@ -108,22 +114,22 @@ const SummaryPopover: React.FC = () => {
       const cantFitBelow = bottomSpot + estimatedHeight > windowHeight;
       if (cantFitAbove) {
         if (cantFitBelow) {
-          const overHalfWayDown = (anchorRect.top + anchorRect.height / 2) > windowHeight / 2;
-          
+          const overHalfWayDown = anchorRect.top + anchorRect.height / 2 > windowHeight / 2;
+
           if (overHalfWayDown) {
-            putAbove()
+            putAbove();
           } else {
-            putBelow()
+            putBelow();
           }
 
-          const sizeBase = overHalfWayDown ?  anchorRect.y : windowHeight - bottomSpot;
+          const sizeBase = overHalfWayDown ? anchorRect.y : windowHeight - bottomSpot;
           const randomHeightMultiplier = 2.3; // tried to relate text length to height
           setAbstract(slice(paper?.abstract, sizeBase * randomHeightMultiplier) + '...');
-      } else {
-          putBelow()
+        } else {
+          putBelow();
         }
       } else {
-        putAbove()
+        putAbove();
       }
 
       popoverRef.style.left = `${left}px`;
@@ -131,39 +137,31 @@ const SummaryPopover: React.FC = () => {
     }
   }, [anchorEl, popoverRef, abstract]);
 
-
   return (
     <>
-      {isOpen &&
+      {isOpen && (
         <div
           onMouseLeave={handleMouseOut}
           ref={popoverRefCallback}
           style={{
             position: 'absolute',
             zIndex: 9999,
-            cursor: 'pointer'
+            cursor: 'pointer',
           }}
         >
-        <PopoverText>
-          <ScoreDiv paper={paper}>
-            {`${roundScore(score)}%`}
-          </ScoreDiv>
-          <Typography variant="body2">
-            {abstract}
-          </Typography>
-        </PopoverText>
+          <PopoverText>
+            <ScoreDiv paper={paper}>{`${roundScore(score)}%`}</ScoreDiv>
+            <Typography variant="body2">{abstract}</Typography>
+          </PopoverText>
         </div>
-      }
+      )}
     </>
   );
 };
 
 export default SummaryPopover;
 
-function slice (str, maxLength) {
+function slice(str, maxLength) {
   if (!str) return '';
   return str.length > maxLength ? str.slice(0, maxLength) : str;
 }
-
-
-

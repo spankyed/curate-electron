@@ -1,6 +1,6 @@
 import * as repository from '../repository';
 import { createChatStream } from '@services/shared/completions';
-import { Readable } from 'node:stream';
+// import { Readable } from 'node:stream'
 import type OpenAI from 'openai';
 import { io } from '@services/index';
 import type { ChatCompletionStream } from 'openai/resources/beta/chat/completions';
@@ -38,16 +38,14 @@ export default async function startChatStream({
     messageRecord = await repository.getSingleMessage(messageId);
   }
 
-
   if (!messageRecord) {
     throw new Error(`No message record found with id: ${messageId}`);
   }
 
-  
-  const conversation = messages.map(({ role, text}) => ({
+  const conversation = messages.map(({ role, text }) => ({
     role,
     content: text,
-  }))
+  }));
 
   const stream = createChatStream({
     model,
@@ -57,7 +55,7 @@ export default async function startChatStream({
       onError: () => {
         // todo error state for when insufficient provider credits
 
-        console.error("Error in completion stream");
+        console.error('Error in completion stream');
       },
       onChunk: (delta, snapshot) => {
         io.emit('chat_status', {
@@ -72,7 +70,6 @@ export default async function startChatStream({
             text: snapshot,
           });
         }, 500)();
-        
       },
       onCompletion: async (completion) => {
         const assistantResponse = completion.choices[0].message.content;
@@ -91,10 +88,9 @@ export default async function startChatStream({
           status: 1,
           role: 'assistant',
         });
-      }
-    }
+      },
+    },
   });
 
   return [messageRecord.id, stream];
 }
-

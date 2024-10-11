@@ -1,4 +1,4 @@
-import type { DateRecord } from "../../shared/types";
+import type { DateRecord } from '../../shared/types';
 
 type DatesByMonth = {
   month: string;
@@ -18,7 +18,7 @@ function groupDatesByMonth(dates: DateRecord[]): DatesByMonth[] {
     grouped[month].push(nextDate);
   }
 
-  const result: DatesByMonth[] = Object.keys(grouped).map(month => ({
+  const result: DatesByMonth[] = Object.keys(grouped).map((month) => ({
     month,
     dates: grouped[month].sort((a, b) => new Date(b.value).getTime() - new Date(a.value).getTime()),
   }));
@@ -30,6 +30,4 @@ function groupDatesByMonth(dates: DateRecord[]): DatesByMonth[] {
   });
 }
 
-export {
-  groupDatesByMonth,
-}
+export { groupDatesByMonth };

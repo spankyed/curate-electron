@@ -14,12 +14,17 @@ const SearchAndActions: React.FC<{ showingTable: boolean }> = ({ showingTable })
   };
 
   return (
-    <Box display="flex" alignItems="flex-start" justifyContent="space-between" flexDirection="row" gap={2} 
-      style={{ 
-        marginTop: '2em', 
-        marginBottom: '1em', 
+    <Box
+      display="flex"
+      alignItems="flex-start"
+      justifyContent="space-between"
+      flexDirection="row"
+      gap={2}
+      style={{
+        marginTop: '2em',
+        marginBottom: '1em',
         marginRight: showingTable ? '2em' : '6em',
-        width: '80%'
+        width: '80%',
       }}
     >
       <Box sx={{ width: '100%' }}>
@@ -33,6 +38,6 @@ const SearchAndActions: React.FC<{ showingTable: boolean }> = ({ showingTable })
       </Box>
     </Box>
   );
-}
+};
 
 export default SearchAndActions;

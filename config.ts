@@ -3,7 +3,7 @@ export default {
     isNewUser: false,
     autoScrapeNewDates: true,
     apiKeyOpenAI: '',
-    scrapeInterval: 3
+    scrapeInterval: 3,
   },
   features: ['video_generator'],
   seedReferencesIds: [
@@ -41,6 +41,6 @@ export default {
     '2308.14296',
     '2305.01157',
     '2404.05966',
-    '2404.07439'
-  ]
-}
+    '2404.07439',
+  ],
+};

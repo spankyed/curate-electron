@@ -23,13 +23,13 @@ export const fetchDatesSidebarDataAtom = atom(
     try {
       const currentYear = get(currentYearAtom);
       const dateList = await api.getSidebarDatesForYear(currentYear);
-      console.log('Sidebar dates:', {dateList});
+      console.log('Sidebar dates:', { dateList });
       set(setSidebarDataAtom, dateList);
 
       // set(calendarStateAtom, dateList.length > 0 ? 'ready' : 'backfill')
       // set(calendarStateAtom, 'selected');
     } catch (error) {
-      console.error("Failed to fetch calendar", error);
+      console.error('Failed to fetch calendar', error);
       // set(calendarStateAtom, 'error');
     }
   }

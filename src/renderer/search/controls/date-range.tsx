@@ -22,10 +22,9 @@ const DateRangeControl: React.FC<{}> = () => {
     }
   }, [startDateParam, endDateParam]);
 
-
   return (
     <FormControl
-      sx={{display: 'flex', flexDirection: 'row', justifyContent: 'space-between',  flexShrink: 0 }}
+      sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', flexShrink: 0 }}
     >
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
@@ -35,7 +34,7 @@ const DateRangeControl: React.FC<{}> = () => {
           disableHighlightToday={true}
           disableFuture={true}
           maxDate={endDate ? endDate : null}
-          onChange={newValue => setStartDate(newValue)}
+          onChange={(newValue) => setStartDate(newValue)}
         />
         <DatePicker
           label={<span style={{ color: '#9e9e9e' }}>Before Date</span>}
@@ -43,11 +42,11 @@ const DateRangeControl: React.FC<{}> = () => {
           value={endDate}
           disableFuture={true}
           minDate={startDate ? startDate : null}
-          onChange={newValue => setEndDate(newValue)}
+          onChange={(newValue) => setEndDate(newValue)}
         />
       </LocalizationProvider>
     </FormControl>
   );
-}
+};
 
 export default DateRangeControl;

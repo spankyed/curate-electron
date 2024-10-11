@@ -28,19 +28,19 @@ const DateRangeControl: React.FC<{}> = () => {
   };
 
   return (
-      <FormControl
-        required
-        error={false}
-        component="fieldset"
-        variant="standard"
-        sx={{
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        {/* <LoadingButton
+    <FormControl
+      required
+      error={false}
+      component="fieldset"
+      variant="standard"
+      sx={{
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      {/* <LoadingButton
           variant="contained"
           color="secondary"
           disabled={!startDate || !endDate}
@@ -50,34 +50,34 @@ const DateRangeControl: React.FC<{}> = () => {
         >
           Load Dates
         </LoadingButton> */}
-        {/* <FormLabel component="legend">By Date</FormLabel> */}
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <DatePicker
-            disabled={isLoading}
-            label={<span style={{ color: '#9e9e9e' }}>Start Date</span>}
-            value={startDate}
-            disableHighlightToday={true}
-            disableFuture={true}
-            // minDate={dayjs().add(-730, 'day')}
-            maxDate={endDate ? endDate : dayjs().add(-1, 'day')}
-            onChange={handleStartDateChange}
-          />
-          <DatePicker
-            disabled={isLoading}
-            sx={{ marginLeft: 4 }}
-            label={<span style={{ color: '#9e9e9e' }}>End Date</span>}
-            value={endDate}
-            disableFuture={true}
-            minDate={startDate ? startDate : null}
-            onChange={handleEndDateChange}
-          />
-        </LocalizationProvider>
+      {/* <FormLabel component="legend">By Date</FormLabel> */}
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <DatePicker
+          disabled={isLoading}
+          label={<span style={{ color: '#9e9e9e' }}>Start Date</span>}
+          value={startDate}
+          disableHighlightToday={true}
+          disableFuture={true}
+          // minDate={dayjs().add(-730, 'day')}
+          maxDate={endDate ? endDate : dayjs().add(-1, 'day')}
+          onChange={handleStartDateChange}
+        />
+        <DatePicker
+          disabled={isLoading}
+          sx={{ marginLeft: 4 }}
+          label={<span style={{ color: '#9e9e9e' }}>End Date</span>}
+          value={endDate}
+          disableFuture={true}
+          minDate={startDate ? startDate : null}
+          onChange={handleEndDateChange}
+        />
+      </LocalizationProvider>
 
-        {/* <BatchScrapeButton disabled={false} dates={[dates]}/> */}
+      {/* <BatchScrapeButton disabled={false} dates={[dates]}/> */}
 
-        {/* <FormHelperText>You can display an error</FormHelperText> */}
-      </FormControl>
+      {/* <FormHelperText>You can display an error</FormHelperText> */}
+    </FormControl>
   );
-}
+};
 
 export default DateRangeControl;

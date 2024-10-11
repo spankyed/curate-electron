@@ -12,13 +12,13 @@ function PdfModal({ paperId }) {
   useEffect(() => {
     const viewportWidth = window.innerWidth;
     const calculatedWidth = viewportWidth > 1024 ? viewportWidth * 0.4 : 750;
-    setCalculatedWidth(calculatedWidth)
+    setCalculatedWidth(calculatedWidth);
   }, []);
 
   return (
-      <ModalWrapper open={open} handleClose={handleClose} width={width}>
-        <PdfViewer paperId={paperId} width={width - 100}/>
-      </ModalWrapper>
+    <ModalWrapper open={open} handleClose={handleClose} width={width}>
+      <PdfViewer paperId={paperId} width={width - 100} />
+    </ModalWrapper>
   );
 }
 

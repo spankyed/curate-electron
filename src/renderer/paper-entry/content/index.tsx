@@ -1,15 +1,30 @@
 import React, { useState } from 'react';
-import { Typography, Box, Tabs, Tab, Accordion, AccordionSummary, AccordionDetails, Grid, Select, 
-  MenuItem, Checkbox, TextField, Button, CardMedia, FormControlLabel } from '@mui/material';
+import {
+  Typography,
+  Box,
+  Tabs,
+  Tab,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+  Grid,
+  Select,
+  MenuItem,
+  Checkbox,
+  TextField,
+  Button,
+  CardMedia,
+  FormControlLabel,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 const MockEntry = {
   videoTitle: 'AI Brainstorm, Process Mining Revolution, Business Superpowers Unleashed!',
-  thumbnailLarge: "https://picsum.photos/200/300",
-  thumbnailSmall1: "https://picsum.photos/200/300",
-  thumbnailSmall2: "https://picsum.photos/200/300",
-  keywords: ["Keywords", "Keywords", "Keywords"],
-  description: "Description",
+  thumbnailLarge: 'https://picsum.photos/200/300',
+  thumbnailSmall1: 'https://picsum.photos/200/300',
+  thumbnailSmall2: 'https://picsum.photos/200/300',
+  keywords: ['Keywords', 'Keywords', 'Keywords'],
+  description: 'Description',
   videoScript: `Imagine you're driving a car. The car represents your business, and the journey represents your business processes. Now, traditionally, to navigate the journey, you'd need to understand maps, road signs, and maybe even some complex GPS equipment. This is like the traditional process mining - it's powerful, but it requires specific knowledge and skills.
 
   Now, imagine if your car had an advanced GPS system where you could just tell it where you want to go in plain language, and it would understand and guide you there. Not only that, but it could also understand complex requests like "find a route with the least traffic" or "find a route that passes by a gas station and a Chinese restaurant". This is what the AI in this research is doing for process mining. It's making it as easy to use as telling your GPS where you want to go.
@@ -17,7 +32,7 @@ const MockEntry = {
   But there's more. This GPS isn't perfect. Sometimes it might not understand your request, or it might get confused by unusual road layouts. So, the researchers have developed a system to handle these situations, to correct errors, and to learn from them. This is like the AI's ability to handle complex queries, to generate meaningful responses, and to learn from its mistakes.
   
   So, in a nutshell, this research is about turning the complex map of process mining into an easy-to-use GPS system that anyone in your business can use to navigate your business processes.`,
-}
+};
 
 export default function ContentTab() {
   const videoContent = MockEntry;
@@ -30,8 +45,19 @@ export default function ContentTab() {
         <AccordionDetails>
           {/* Metadata Level Content */}
           <Box>
-            <TextField fullWidth label="Video Title" value={videoContent.videoTitle} sx={{ marginTop: 3}}/>
-            <TextField fullWidth label="Keywords" value={videoContent.keywords} multiline sx={{ marginTop: 3, marginBottom: 3}} />
+            <TextField
+              fullWidth
+              label="Video Title"
+              value={videoContent.videoTitle}
+              sx={{ marginTop: 3 }}
+            />
+            <TextField
+              fullWidth
+              label="Keywords"
+              value={videoContent.keywords}
+              multiline
+              sx={{ marginTop: 3, marginBottom: 3 }}
+            />
             <TextField
               fullWidth
               label="Description"
@@ -39,7 +65,7 @@ export default function ContentTab() {
               rows={4}
               variant="outlined"
               value={videoContent.description}
-              sx={{ marginTop: 3}}
+              sx={{ marginTop: 3 }}
             />
           </Box>
         </AccordionDetails>
@@ -58,7 +84,7 @@ export default function ContentTab() {
               minRows={5}
               variant="outlined"
               value={videoContent.videoScript}
-              sx={{ marginTop: 3}}
+              sx={{ marginTop: 3 }}
             />
             {/* Video Player Component */}
           </Box>
@@ -70,7 +96,7 @@ export default function ContentTab() {
         </AccordionSummary>
         <AccordionDetails>
           {/* Thumbnail Level Content */}
-          <Grid container spacing={3} alignItems='center'>
+          <Grid container spacing={3} alignItems="center">
             <Grid item xs={6} container justifyContent="center">
               <Box maxWidth="1280px" width="100%">
                 <CardMedia
@@ -100,7 +126,7 @@ export default function ContentTab() {
                     alt="Small Thumbnail 1"
                     style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
                   />
-                  <TextField fullWidth label="Description"/>
+                  <TextField fullWidth label="Description" />
                 </Box>
               </Grid>
               <Grid item container justifyContent="center">
@@ -112,7 +138,7 @@ export default function ContentTab() {
                     alt="Small Thumbnail 2"
                     style={{ width: '100%', height: 'auto', aspectRatio: '16/9' }}
                   />
-                  <TextField fullWidth label="Description"/>
+                  <TextField fullWidth label="Description" />
                 </Box>
               </Grid>
             </Grid>

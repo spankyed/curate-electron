@@ -1,9 +1,9 @@
 import { Paper } from '@renderer/shared/utils/types';
-import { Tooltip } from "@mui/material";
+import { Tooltip } from '@mui/material';
 import { getColorShadeRedToGreen } from '../../utils/getColorShade';
 import { roundScore } from '@renderer/shared/utils/roundScore';
 
-function Relevancy ({ paper, margin }: { paper: Paper, margin?: string }): React.ReactElement {
+function Relevancy({ paper, margin }: { paper: Paper; margin?: string }): React.ReactElement {
   return (
     <Tooltip title={`${roundScore(paper.relevancy)}%`}>
       <div
@@ -19,7 +19,7 @@ function Relevancy ({ paper, margin }: { paper: Paper, margin?: string }): React
         }}
       />
     </Tooltip>
-  )
+  );
 }
 
 export default Relevancy;

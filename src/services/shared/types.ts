@@ -1,4 +1,3 @@
-
 // export type RecordTypes = DateRecord | PaperRecord | { lastRun: string };
 export type DateStatuses = 'pending' | 'scraping' | 'ranking' | 'complete';
 export type PaperStatuses = 0 | 1 | 2 | 3;
