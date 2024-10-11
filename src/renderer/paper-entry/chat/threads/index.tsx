@@ -81,7 +81,7 @@ export default function ThreadOptions() {
               }}
             >
               {option.description.length > 25
-                ? truncateText(25, option.description) + '...'
+                ? `${truncateText(25, option.description)}...`
                 : option.description}
               {option.duplicateNumber ? ` [${option.duplicateNumber}]` : ''}
             </MenuItem>
