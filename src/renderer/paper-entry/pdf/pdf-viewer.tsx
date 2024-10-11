@@ -7,7 +7,7 @@ import * as api from '@renderer/shared/api/fetch';
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   'pdfjs-dist/build/pdf.worker.min.js',
-  import.meta.url,
+  import.meta.url
 ).toString();
 
 const options = {
@@ -23,10 +23,9 @@ export default function PdfViewer({ paperId, width }) {
   useEffect(() => {
     const fetchPdf = async (arxivId) => {
       try {
-        const blob = await api.fetchPdf(arxivId);
-        const pdfBlob = new Blob([blob], { type: 'application/pdf' });
-        const url = URL.createObjectURL(pdfBlob);
-        setPdfUrl(url);
+        const pdfPath = await api.fetchPdf(arxivId);
+
+        setPdfUrl(pdfPath);
       } catch (error) {
         console.error('Error fetching PDF:', error);
       }
@@ -40,7 +39,7 @@ export default function PdfViewer({ paperId, width }) {
   }
 
   function changePage(offset) {
-    setPageNumber(prevPageNumber => prevPageNumber + offset);
+    setPageNumber((prevPageNumber) => prevPageNumber + offset);
   }
 
   function previousPage(event) {
@@ -56,25 +55,28 @@ export default function PdfViewer({ paperId, width }) {
   }
 
   return (
-    <div className="pdf-viewer p-2 h-full" style={{
-      display: 'flex',
-      flexDirection: 'column-reverse',
-      alignSelf: 'center',
-      minHeight: '5rem'
-      }}>
-      {
-        !pdfUrl
-        ? <Typography variant='h6'>Loading PDF...</Typography>
-        : <Document
-            file={pdfUrl}
-            onLoadSuccess={onDocumentLoadSuccess}
-            onError={(error) => console.error('Error loading document', error)}
-            options={options}
-          >
-            <Page pageNumber={pageNumber} width={width} loading={<div>Loading...</div>}/>
-          </Document>
-      }
-      
+    <div
+      className="pdf-viewer p-2 h-full"
+      style={{
+        display: 'flex',
+        flexDirection: 'column-reverse',
+        alignSelf: 'center',
+        minHeight: '5rem',
+      }}
+    >
+      {!pdfUrl ? (
+        <Typography variant="h6">Loading PDF...</Typography>
+      ) : (
+        <Document
+          file={pdfUrl}
+          onLoadSuccess={onDocumentLoadSuccess}
+          onError={(error) => console.error('Error loading document', error)}
+          options={options}
+        >
+          <Page pageNumber={pageNumber} width={width} loading={<div>Loading...</div>} />
+        </Document>
+      )}
+
       <Pagination
         pageNumber={pageNumber}
         numPages={numPages}
@@ -88,21 +90,13 @@ export default function PdfViewer({ paperId, width }) {
 function Pagination({ pageNumber, numPages, onPreviousPage, onNextPage }) {
   return (
     <div className="page-controls">
-      <button
-        type="button"
-        disabled={pageNumber <= 1}
-        onClick={onPreviousPage}
-      >
+      <button type="button" disabled={pageNumber <= 1} onClick={onPreviousPage}>
         ‹
       </button>
       <span>
         {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
       </span>
-      <button
-        type="button"
-        disabled={pageNumber >= numPages}
-        onClick={onNextPage}
-      >
+      <button type="button" disabled={pageNumber >= numPages} onClick={onNextPage}>
         ›
       </button>
     </div>

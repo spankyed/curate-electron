@@ -15,6 +15,7 @@ export default defineConfig(({ command, mode }) => {
         alias: {
           // '~': resolve(__dirname, './src/renderer/src'),
           // '~': resolve('src/renderer/src'),
+          '@main': resolve('src/electron/main'),
           '@config': resolve('./config.ts'),
           // '~': resolve('src/renderer/src')
           '@services': resolve('src/services')

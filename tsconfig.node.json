@@ -5,6 +5,9 @@
     "composite": true,
     "types": ["electron-vite/node"],
     "paths": {
+      "@main/*": [
+        "./src/electron/main/*"
+      ],
       "@services/*": [
         "./src/services/*"
       ],

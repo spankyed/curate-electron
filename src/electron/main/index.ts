@@ -2,6 +2,7 @@ import { app, BrowserWindow } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
 import { createWindow } from './create-window';
 import { handleServices } from './handle-services';
+import { handleStaticFiles } from './handle-static-files';
 
 // This method will be called when Electron has finished initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
@@ -14,6 +15,8 @@ app.whenReady().then(() => {
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window);
   });
+
+  handleStaticFiles();
 
   handleServices();
 
