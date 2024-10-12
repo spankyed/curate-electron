@@ -39,7 +39,7 @@
     "claude-ai": "^1.2.0",
     "dayjs": "^1.11.10",
     "dotenv": "^16.3.1",
-    "electron-store": "^10.0.0",
+    "electron-store": "^8.2.0",
     "electron-updater": "^6.1.7",
     "gm": "^1.25.0",
     "jotai": "^2.6.5",

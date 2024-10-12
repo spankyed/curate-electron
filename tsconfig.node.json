@@ -2,7 +2,7 @@
   "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
   "include": ["electron.vite.config.*", "src/electron/main/**/*", "src/electron/preload/**/*", "src/services/**/*", "./config.ts"],
   "compilerOptions": {
-    "module": "Node16",
+    // "module": "Node16",
     "composite": true,
     "types": ["electron-vite/node"],
     "paths": {
@@ -17,6 +17,6 @@
       ]
     },
     "resolveJsonModule": false, // ESM doesn't yet support JSON modules.
-    "moduleResolution": "Node16",
+    // "moduleResolution": "Node16",
   }
 }
