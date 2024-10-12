@@ -43,6 +43,7 @@ async function updatePaperStatus(paperId, status) {
   return papers;
 }
 
+// ? consider switching to https://github.com/sindresorhus/electron-serve and loading pdf in a new window
 async function fetchPdf(arxivId) {
   const pdfPath = path.join(arxivPdfDir, `${arxivId}.pdf`);
 
