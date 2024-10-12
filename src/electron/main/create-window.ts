@@ -15,7 +15,7 @@ export function createWindow(): void {
     trafficLightPosition: { x: 20, y: 20 },
     ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
+      preload: join(__dirname, '../preload/index.mjs'),
       sandbox: false,
     },
   });

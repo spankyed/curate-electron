@@ -4,7 +4,7 @@ import axiosRetry from 'axios-retry';
 
 const axiosWithRetry = axios.create();
 
-(axiosRetry as any).default(axiosWithRetry, {
+axiosRetry(axiosWithRetry, {
   retries: 3, // Number of retries
   retryDelay: (retryCount) => {
     console.log(`Retry attempt: ${retryCount}`);
