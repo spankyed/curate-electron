@@ -2,7 +2,9 @@ import cron from 'node-cron';
 import scrapeAndRankPapers from '@services/worker/scripts/scrape';
 import repository from '@services/web/onboard/repository';
 import { getCurrentDate } from '../backfill/add-dates';
-import { getConfig } from '@services/shared/utils/get-config';
+import { getSetting } from '@services/shared/utils/config-store';
+
+// ! not used
 
 type Jobs = { [key: string]: cron.ScheduledTask };
 const scrapeJobs: Jobs = {};
@@ -31,8 +33,7 @@ async function scrapeTodayWithRetry(tryNow = false) {
 
   let attempts = 0;
 
-  const config = await getConfig();
-  const scrapeInterval = config.settings.scrapeInterval;
+  const scrapeInterval = getSetting('scrapeInterval');
 
   scrapeJobs[date] = cron.schedule(`0 */${scrapeInterval} * * *`, async () => {
     attempts++;

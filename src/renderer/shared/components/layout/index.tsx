@@ -28,7 +28,7 @@ function Layout(): React.ReactElement {
   const [isNewUser, setIsNewUser] = useAtom(isNewUserAtom);
 
   const checkIsNewUser = useCallback(async () => {
-    const { data: newUserCheck } = await api.checkIsNewUser();
+    const newUserCheck = await api.checkIsNewUser();
 
     if (newUserCheck) {
       setIsNewUser(true);

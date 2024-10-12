@@ -1,15 +1,24 @@
+import { app } from 'electron';
 import Store from 'electron-store';
-import { merge } from 'lodash';
 
-// Define the schema and default values
-const store = new Store<any>({
+export type Settings = {
+  isNewUser: boolean;
+  // autoScrapeNewDates: boolean;
+  apiKeyOpenAI: string;
+  // scrapeInterval: number;
+  features: string[];
+  seedReferencesIds: string[];
+};
+
+// const savePath = app.getPath('userData');
+// console.log('savePath: ', savePath);
+
+const store = new Store<Settings>({
   defaults: {
-    settings: {
-      isNewUser: false,
-      autoScrapeNewDates: true,
-      apiKeyOpenAI: '',
-      scrapeInterval: 3,
-    },
+    isNewUser: true,
+    // autoScrapeNewDates: true,
+    apiKeyOpenAI: '',
+    // scrapeInterval: 3,
     features: ['video_generator'],
     seedReferencesIds: [
       '2308.05481',
@@ -51,26 +60,23 @@ const store = new Store<any>({
   },
 });
 
-export type Config = {
-  settings: {
-    isNewUser?: boolean;
-    lastDateChecked?: string;
-    autoScrapeNewDates?: boolean;
-    scrapeInterval?: number | string;
-  };
-  features?: string[];
-  seedReferencesIds?: string[];
-};
-
-// Get configuration
-export async function getConfig(): Promise<Config> {
-  const config = store.store as Config;
-  return config;
+export function getStore(): Settings {
+  return store.store;
 }
 
-// Update configuration settings
-export async function setConfigSettings(newSettings: Config['settings']): Promise<void> {
-  const currentConfig = store.store;
-  const updatedConfig = merge({}, currentConfig, { settings: newSettings });
-  store.set('settings', updatedConfig.settings);
+export function getSetting<K extends keyof Settings>(accessor: K): Settings[K] {
+  return store.get(accessor);
 }
+
+export function setSetting<K extends keyof Settings>(
+  accessor: K | Partial<Settings>,
+  value?: Settings[K]
+): void {
+  if (typeof accessor === 'string') {
+    store.set(accessor, value);
+  } else {
+    store.set(accessor);
+  }
+}
+
+// setSetting('isNewUser', true);

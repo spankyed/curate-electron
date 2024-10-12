@@ -1,6 +1,5 @@
 import { atom } from 'jotai';
 import type dayjs from 'dayjs';
-import config from '@config';
 import { isNewUserAtom } from '@renderer/shared/components/layout/store';
 import { setSidebarDataAtom } from '@renderer/shared/components/layout/sidebar/dates/store';
 import { addAlertAtom } from '@renderer/shared/components/notification/store';
@@ -12,7 +11,7 @@ export const onboardingStateAtom = atom<'onboarding' | 'loading'>('onboarding');
 
 export const canGoNextAtom = atom(true);
 export const inputIdsAtom = atom<string[]>([]);
-export const autoScrapeDatesAtom = atom(config.settings.autoScrapeNewDates);
+export const autoScrapeDatesAtom = atom(true);
 export const apiKeyOpenAIAtom = atom('');
 
 export const recommendButtonDisabledAtom = atom(false);

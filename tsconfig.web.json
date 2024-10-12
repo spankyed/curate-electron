@@ -5,7 +5,6 @@
     "src/renderer/**/*",
     "src/renderer/**/*.tsx",
     "src/electron/preload/index.ts",
-    "./config.ts"
   ],
   "compilerOptions": {
     "composite": true,

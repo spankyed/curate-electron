@@ -5,17 +5,13 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForwardIos';
 import LoadingButton from '@mui/lab/LoadingButton';
 import Check from '@mui/icons-material/Check';
-import * as api from '@renderer/shared/api/fetch';
 
 import './onboard.css';
 import PageLayout from '@renderer/shared/components/layout/page-layout';
 import OnboardingStepper from './components/stepper';
 import ReferencesInput from './components/references';
 import {
-  apiKeyOpenAIAtom,
-  autoScrapeDatesAtom,
   canGoNextAtom,
-  inputIdsAtom,
   onboardingStateAtom,
   completeOnboardingAtom,
   addInitialReferencesAtom,
@@ -39,8 +35,8 @@ function OnboardFlow() {
   const [completed, setStepperCompleted] = useState<{ [k: number]: boolean }>({});
 
   // const setOnboardingState = useSetAtom(onboardingStateAtom);
-  const inputIds = useAtomValue(inputIdsAtom);
-  const autoScrapeNewDates = useAtomValue(autoScrapeDatesAtom);
+  // const inputIds = useAtomValue(inputIdsAtom);
+  // const autoScrapeNewDates = useAtomValue(autoScrapeDatesAtom);
 
   const completeOnboarding = useSetAtom(completeOnboardingAtom);
   const addInitialReferences = useSetAtom(addInitialReferencesAtom);

@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import { Button, Typography, InputAdornment } from '@mui/material';
-import config from '@config';
 import { useAtom, useSetAtom } from 'jotai';
 import { canGoNextAtom, inputIdsAtom, recommendButtonDisabledAtom } from '../store';
-import { colors } from '@renderer/shared/styles/theme';
+// import { colors } from '@renderer/shared/styles/theme';
+import * as api from '@renderer/shared/api/fetch';
 
 function ReferencesInput() {
   const [inputIds, setInputIds] = useAtom(inputIdsAtom);
@@ -25,8 +25,9 @@ function ReferencesInput() {
     }
   }, [inputIds]);
 
-  const handleUseRecommended = () => {
-    const newIds = [...new Set([...inputIds, ...config.seedReferencesIds])];
+  const handleUseRecommended = async () => {
+    const seedReferencePaperIds = await api.getInitialReferenceIds();
+    const newIds = [...new Set([...inputIds, ...seedReferencePaperIds])];
     setInputIds(newIds);
     setButtonDisabled(true);
   };

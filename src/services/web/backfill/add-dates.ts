@@ -1,6 +1,4 @@
 import repository from '../onboard/repository';
-// import { setConfigSettings } from '@services/shared/utils/set-config';
-// import { Config } from '@services/shared/utils/get-config';
 
 // usage: backfill from current date to May 1, 2023
 // backfillDates('2023-05-01');

@@ -1,7 +1,7 @@
 import * as sharedRepository from '@services/shared/repository';
 import repository from './repository';
 import scrapePapersByIds from './scrape-papers-by-ids';
-import { getConfig } from '@services/shared/utils/get-config';
+import { getSetting } from '@services/shared/utils/config-store';
 
 // const path =  "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/research-papers.json";
 // const refPapers = JSON.parse(fs.readFileSync(path, "utf-8"));
@@ -31,7 +31,7 @@ export async function seedReferencePapers(papers?: any[], ids = null) {
 }
 
 async function scrapeAndStoreReferencePapers(ids = null) {
-  const seedReferencesIds = ids || (await getConfig()).seedReferencesIds!;
+  const seedReferencesIds = ids || getSetting('seedReferencesIds');
   console.log('Scraping and storing reference papers: ', ids);
 
   const referencePapers = await scrapePapersByIds(seedReferencesIds);

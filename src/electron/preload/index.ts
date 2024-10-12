@@ -33,6 +33,7 @@ declare global {
       'check-is-new-user': () => Promise<any>;
       'update-work-status': (paperId: string, status: string) => Promise<any>;
       // onboarding
+      'get-initial-reference-ids': () => Promise<any>;
       'add-initial-references': (form: Record<string, string>) => Promise<any>;
       'onboard-new-user': (form: Record<string, string>) => Promise<any>;
       // shared
@@ -81,6 +82,7 @@ contextBridge.exposeInMainWorld('api', {
     ipcRenderer.invoke('update-work-status', paperId, status),
 
   // onboarding
+  'get-initial-reference-ids': () => ipcRenderer.invoke('get-initial-reference-ids'),
   'add-initial-references': (form) => ipcRenderer.invoke('add-initial-references', form),
   'onboard-new-user': (form) => ipcRenderer.invoke('onboard-new-user', form),
   // shared

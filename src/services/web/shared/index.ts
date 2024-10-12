@@ -2,9 +2,9 @@ import { io } from '../..';
 // import * as repository from './repository';
 import * as sharedRepository from '@services/shared/repository';
 import { groupDatesByMonth } from './transform';
-import { getConfig } from '@services/shared/utils/get-config';
 import { WorkerPath } from '../../shared/constants';
 import createRequest from '../../shared/request';
+import { getSetting } from '@services/shared/utils/config-store';
 
 const workerService = createRequest(WorkerPath);
 
@@ -19,8 +19,7 @@ async function updateStatus(type, { key, status, data, final }) {
 }
 
 async function checkIsNewUser() {
-  const config = await getConfig();
-  const isNewUser = config.settings.isNewUser;
+  const isNewUser = getSetting('isNewUser');
 
   return isNewUser;
 }

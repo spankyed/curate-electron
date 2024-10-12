@@ -1,9 +1,10 @@
 import * as sharedRepository from '@services/shared/repository';
 import { seedReferencePapers } from './seed-reference-papers';
-import { setConfigSettings } from '@services/shared/utils/set-config';
+import { getSetting, setSetting } from '@services/shared/utils/config-store';
 
 async function onboardNewUser(form) {
   const { config } = form;
+  // setSetting({ ...config, isNewUser: false });
 
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
@@ -13,7 +14,7 @@ async function onboardNewUser(form) {
     sharedRepository.chroma.initializeReferenceCollection(),
   ]);
 
-  setConfigSettings({ ...config, isNewUser: false });
+  setSetting({ ...config, isNewUser: false });
 
   // runBackgroundScripts();
 
@@ -30,8 +31,15 @@ async function addInitialReferences(form) {
   return 'References seeded!';
 }
 
+async function getInitialReferenceIds() {
+  const papersIds = getSetting('seedReferencesIds');
+
+  return papersIds;
+}
+
 export default {
   // onboarding
+  'get-initial-reference-ids': getInitialReferenceIds,
   'add-initial-references': addInitialReferences,
   'onboard-new-user': onboardNewUser,
 };

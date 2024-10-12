@@ -1,6 +1,6 @@
 import { parseStringPromise } from 'xml2js';
-import { TransformOptions, transformPaperModel } from './transform-paper-model';
-import { PaperRecord } from '../types';
+import { type TransformOptions, transformPaperModel } from './transform-paper-model';
+import type { PaperRecord } from '../types';
 import { formatDate } from './date-formatter';
 
 interface Paper {

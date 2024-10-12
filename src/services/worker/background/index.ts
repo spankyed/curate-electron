@@ -1,11 +1,10 @@
-import { getConfig } from '@services/shared/utils/get-config';
 import { ensureReferenceCollectionExists } from './ensure-reference-collection';
 // import { scrapeBatch } from "../scripts/scrape-batch";
 import { startJobScrapeNewDatesWithRetry } from './cron-jobs';
+import { getSetting } from '@services/shared/utils/config-store';
 
 async function runBackgroundScripts() {
-  const config = await getConfig();
-  const isNewUser = config.settings.isNewUser;
+  const isNewUser = getSetting('isNewUser');
 
   if (isNewUser) {
     return;
