@@ -11,7 +11,7 @@ function PdfModal({ paperId }) {
 
   useEffect(() => {
     const viewportWidth = window.innerWidth;
-    const calculatedWidth = viewportWidth > 1024 ? viewportWidth * 0.4 : 750;
+    const calculatedWidth = viewportWidth > 1024 ? viewportWidth * 0.47 : 750;
     setCalculatedWidth(calculatedWidth);
   }, []);
 

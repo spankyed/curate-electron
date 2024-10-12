@@ -5,8 +5,8 @@ import icon from '../../../resources/icon.png?asset';
 
 export function createWindow(): void {
   const mainWindow = new BrowserWindow({
-    width: 1500,
-    height: 900,
+    width: 1800,
+    height: 1080,
     show: false,
     title: 'CurateGPT',
     // transparent: true,
