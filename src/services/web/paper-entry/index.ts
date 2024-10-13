@@ -5,7 +5,7 @@ import path from 'node:path';
 // import fs from 'node:fs'
 import fs from 'node:fs/promises'; // Use fs/promises for promise-based functions
 import { existsSync } from 'node:fs'; // Synchronous fs methods (existsSync and mkdirSync)
-import { arxivPdfDir, getServerAddress } from '@main/handle-static-files';
+import { arxivPdfDir, getProtocolAddress } from '@main/handle-static-files';
 
 async function paperById(paperId) {
   const papers = await repository.getPaperById(paperId);
@@ -46,6 +46,7 @@ async function updatePaperStatus(paperId, status) {
 // ? consider switching to https://github.com/sindresorhus/electron-serve and loading pdf in a new window
 async function fetchPdf(arxivId) {
   const pdfPath = path.join(arxivPdfDir, `${arxivId}.pdf`);
+  const address = getProtocolAddress();
 
   try {
     if (!existsSync(pdfPath)) {
@@ -67,7 +68,6 @@ async function fetchPdf(arxivId) {
 
       console.log(`Downloaded and saved PDF: ${pdfPath}`);
 
-      const address = getServerAddress();
       if (typeof address === 'string') {
         const serverPath = `${address}/${arxivId}.pdf`;
         // console.log('localhost path: ', serverPath);
@@ -79,7 +79,6 @@ async function fetchPdf(arxivId) {
 
     console.log(`PDF already exists: ${pdfPath}`);
 
-    const address = getServerAddress();
     if (typeof address === 'string') {
       const serverPath = `${address}/${arxivId}.pdf`;
       console.log('serverPath: ', serverPath);

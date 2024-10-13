@@ -1,77 +1,70 @@
-import { app } from 'electron';
-import { Server } from 'node-static';
-import http from 'node:http';
+import { app, protocol, net } from 'electron';
 import path from 'node:path';
 import { existsSync, mkdirSync } from 'node:fs';
+import fs from 'node:fs/promises'; // For promise-based file system operations
+import { pathToFileURL } from 'node:url';
 
-const userDataPath = app.getPath('userData');
-export const arxivPdfDir = path.join(userDataPath, 'arxiv-pdfs');
+export const arxivPdfDir = path.join(app.getPath('userData'), 'arxiv-pdfs');
 
-const ensureDirectoryExists = () => {
-  if (!existsSync(arxivPdfDir)) {
-    mkdirSync(arxivPdfDir);
-  }
+if (!existsSync(arxivPdfDir)) {
+  // Ensure the arxiv-pdfs directory exists
+  mkdirSync(arxivPdfDir);
+}
+
+const finalOptions = {
+  isCorsEnabled: true,
+  scheme: 'static', // Custom protocol scheme (like app://)
+  hostname: '-', // Can be ignored for local files
+  // file: 'index', // Default file to serve (if needed)
 };
 
-let server: http.Server | null = null;
-
-export const getServerAddress = () => {
-  const address = server?.address(); // Type can be string | AddressInfo | null
-
-  if (address && typeof address !== 'string') {
-    return `http://localhost:${address.port}`;
-  }
-
-  return null;
-};
+protocol.registerSchemesAsPrivileged([
+  {
+    scheme: finalOptions.scheme,
+    privileges: {
+      bypassCSP: true,
+      standard: true,
+      secure: true,
+      allowServiceWorkers: true,
+      supportFetchAPI: true,
+      corsEnabled: finalOptions.isCorsEnabled, // Enable CORS
+    },
+  },
+]);
 
 export const handleStaticFiles = () => {
-  ensureDirectoryExists();
+  protocol.handle(finalOptions.scheme, async (req) => {
+    const { pathname } = new URL(req.url);
+    const requestedPath = path.join(arxivPdfDir, decodeURIComponent(pathname));
 
-  const fileServer = new Server(arxivPdfDir);
+    const relativePath = path.relative(arxivPdfDir, requestedPath);
+    const isSafe = !relativePath.startsWith('..') && !path.isAbsolute(relativePath);
 
-  server = http.createServer((req, res) => {
-    // Set CORS headers to allow cross-origin requests
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-    if (req.method === 'OPTIONS') {
-      res.writeHead(200);
-      res.end();
-      return;
+    if (!isSafe) {
+      return new Response('Access Denied', { status: 403 });
     }
 
-    req
-      .addListener('end', () => {
-        fileServer.serve(req, res);
-      })
-      .resume();
-  });
-  // server = http.createServer((req, res) => {
-  //   req
-  //     .addListener('end', () => {
-  //       fileServer.serve(req, res);
-  //     })
-  //     .resume();
-  // });
-
-  // Start the server on a dynamic port
-  server.listen(0, 'localhost', () => {
-    const address = server?.address();
-
-    if (address && typeof address !== 'string') {
-      const port = address.port;
-      console.log(`Static server running at http://localhost:${port}`);
-    } else {
-      console.error('Failed to retrieve server address.');
+    try {
+      const fileStat = await fs.stat(requestedPath);
+      if (fileStat.isFile()) {
+        // Serve the file using Electron's net.fetch for file streaming
+        return net.fetch(pathToFileURL(requestedPath).toString());
+      }
+    } catch (error) {
+      return new Response('File Not Found', {
+        status: 404,
+        headers: { 'content-type': 'text/plain' },
+      });
     }
-  });
 
-  // Handle server shutdown when the app quits
-  app.on('before-quit', () => {
-    server?.close(() => {
-      console.log('Static server closed');
+    return new Response('File Not Found', {
+      status: 404,
+      headers: { 'content-type': 'text/plain' },
     });
   });
+};
+
+export const getProtocolAddress = () => {
+  // Instead of returning an HTTP URL, return the custom protocol URL
+  return `${finalOptions.scheme}://${finalOptions.hostname}/`;
 };
