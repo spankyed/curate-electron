@@ -4,9 +4,20 @@ import { is } from '@electron-toolkit/utils';
 import icon from '../resources/icon.png?asset';
 
 export function createWindow(): void {
+  // const factor = screen.getPrimaryDisplay().scaleFactor;
+
+  // const primaryDisplay = screen.getPrimaryDisplay();
+  // const { width, height } = primaryDisplay.workAreaSize;
+
   const mainWindow = new BrowserWindow({
-    width: 1800,
-    height: 1080,
+    // width: 1024 / factor,
+    // height: 768 / factor,
+    // width: 1900,
+    // height: 1100,
+    width: 1500,
+    height: 900,
+    minWidth: 1500,
+    minHeight: 900,
     show: false,
     title: 'CurateGPT',
     // transparent: true,
