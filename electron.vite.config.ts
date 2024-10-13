@@ -25,7 +25,7 @@ export default defineConfig(({ command, mode }) => {
           input: resolve(__dirname, 'src/electron/main/index.ts'),
         },
       },
-      publicDir: resolve(__dirname, 'resources'),
+      publicDir: resolve(__dirname, 'src/electron/resources'),
     },
     preload: {
       plugins: [externalizeDepsPlugin()],
