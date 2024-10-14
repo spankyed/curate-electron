@@ -1,5 +1,5 @@
 import { ipcMain } from 'electron';
-import controllers from '../../services';
+import controllers from '@services/index';
 
 export function handleServices(): void {
   for (const [key, controller] of Object.entries(controllers)) {
