@@ -6,17 +6,16 @@ import react from '@vitejs/plugin-react';
 import tailwindcss from 'tailwindcss';
 
 export default defineConfig(({ command, mode }) => {
-  loadEnv(mode, process.cwd(), ''); // This loads all env variables, not just prefixed ones
+  if (mode === 'development') {
+    loadEnv(mode, process.cwd(), ''); // This loads all env variables, not just prefixed ones
+  }
 
   return {
     main: {
       plugins: [externalizeDepsPlugin()],
       resolve: {
         alias: {
-          // '~': resolve(__dirname, './src/renderer/src'),
-          // '~': resolve('src/renderer/src'),
           '@main': resolve('src/electron/main'),
-          // '~': resolve('src/renderer/src')
           '@services': resolve('src/services'),
         },
       },

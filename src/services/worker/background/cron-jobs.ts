@@ -2,7 +2,7 @@ import cron from 'node-cron';
 import scrapeAndRankPapers from '@services/worker/scripts/scrape';
 import repository from '@services/web/onboard/repository';
 import { getCurrentDate } from '../backfill/add-dates';
-import { getSetting } from '@services/shared/utils/config-store';
+import { getSetting } from '@services/shared/settings';
 
 // ! not used
 

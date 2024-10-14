@@ -1,6 +1,6 @@
 import * as sharedRepository from '@services/shared/repository';
 import { synchronizeDatabase } from './migration';
-import { setSetting } from '../utils/config-store';
+import { setSetting } from '../settings';
 
 synchronizeDatabase();
 

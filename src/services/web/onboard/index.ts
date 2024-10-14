@@ -1,6 +1,6 @@
 import * as sharedRepository from '@services/shared/repository';
 import { seedReferencePapers } from './seed-reference-papers';
-import { getSetting, setSetting } from '@services/shared/utils/config-store';
+import { getSetting, setSetting } from '@services/shared/settings';
 
 async function onboardNewUser(form) {
   const { config } = form;

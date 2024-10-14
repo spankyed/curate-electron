@@ -4,7 +4,7 @@ import * as sharedRepository from '@services/shared/repository';
 import { groupDatesByMonth } from './transform';
 import { WorkerPath } from '../../shared/constants';
 import createRequest from '../../shared/request';
-import { getSetting } from '@services/shared/utils/config-store';
+import { getSetting } from '@services/shared/settings';
 
 const workerService = createRequest(WorkerPath);
 

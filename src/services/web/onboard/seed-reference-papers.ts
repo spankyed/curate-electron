@@ -1,7 +1,7 @@
 import * as sharedRepository from '@services/shared/repository';
 import repository from './repository';
 import scrapePapersByIds from './scrape-papers-by-ids';
-import { getSetting } from '@services/shared/utils/config-store';
+import { getSetting } from '@services/shared/settings';
 
 // const path =  "/Users/spankyed/Develop/Projects/CurateGPT/services/database/generated/research-papers.json";
 // const refPapers = JSON.parse(fs.readFileSync(path, "utf-8"));
