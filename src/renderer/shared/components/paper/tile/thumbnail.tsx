@@ -1,15 +1,26 @@
-import React, { useContext } from 'react';
+import type React from 'react';
+// import { useContext } from 'react';
 import { Box, Button, ButtonGroup, Tooltip } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { Paper, PaperState } from '@renderer/shared/utils/types';
-import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityIcon from '@mui/icons-material/Visibility';
+import { type Paper, PaperState } from '@renderer/shared/utils/types';
+// import DeleteIcon from '@mui/icons-material/Delete';
+// import VisibilityIcon from '@mui/icons-material/Visibility';
 import Favorite from '../favorite';
 // import Relevancy from '../relevancy';
 import { getColorShadeRedToGreen } from '../../../utils/getColorShade';
-import { getThumbnailUrl } from '@renderer/shared/utils/getThumbnailUrl';
-import PaperAction, { RejectAction } from '../paper-action';
+// import PaperAction, { RejectAction } from '../paper-action';
 import { colors } from '@renderer/shared/styles/theme';
+import type { Video } from '@renderer/shared/utils/types';
+
+import defaultThumbnail from '@renderer/assets/arxiv-bg.jpg';
+
+const thumbnailsPath = 'static://local.thumbnails';
+
+export const getThumbnailUrl = (paper: any) => {
+  // console.log('paper: ', paper);
+  const video = paper.video as Video;
+  return video?.thumbnailUrl ? `${thumbnailsPath}/${video?.thumbnailUrl}` : defaultThumbnail;
+};
 
 // const colors = {
 //   0: 'rgba(237, 108, 3, 1)',

@@ -5,39 +5,59 @@ import fs from 'node:fs/promises'; // For promise-based file system operations
 import { pathToFileURL } from 'node:url';
 
 export const arxivPdfDir = path.join(app.getPath('userData'), 'arxiv-pdfs');
+export const thumbnailDir = path.join(app.getPath('userData'), 'thumbnails');
 
 if (!existsSync(arxivPdfDir)) {
-  // Ensure the arxiv-pdfs directory exists
   mkdirSync(arxivPdfDir);
 }
 
-const finalOptions = {
+if (!existsSync(thumbnailDir)) {
+  mkdirSync(thumbnailDir);
+}
+
+const options = {
   isCorsEnabled: true,
   scheme: 'static', // Custom protocol scheme (like app://)
-  hostname: '-', // Can be ignored for local files
+  // hostname: '-', // Can be ignored for local files
   // file: 'index', // Default file to serve (if needed)
 };
 
 protocol.registerSchemesAsPrivileged([
   {
-    scheme: finalOptions.scheme,
+    scheme: options.scheme,
     privileges: {
       bypassCSP: true,
       standard: true,
       secure: true,
       allowServiceWorkers: true,
       supportFetchAPI: true,
-      corsEnabled: finalOptions.isCorsEnabled, // Enable CORS
+      corsEnabled: options.isCorsEnabled, // Enable CORS
     },
   },
 ]);
 
 export const handleStaticFiles = () => {
-  protocol.handle(finalOptions.scheme, async (req) => {
-    const { pathname } = new URL(req.url);
-    const requestedPath = path.join(arxivPdfDir, decodeURIComponent(pathname));
+  protocol.handle(options.scheme, async (req) => {
+    const { pathname, hostname } = new URL(req.url);
 
-    const relativePath = path.relative(arxivPdfDir, requestedPath);
+    // Map hostnames to directories
+    const folderMap = {
+      'local.arxiv': arxivPdfDir,
+      'local.thumbnails': thumbnailDir,
+    };
+
+    const baseDir = folderMap[hostname];
+
+    if (!baseDir) {
+      // Return 404 if the hostname does not map to a known folder
+      return new Response('Host Folder Not Found', {
+        status: 404,
+        headers: { 'content-type': 'text/plain' },
+      });
+    }
+
+    const requestedPath = path.join(baseDir, decodeURIComponent(pathname));
+    const relativePath = path.relative(baseDir, requestedPath);
     const isSafe = !relativePath.startsWith('..') && !path.isAbsolute(relativePath);
 
     if (!isSafe) {
@@ -64,7 +84,6 @@ export const handleStaticFiles = () => {
   });
 };
 
-export const getProtocolAddress = () => {
-  // Instead of returning an HTTP URL, return the custom protocol URL
-  return `${finalOptions.scheme}://${finalOptions.hostname}/`;
+export const getPDFAddress = (arxivId) => {
+  return `${options.scheme}://local.arxiv/${arxivId}.pdf`;
 };

@@ -5,7 +5,7 @@ import path from 'node:path';
 // import fs from 'node:fs'
 import fs from 'node:fs/promises'; // Use fs/promises for promise-based functions
 import { existsSync } from 'node:fs'; // Synchronous fs methods (existsSync and mkdirSync)
-import { arxivPdfDir, getProtocolAddress } from '@main/handle-static-files';
+import { arxivPdfDir, getPDFAddress } from '@main/handle-static-files';
 
 async function paperById(paperId) {
   const papers = await repository.getPaperById(paperId);
@@ -43,15 +43,13 @@ async function updatePaperStatus(paperId, status) {
   return papers;
 }
 
-// ? consider switching to https://github.com/sindresorhus/electron-serve and loading pdf in a new window
+// ? consider loading pdf in a new window with window.loadFile(`file://${pdfPath}`);
 async function fetchPdf(arxivId) {
   const pdfPath = path.join(arxivPdfDir, `${arxivId}.pdf`);
-  const address = getProtocolAddress();
+  const address = getPDFAddress(arxivId);
 
   try {
     if (!existsSync(pdfPath)) {
-      const pdfPath = path.join(arxivPdfDir, `${arxivId}.pdf`);
-
       const response = await axios.get(`http://export.arxiv.org/pdf/${arxivId}`, {
         responseType: 'arraybuffer',
       });
@@ -68,24 +66,12 @@ async function fetchPdf(arxivId) {
 
       console.log(`Downloaded and saved PDF: ${pdfPath}`);
 
-      if (typeof address === 'string') {
-        const serverPath = `${address}/${arxivId}.pdf`;
-        // console.log('localhost path: ', serverPath);
-        return serverPath;
-      }
-
-      throw new Error('Failed to retrieve server address');
+      return address;
     }
 
     console.log(`PDF already exists: ${pdfPath}`);
 
-    if (typeof address === 'string') {
-      const serverPath = `${address}/${arxivId}.pdf`;
-      console.log('serverPath: ', serverPath);
-      return serverPath;
-    }
-
-    throw new Error('Failed to retrieve server address');
+    return address;
   } catch (error) {
     console.error('Error fetching PDF from arXiv:', error);
   }
