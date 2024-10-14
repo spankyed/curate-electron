@@ -8,7 +8,7 @@ import { setSetting } from '@services/shared/settings';
 // This method will be called when Electron has finished initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(() => {
-  electronApp.setAppUserModelId('com.electron'); // Set app user model id for windows
+  electronApp.setAppUserModelId('com.clientlabs.curategpt'); // Set app user model id for windows
 
   // Default open or close DevTools by F12 in development
   // and ignore CommandOrControl + R in production.
