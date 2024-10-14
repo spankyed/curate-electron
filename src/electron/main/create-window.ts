@@ -48,3 +48,7 @@ export function createWindow(): void {
     mainWindow.loadFile(join(__dirname, '../renderer/index.html'));
   }
 }
+
+export function sendToMainWindow(event, data) {
+  return BrowserWindow.getAllWindows()[0]?.webContents.send(event, data);
+}

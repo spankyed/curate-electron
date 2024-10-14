@@ -66,8 +66,6 @@ export const getDateEntryModel = window.api['get-date-entry'];
 export const searchPapers = window.api['search-papers'];
 export const checkIsNewUser = window.api['check-is-new-user'];
 
-// export const updateWorkStatus = window.api['update-work-status']
-
 export const getInitialReferenceIds = window.api['get-initial-reference-ids'];
 export const addInitialReferences = window.api['add-initial-references'];
 export const onboard = window.api['onboard-new-user'];

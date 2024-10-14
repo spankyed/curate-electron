@@ -7,7 +7,7 @@ const SocketListener = ({ eventName, handleEvent, id = '' }) => {
   const [listeningPages, setListeningPages] = useAtom(pagesListening);
 
   useEffect(() => {
-    const eventHandler = (eventData) => {
+    const eventHandler = (_event, eventData) => {
       handleEvent(eventData);
     };
 

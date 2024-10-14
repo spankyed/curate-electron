@@ -2,9 +2,9 @@ import * as repository from '../repository';
 import { createChatStream } from '@services/shared/completions';
 // import { Readable } from 'node:stream'
 import type OpenAI from 'openai';
-import { io } from '@services/index';
 import type { ChatCompletionStream } from 'openai/resources/beta/chat/completions';
 import { debounce } from 'lodash';
+import { sendToMainWindow } from '@main/create-window';
 // import { debounce } from 'lodash-es';
 
 export default async function startChatStream({
@@ -58,7 +58,7 @@ export default async function startChatStream({
         console.error('Error in completion stream');
       },
       onChunk: (delta, snapshot) => {
-        io.emit('chat_status', {
+        sendStatusUpdate({
           key: messageRecord.id,
           status: 0,
           // data: delta,
@@ -73,7 +73,8 @@ export default async function startChatStream({
       },
       onCompletion: async (completion) => {
         const assistantResponse = completion.choices[0].message.content;
-        io.emit('chat_status', {
+
+        sendStatusUpdate({
           key: messageRecord.id,
           status: 1,
           data: assistantResponse,
@@ -92,5 +93,13 @@ export default async function startChatStream({
     },
   });
 
+  if (!stream) {
+    throw new Error('Stream not created');
+  }
+
   return [messageRecord.id, stream];
+}
+
+function sendStatusUpdate(status) {
+  sendToMainWindow('chat_status', status);
 }

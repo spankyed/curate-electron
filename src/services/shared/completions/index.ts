@@ -1,14 +1,14 @@
-import {
+import type {
   ChatCompletionCreateParams,
-  type ChatCompletionChunk,
+  ChatCompletionChunk,
 } from 'openai/resources/chat/completions';
-import { StreamHandlers, streamOpenAI, templates } from './openai';
-import OpenAI from 'openai';
+import { type StreamHandlers, streamOpenAI, templates } from './openai';
+import type OpenAI from 'openai';
 
 type Provider = 'openai' | 'anthropic';
 const modelProviders: { [key: string]: Provider } = {
-  ['gpt-4o']: 'openai',
-  ['claude-3-sonnet-20240229']: 'anthropic',
+  'gpt-4o': 'openai',
+  'claude-3-sonnet-20240229': 'anthropic',
 };
 
 function getProvider(model: keyof typeof modelProviders) {
@@ -38,9 +38,11 @@ export async function createChatStream({
 
     return streamOpenAI({ ...paramsTemplate, model }, handlers);
   }
-  // else if (provider === 'anthropic') {
+  // if (provider === 'anthropic') {
   //   // todo if provider is anthropic,
   //   // ! the first message must be from the user
   //   // todo handle branches from assistant messages
   // }
+
+  return;
 }

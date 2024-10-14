@@ -1,10 +1,10 @@
-import {
+import type {
   ChatCompletionCreateParams,
-  type ChatCompletionChunk,
+  ChatCompletionChunk,
 } from 'openai/resources/chat/completions';
 import OpenAI from 'openai';
 import { pdfText } from './prompts';
-import dotenv from 'dotenv';
+import { getSetting } from '../settings';
 
 export type StreamHandlers = {
   onError?: () => void;
@@ -12,12 +12,7 @@ export type StreamHandlers = {
   onCompletion: (completion: OpenAI.Chat.Completions.ChatCompletion) => void;
 };
 
-dotenv.config();
-
-const openai = new OpenAI({
-  // apiKey: process.env.OPENAI_API_KEY,
-  apiKey: '',
-});
+let openai: null | OpenAI = null;
 
 export const templates = {
   conversation(
@@ -37,6 +32,11 @@ export async function streamOpenAI(
   template: Pick<ChatCompletionCreateParams, 'model' | 'messages'>,
   handlers: StreamHandlers
 ) {
+  openai = new OpenAI({
+    // apiKey: process.env.OPENAI_API_KEY,
+    apiKey: getSetting('apiKeyOpenAI'),
+  });
+
   const stream = await openai.beta.chat.completions.stream({
     ...template,
     n: 1,
@@ -50,4 +50,10 @@ export async function streamOpenAI(
   // stream.on('end', handlers.onCompletion)
 
   return stream;
+}
+
+export async function updateAPIKeyOpenAI() {
+  openai = new OpenAI({
+    apiKey: getSetting('apiKeyOpenAI'),
+  });
 }
