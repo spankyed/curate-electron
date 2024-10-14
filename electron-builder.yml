@@ -1,5 +1,5 @@
 # example https://github.com/vladimiry/ElectronMail/blob/master/electron-builder.yml
-appId: com.electron.app
+appId: com.clientlabs.curategpt
 productName: CurateGPT
 directories:
   buildResources: build
@@ -34,7 +34,7 @@ linux:
     - AppImage
     - snap
     - deb
-  maintainer: electronjs.org
+  maintainer: clientlabs.com
   category: Utility
 appImage:
   artifactName: ${name}-${version}.${ext}
