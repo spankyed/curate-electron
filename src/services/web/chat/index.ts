@@ -2,6 +2,8 @@ import * as repository from './repository';
 import initializeChat from './scripts/initialize-chat';
 import startChatStream from './scripts/start-chat-stream';
 import type { ChatCompletionStream } from 'openai/resources/beta/chat/completions';
+import { getSetting, setSetting } from '@services/shared/settings';
+import { checkOpenAIKey, updateAPIKeyOpenAI } from '@services/shared/completions/openai';
 
 async function initChat(paperId) {
   try {
@@ -205,6 +207,33 @@ async function regenerateResponse({ paperId, threadId, messageId }) {
   return responseMessageId;
 }
 
+async function updateAPIKeys(keys) {
+  const { openai } = keys;
+
+  if (!openai) {
+    return false;
+  }
+
+  if (openai) {
+    const isValid = await checkOpenAIKey(openai);
+
+    if (!isValid) {
+      return false;
+    }
+
+    updateAPIKeyOpenAI(openai);
+    setSetting('apiKeyOpenAI', openai);
+
+    return true;
+  }
+
+  return false;
+}
+
+async function getAPIKeys() {
+  return getSetting('apiKeyOpenAI');
+}
+
 export default {
   'initialize-chat': initChat,
   'get-threads': getThreads,
@@ -218,4 +247,6 @@ export default {
   'stream-response': streamResponse,
   'stop-message-stream': stopMessageStream,
   'regenerate-response': regenerateResponse,
+  'update-api-keys': updateAPIKeys,
+  'get-api-keys': getAPIKeys,
 };

@@ -42,9 +42,9 @@ function UserSettings() {
             <Grid item xs={9}>
               <Typography variant="body1">Automatically scrape new dates</Typography>
               <Typography variant="body2" color="textSecondary">
-                At noon each day, attempt to scrape and rank papers for that day. If no papers are
-                found, retry every 3 hours until found. New dates will not appear in the calender
-                until papers have been successfully scraped for that day.
+                Scrape and rank papers at noon each day. Retry every 3 hours if no papers are found.
+                New dates will not appear in the calender until papers have been successfully
+                scraped for the day.
               </Typography>
             </Grid>
             <Grid item xs={3} sx={{ mt: 4 }}>
@@ -55,7 +55,7 @@ function UserSettings() {
                 type={showApiKey ? 'text' : 'password'}
                 variant="outlined"
                 fullWidth
-                helperText="This key will not leave your computer and can be changed in the chat settings"
+                helperText="Your key will not leave your computer and can be changed in the chat settings"
                 onChange={(e) => setApiKeyOpenAI(e.target.value)}
                 InputProps={{
                   endAdornment: (

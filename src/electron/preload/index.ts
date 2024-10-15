@@ -12,6 +12,7 @@ declare global {
       'load-month': (cursor: string | undefined) => Promise<any>;
       reset: (date: string) => Promise<any>;
 
+      // chat
       'initialize-chat': (paperId: string) => Promise<any>;
       'get-threads': (paperId: string) => Promise<any>;
       'get-messages': (threadId: string) => Promise<any>;
@@ -23,7 +24,9 @@ declare global {
       'stream-response': (params: Record<string, string>) => Promise<any>;
       'stop-message-stream': (threadId: string) => Promise<any>;
       'regenerate-response': (params: Record<string, string>) => Promise<any>;
-
+      'update-api-keys': (params: Record<string, string>) => Promise<any>;
+      'get-api-keys': () => Promise<any>;
+      // paper
       'fetch-pdf': (paperId: string) => Promise<any>;
       'paper-by-id': (paperId: string) => Promise<any>;
       'star-paper': (paperId: string, value: boolean) => Promise<any>;
@@ -58,6 +61,7 @@ contextBridge.exposeInMainWorld('api', {
   'load-month': (cursor) => ipcRenderer.invoke('load-month', cursor),
   reset: (date) => ipcRenderer.invoke('reset', date),
 
+  // chat
   'initialize-chat': (paperId) => ipcRenderer.invoke('initialize-chat', paperId),
   'get-threads': (paperId) => ipcRenderer.invoke('get-threads', paperId),
   'get-messages': (threadId) => ipcRenderer.invoke('get-messages', threadId),
@@ -69,7 +73,9 @@ contextBridge.exposeInMainWorld('api', {
   'stream-response': (params) => ipcRenderer.invoke('stream-response', params),
   'stop-message-stream': (threadId) => ipcRenderer.invoke('stop-message-stream', threadId),
   'regenerate-response': (params) => ipcRenderer.invoke('regenerate-response', params),
-
+  'update-api-keys': (params) => ipcRenderer.invoke('update-api-keys', params),
+  'get-api-keys': () => ipcRenderer.invoke('get-api-keys'),
+  // paper
   'fetch-pdf': (paperId) => ipcRenderer.invoke('fetch-pdf', paperId),
   'paper-by-id': (paperId) => ipcRenderer.invoke('paper-by-id', paperId),
   'star-paper': (paperId, value) => ipcRenderer.invoke('star-paper', paperId, value),

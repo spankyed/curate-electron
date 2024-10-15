@@ -72,3 +72,6 @@ export const onboard = window.api['onboard-new-user'];
 
 export const getSidebarDatesForYear = window.api['get-dates-by-year'];
 export const scrapeDate = window.api['scrape-date'];
+
+export const getAPIKeys = window.api['get-api-keys'];
+export const updateAPIKeys = window.api['update-api-keys'];

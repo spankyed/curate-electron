@@ -1,10 +1,14 @@
 import { atom } from 'jotai';
 import * as api from '@renderer/shared/api/fetch';
 import { messagesAtom, tokenUsageAtom } from './messages/store';
-import { atomWithStorage } from 'jotai/utils';
+// import { atomWithStorage } from 'jotai/utils';
 import { selectedThreadsAtom, threadOptionsAtom } from './threads/store';
 
 export const modelAtom = atom('gpt-4o');
+
+export const keyModalOpen = atom(false);
+export const apiKeyOpenAIAtom = atom('');
+export const keyUpdateErrorAtom = atom<string | null>(null);
 
 export const chatStateAtom = atom<'loading' | 'ready' | 'error'>('loading');
 

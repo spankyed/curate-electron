@@ -52,8 +52,18 @@ export async function streamOpenAI(
   return stream;
 }
 
-export async function updateAPIKeyOpenAI() {
-  openai = new OpenAI({
-    apiKey: getSetting('apiKeyOpenAI'),
-  });
+export async function updateAPIKeyOpenAI(apiKey) {
+  openai = new OpenAI({ apiKey });
+}
+
+export async function checkOpenAIKey(apiKey) {
+  const testInstance = new OpenAI({ apiKey });
+
+  try {
+    await testInstance.models.list();
+    return true;
+  } catch (error) {
+    console.error('error: ', error);
+    return false;
+  }
 }

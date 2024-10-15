@@ -14,6 +14,7 @@ import ContentTab from './content';
 import ChatTab from './chat';
 import SocketListener from '@renderer/shared/api/socket-listener';
 import { handleStreamStatusAtom } from './chat/messages/store';
+import KeyModal from './chat/key-modal';
 
 const orEmpty = (value: string | undefined) => value || '';
 
@@ -69,6 +70,7 @@ const PaperEntryPage = () => {
 
           <TabSection paperId={paperId} />
 
+          <KeyModal />
           <PdfModal paperId={paper?.id} />
         </>
       )}
