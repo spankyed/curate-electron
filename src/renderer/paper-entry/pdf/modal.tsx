@@ -27,7 +27,7 @@ function PdfModal({ paperId }) {
   }, [window.innerWidth]);
 
   return (
-    <ModalWrapper open={open} handleClose={handleClose} width={width}>
+    <ModalWrapper open={open} handleClose={handleClose} width={width} ovrStyles={{ width: 3 }}>
       <PdfViewer paperId={paperId} width={width - 75} />
     </ModalWrapper>
   );

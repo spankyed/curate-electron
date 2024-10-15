@@ -10,7 +10,7 @@ const style = {
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
-  p: 2,
+  p: 4,
   maxHeight: '98vh',
   minHeight: '20vh',
   overflowY: 'auto',
@@ -18,7 +18,19 @@ const style = {
   borderRadius: 2.5,
 };
 
-function ModalWrapper({ children, open, handleClose, width = 500 }) {
+function ModalWrapper({
+  children,
+  open,
+  handleClose,
+  width = 500,
+  ovrStyles,
+}: {
+  children: React.ReactNode;
+  open: boolean;
+  handleClose: () => void;
+  width?: number;
+  ovrStyles?: React.CSSProperties;
+}) {
   return (
     <Modal
       open={open}
@@ -26,7 +38,7 @@ function ModalWrapper({ children, open, handleClose, width = 500 }) {
       aria-labelledby="modal-title"
       aria-describedby="modal-description"
     >
-      <Box sx={{ ...style, width }}>{children}</Box>
+      <Box sx={{ ...style, ...ovrStyles, width }}>{children}</Box>
     </Modal>
   );
 }
