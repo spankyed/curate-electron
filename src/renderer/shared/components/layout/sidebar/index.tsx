@@ -51,6 +51,8 @@ const Sidebar: React.FC = () => {
         sx={{
           // paddingBottom: 0,
           // marginTop: '2rem',
+          paddingLeft: '.4rem',
+          paddingRight: '.8rem',
           borderTop: '1px solid rgba(0, 0, 0, 0.12)',
           backgroundColor: colors.palette.background.default,
           borderBottom: '1px solid rgba(140, 130, 115, 0.22)',

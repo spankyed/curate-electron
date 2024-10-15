@@ -35,11 +35,12 @@ function DateList(): React.ReactElement {
       <List
         ref={container}
         sx={{
-          overflow: 'auto',
+          overflow: 'scroll',
           overflowX: 'hidden',
           // backgroundColor: colors.main,
           flexGrow: 1,
           py: 0,
+          // mr: -1.2,
           // display: 'flex',
           // flexDirection: 'column',
           // paddingLeft: '8px',
@@ -144,7 +145,7 @@ function Month({ month, dates, container }) {
           primary={
             <span
               style={{ fontWeight: '600', color: 'rgba(232, 230, 227, 0.85)' }}
-              className="flex justify-between"
+              className="flex justify-center"
             >
               {month}
               {allComplete ? <DoneIcon sx={{ color: colors.palette.success.light }} /> : null}
@@ -177,7 +178,7 @@ function Month({ month, dates, container }) {
                       />
                     }
                     sx={{
-                      paddingLeft: '14px',
+                      paddingLeft: '1.5rem',
                     }}
                   />
                 </ListItemButton>
@@ -191,7 +192,7 @@ function Month({ month, dates, container }) {
 }
 
 const MonthItem = styled(ListItemButton)(({ theme }) => ({
-  // marginLeft: '.5rem', // Add 1rem margin to the left
+  marginLeft: '.7rem', // Add 1rem margin to the left
   // marginRight: '4rem', // Add 1rem margin to the left
   whiteSpace: 'nowrap',
   borderBottom: '1px solid rgba(140, 130, 115, 0.22)',
@@ -206,12 +207,12 @@ const dateStyle = {
 };
 
 const weekdayStyle = {
-  paddingLeft: '16px',
+  // paddingLeft: '16px',
+  paddingLeft: '8px',
   whiteSpace: 'nowrap',
   marginLeft: '1rem',
 };
 
-// Renamed the function to DateDisplay to avoid confusion with JavaScript's Date object
 function DateDisplay({
   formattedDate,
   formattedWeekday,
