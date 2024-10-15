@@ -95,7 +95,7 @@ export default function MessageList() {
           ) : (
             <>
               {messages.map((message) => (
-                <Message message={message} />
+                <Message message={message} key={`${message.thread}-${message.id}`} />
               ))}
             </>
           )}
