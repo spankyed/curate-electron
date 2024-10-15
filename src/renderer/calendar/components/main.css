@@ -2,7 +2,9 @@
   --light-purple: #5a48a7; /* 1em = 16px */
   --indigo: #303f9f; /* 1em = 16px */
 }
-
+body {
+  background-color: #171717;
+}
 .calendar {
   .wrapper {
     .carousel-container {

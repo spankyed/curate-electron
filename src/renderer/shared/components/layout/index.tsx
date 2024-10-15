@@ -48,7 +48,7 @@ function Layout(): React.ReactElement {
           // maxHeight: height,
           height: '100vh',
           maxHeight: '100vh',
-          transition: 'all 0.5s ease-in-out',
+          // transition: 'all 0.5s ease-in-out',
           backgroundColor: colors.palette.background.default,
           // backgroundColor: colors.palette.background.paper,
           // backgroundColor: '#000',

@@ -43,14 +43,14 @@ function KeyModal() {
     <ModalWrapper open={open} handleClose={handleClose} width={width}>
       {/* Modal content here */}
       {/* <Typography sx={{ textAlign: 'center' }}>API Keys</Typography> */}
-      <div className="flex justify-end flex-wrap">
+      <div className="mt-6 px-2">
         <KeyForm error={error} />
         {/* <button onClick={handleCancel} style={{ marginRight: '10px' }}>
           Cancel
         </button>
         <button onClick={handleSave}>Save</button> */}
 
-        <div className="flex justify-end w-full mt-6">
+        <div className="flex justify-end w-full mt-10">
           <Button
             onClick={handleCancel}
             variant="outlined"
