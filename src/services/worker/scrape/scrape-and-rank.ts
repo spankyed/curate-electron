@@ -1,11 +1,11 @@
 // https://blog.theodo.com/2022/07/simplify-your-applications-with-xstate/
 // https://www.youtube.com/watch?v=qqyQGEjWSAw
-import * as fs from 'fs';
-import scrapePapersByDate from './scrape-papers-by-date'; // Assume this exists
-import { getRelevancyScores } from './relevancy-compute'; // Assume this exists
-import repository from '../repository'; // Assume this exists
-import * as sharedRepository from '../../shared/repository'; // Assume this exists
+// import * as fs from 'fs';
+// import repository from './repository';
+import * as sharedRepository from '@services/shared/repository';
 import { notifyClient } from '@services/shared/status';
+import { getRelevancyScores } from './relevancy-compute';
+import scrapePapersByDate from './scrape-papers-by-date';
 
 const scrapeAndRankPapers = async (date: string, alwaysNotify = true) => {
   try {
@@ -16,7 +16,7 @@ const scrapeAndRankPapers = async (date: string, alwaysNotify = true) => {
     const papers = await scrapePapersByDate(date);
 
     if (papers.length === 0) {
-      throw new Error(`No papers found after scraping`);
+      throw new Error('No papers found after scraping');
     }
 
     console.log('Ranking papers...', date);

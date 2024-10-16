@@ -7,6 +7,8 @@ import chatController from './web/chat';
 import backfill from './web/backfill';
 import onboard from './web/onboard';
 
+import scrape from './worker/scrape';
+
 // import mocks from '../../../tests/mocks';
 // const { calendarModel } = mocks;
 
@@ -19,4 +21,8 @@ export default {
   ...chatController,
   ...backfill,
   ...onboard,
+};
+
+export const workers = {
+  scrape,
 };

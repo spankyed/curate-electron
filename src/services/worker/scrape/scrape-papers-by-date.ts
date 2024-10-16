@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { PaperRecord } from '@services/shared/types';
+import type { PaperRecord } from '@services/shared/types';
 import { extractPaperData } from '@services/shared/utils/extract-paper-data';
 
 const ARXIV_API_ENDPOINT = 'https://export.arxiv.org/api/query?';

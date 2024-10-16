@@ -1,4 +1,4 @@
-import scrapeAndRankPapers from '../scripts/scrape';
+import scrapeAndRankPapers from './scrape-and-rank';
 
 async function scrapePapers(date) {
   scrapeAndRankPapers(date);

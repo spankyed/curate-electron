@@ -1,5 +1,5 @@
 import { ReferenceCollectionName } from '@services/shared/constants';
-import repository from '../repository';
+import repository from './repository';
 import * as sharedRepository from '@services/shared/repository';
 
 export async function getRelevancyScores(papers: any[], nResults = 5): Promise<any[]> {
@@ -11,7 +11,7 @@ export async function getRelevancyScores(papers: any[], nResults = 5): Promise<a
 
   console.log('Number of papers:', papers.length);
 
-  const paperTexts = papers.map((paper) => paper.title + '. ' + paper.abstract);
+  const paperTexts = papers.map((paper) => `${paper.title}. ${paper.abstract}`);
   // .slice(0, 125); // ! TODO: Remove this slice
 
   try {
