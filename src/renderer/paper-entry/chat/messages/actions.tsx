@@ -97,7 +97,7 @@ export default function Actions({ message }) {
             color="secondary"
             onClick={handlers[action.name]}
             sx={{
-              ':first-child': {
+              ':first-of-type': {
                 ml: -1,
               },
               padding: '.3rem',
