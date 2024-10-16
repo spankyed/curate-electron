@@ -34,7 +34,6 @@ declare global {
       'get-date-entry': (date: string) => Promise<any>;
       'search-papers': (form: Record<string, string>) => Promise<any>;
       'check-is-new-user': () => Promise<any>;
-      'update-work-status': (paperId: string, status: string) => Promise<any>;
       // onboarding
       'get-initial-reference-ids': () => Promise<any>;
       'add-initial-references': (form: Record<string, string>) => Promise<any>;
@@ -84,8 +83,6 @@ contextBridge.exposeInMainWorld('api', {
   'get-date-entry': (date) => ipcRenderer.invoke('get-date-entry', date),
   'search-papers': (form) => ipcRenderer.invoke('search-papers', form),
   'check-is-new-user': () => ipcRenderer.invoke('check-is-new-user'),
-  'update-work-status': (paperId, status) =>
-    ipcRenderer.invoke('update-work-status', paperId, status),
 
   // onboarding
   'get-initial-reference-ids': () => ipcRenderer.invoke('get-initial-reference-ids'),
