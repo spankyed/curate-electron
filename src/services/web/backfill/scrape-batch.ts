@@ -1,6 +1,6 @@
-import scrapeAndRankPapers from '@services/worker/scripts/scrape';
+import scrapeAndRankPapers from '@services/worker/scrape/scrape-and-rank';
 import repository from '../onboard/repository';
-import { notifyClient } from '@services/shared/status';
+import { updateWorkStatus } from '@services/shared/status';
 
 export async function scrapeBatch(dates?: any[]) {
   if (!dates || dates.length === 0) {
@@ -27,6 +27,6 @@ export async function scrapeBatch(dates?: any[]) {
     }
   }
 
-  notifyClient({ key: 'batch', status: 'complete' });
+  updateWorkStatus({ key: 'batch', status: 'complete' });
   // return results;
 }

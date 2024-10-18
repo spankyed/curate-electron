@@ -1,15 +1,30 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import path from 'node:path';
+import { fileURLToPath } from 'url';
+import { app } from 'electron';
+
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 // const dbRoot = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/sqlite';
-const dbPath = path.join(__dirname, '../../src/services/database/sqlite/curate.db');
+const inDevelopment = !app.isPackaged;
+
+const getDatabasePath = () => {
+  if (inDevelopment) {
+    // Development: use the project directory
+    return path.join(dirname, '../../src/services/database/sqlite/curate.db');
+  }
+
+  // Production: use the app's user data directory
+  return path.join(app.getPath('userData'), 'curate.db');
+};
 
 export const sequelize = new Sequelize({
   // other options
   dialect: 'sqlite',
   // storage: `${dbRoot}/curate.db`,
-  storage: dbPath,
-  logging: false, // This disables logging
+  storage: getDatabasePath(),
+  logging: inDevelopment ? console.log : false, // This disables logging
   // pool: {
   //   max: 10, // Maximum number of connections in pool
   //   min: 0, // Minimum number of connections in pool

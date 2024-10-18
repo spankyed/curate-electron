@@ -1,10 +1,10 @@
 import { DatesTable, PapersTable } from './schema';
 import { ChromaClient } from 'chromadb';
 // import { createEmbedder } from '@services/shared/embedder';
-import { ReferenceCollectionName } from './constants';
 import type { DateRecord, PaperRecord } from './types';
 import moment from 'moment';
 import { Sequelize, DataTypes, Op } from 'sequelize';
+import { ReferenceCollectionName } from './chroma';
 
 function updateDate(date: string, changes: Partial<DateRecord>): Promise<any> {
   return DatesTable.update(changes, { where: { value: date } });

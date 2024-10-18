@@ -3,15 +3,15 @@
 // import * as fs from 'fs';
 // import repository from './repository';
 import * as sharedRepository from '@services/shared/repository';
-import { notifyClient } from '@services/shared/status';
-import { getRelevancyScores } from './relevancy-compute';
+import { updateWorkStatus } from '@services/shared/status';
+// import { getRelevancyScores } from './relevancy-compute';
 import scrapePapersByDate from './scrape-papers-by-date';
 
 const scrapeAndRankPapers = async (date: string, alwaysNotify = true) => {
   try {
     console.log('Scraping papers...', date);
     sharedRepository.updateDate(date, { status: 'scraping' });
-    notifyClient({ key: date, status: 'scraping' }, alwaysNotify);
+    updateWorkStatus({ key: date, status: 'scraping' }, alwaysNotify);
 
     const papers = await scrapePapersByDate(date);
 
@@ -21,9 +21,13 @@ const scrapeAndRankPapers = async (date: string, alwaysNotify = true) => {
 
     console.log('Ranking papers...', date);
     sharedRepository.updateDate(date, { status: 'ranking' });
-    notifyClient({ key: date, status: 'ranking' }, alwaysNotify);
+    updateWorkStatus({ key: date, status: 'ranking' }, alwaysNotify);
 
-    const rankedPapers = await getRelevancyScores(papers);
+    const rankedPapers = papers.map((paper) => ({
+      ...paper,
+      relevancy: Math.random(),
+    }));
+    // const rankedPapers = await getRelevancyScores(papers);
     const paperRecords = rankedPapers.sort((a, b) => b.relevancy - a.relevancy);
 
     console.log('Storing papers in DB...', date);
@@ -39,17 +43,20 @@ const scrapeAndRankPapers = async (date: string, alwaysNotify = true) => {
       throw error;
     }
 
-    notifyClient({ key: date, status: 'complete', data: paperRecords, final: true }, alwaysNotify);
+    updateWorkStatus(
+      { key: date, status: 'complete', data: paperRecords, final: true },
+      alwaysNotify
+    );
 
     console.log('Scraped, ranked, and stored papers for:', date);
 
     return paperRecords;
-  } catch (error) {
-    console.error('Error scraping/ranking papers for:', date);
+  } catch (error: any) {
+    console.error(`Error scraping/ranking papers for [${date}]:`, error?.message);
 
     // sharedRepository.updateDate(date, 'error')
     sharedRepository.updateDate(date, { status: 'pending' });
-    notifyClient({ key: date, status: 'error', data: [], final: true }, alwaysNotify);
+    updateWorkStatus({ key: date, status: 'error', data: [], final: true }, alwaysNotify);
 
     // throw error
     return [];

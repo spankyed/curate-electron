@@ -1,7 +1,4 @@
-import { WebServerPath } from './constants';
-import createRequest from './request';
-
-const webService = createRequest(WebServerPath);
+import { sendToMainWindow } from '@main/create-window';
 
 type Notification = {
   key: string;
@@ -10,10 +7,14 @@ type Notification = {
   final?: boolean;
 };
 
-export function notifyClient(notification: Notification, alwaysNotify = true) {
-  if (alwaysNotify || notification.status === 'complete') {
-    return webService.post(`work-status/dates`, notification);
+export async function updateWorkStatus(
+  { key, status, data, final }: Notification,
+  alwaysNotify = true
+) {
+  if (alwaysNotify || status === 'complete') {
+    console.log('update-work-status: ', { key, status, data: !!data, final });
+    sendToMainWindow('date_status', { type: 'dates', key, status, data, final });
   }
 
-  return Promise.resolve();
+  return 'success';
 }

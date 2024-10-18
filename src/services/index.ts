@@ -21,8 +21,11 @@ export default {
   ...chatController,
   ...backfill,
   ...onboard,
+
+  // worker
+  ...scrape,
 };
 
-export const workers = {
-  scrape,
-};
+// export const workers = {
+//   scrape,
+// };

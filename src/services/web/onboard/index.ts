@@ -11,7 +11,7 @@ async function onboardNewUser(form) {
 
   await Promise.all([
     sharedRepository.getDatesByYear(currentYear.toString()),
-    sharedRepository.chroma.initializeReferenceCollection(),
+    // sharedRepository.chroma.initializeReferenceCollection(),
   ]);
 
   setSetting({ ...config, isNewUser: false });

@@ -1,4 +1,4 @@
-import { ReferenceCollectionName } from '@services/shared/constants';
+import { ReferenceCollectionName } from '@services/shared/chroma';
 import repository from './repository';
 import * as sharedRepository from '@services/shared/repository';
 

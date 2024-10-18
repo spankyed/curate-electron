@@ -7,5 +7,5 @@ async function scrapePapers(date) {
 }
 
 export default {
-  'scrape-papers': scrapePapers,
+  'scrape-date': scrapePapers,
 };
