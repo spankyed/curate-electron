@@ -56,7 +56,7 @@ function DateList(): React.ReactElement {
         //   py: 0,
         // }}
       >
-        {datesRows.map(({ month, dates }) => (
+        {datesRows.map?.(({ month, dates }) => (
           <Month key={month} month={month} dates={dates} container={container} />
         ))}
       </List>

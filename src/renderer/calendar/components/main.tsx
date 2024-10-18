@@ -32,7 +32,7 @@ function CalendarMain(): React.ReactElement {
   }, [calendarState]);
 
   useEffect(() => {
-    const firstDateOfMonth = datesRows.find((d) => d.month === openMonth)?.dates[0]?.value; // first date of the open month in sidebar
+    const firstDateOfMonth = datesRows.find?.((d) => d.month === openMonth)?.dates[0]?.value; // first date of the open month in sidebar
 
     if (openMonth && firstDateOfMonth) {
       loadMonth(firstDateOfMonth);

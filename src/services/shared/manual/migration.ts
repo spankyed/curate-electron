@@ -1,4 +1,5 @@
 import { sequelize } from '../schema';
+import { setSetting } from '../settings';
 
 export async function synchronizeDatabase() {
   try {
@@ -10,3 +11,5 @@ export async function synchronizeDatabase() {
 }
 
 synchronizeDatabase();
+
+setSetting('isNewUser', true);
