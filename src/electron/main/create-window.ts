@@ -14,7 +14,7 @@ export function createWindow(): void {
     // height: 768 / factor,
     // width: 1900,
     // height: 1100,
-    width: 1600,
+    width: 1800,
     height: 1000,
     // width: 1500,
     // height: 900,
