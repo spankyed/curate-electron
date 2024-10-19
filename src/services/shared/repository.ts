@@ -10,7 +10,7 @@ function updateDate(date: string, changes: Partial<DateRecord>): Promise<any> {
   return DatesTable.update(changes, { where: { value: date } });
 }
 
-async function getDatesByYear(year: string) {
+async function getDatesByYear(year: string | number) {
   const existingDates = await DatesTable.findAll({
     where: {
       value: {
@@ -24,7 +24,7 @@ async function getDatesByYear(year: string) {
 
   const allDates = [];
   const startDate = moment(`${year}-01-01`, 'YYYY-MM-DD');
-  const isCurrentYear = moment().year().toString() === year;
+  const isCurrentYear = moment().year().toString() === year.toString();
   const endDate = isCurrentYear ? moment().endOf('day') : moment(`${year}-12-31`, 'YYYY-MM-DD');
 
   for (let m = startDate; m.isSameOrBefore(endDate); m.add(1, 'days')) {
