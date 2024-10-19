@@ -1,9 +1,8 @@
-import * as sharedRepository from '@services/shared/repository';
-import { synchronizeDatabase } from './migration';
-import { setSetting } from '../settings';
+// import * as sharedRepository from '@services/shared/repository';
+import { setIsNewUser, synchronizeDatabase } from './migration';
 
 synchronizeDatabase();
 
-await sharedRepository.chroma.deleteReferenceCollection();
+// await sharedRepository.chroma.deleteReferenceCollection();
 
-setSetting('isNewUser', true);
+setIsNewUser();
