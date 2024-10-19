@@ -24,7 +24,8 @@ export const sequelize = new Sequelize({
   dialect: 'sqlite',
   // storage: `${dbRoot}/curate.db`,
   storage: getDatabasePath(),
-  logging: inDevelopment ? console.log : false, // This disables logging
+  // logging: inDevelopment ? console.log : false, // This disables logging
+  logging: false, // This disables logging
   // pool: {
   //   max: 10, // Maximum number of connections in pool
   //   min: 0, // Minimum number of connections in pool
