@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { Paper, Typography, Fade, Badge, Box } from '@mui/material';
 import { styled } from '@mui/system';
 import { getColorShadeRedToGreen } from '../../../../utils/getColorShade';
@@ -10,7 +11,7 @@ import {
   popoverRefAtom,
   hoverTimeoutAtom,
 } from './store';
-import { colors } from '@renderer/shared/styles/theme';
+// import { colors } from '@renderer/shared/styles/theme';
 import { roundScore } from '@renderer/shared/utils/roundScore';
 
 const padding = -8;
@@ -53,7 +54,7 @@ const SummaryPopover: React.FC = () => {
   const [anchorEl] = useAtom(anchorElAtom);
   const [popoverRef, setPopoverRefAtom] = useAtom(popoverRefAtom);
   const [paper] = useAtom(popoverTargetAtom);
-  let { relevancy: score } = paper || { relevancy: 0 };
+  const { relevancy: score } = paper || { relevancy: 0 };
   const [abstract, setAbstract] = useState(paper?.abstract || '');
   const [hoverTimeout, setHoverTimeout] = useAtom(hoverTimeoutAtom);
 
@@ -102,13 +103,17 @@ const SummaryPopover: React.FC = () => {
       }
 
       // let estimatedHeight = paper?.abstract.length * .4; // todo figure out way to estimate height with all the text
-      let estimatedHeight = popoverRect.height;
-      let topSpot = anchorRect.top - estimatedHeight - padding;
-      let bottomSpot = anchorRect.bottom + padding;
-      let top;
+      const estimatedHeight = popoverRect.height;
+      const topSpot = anchorRect.top - estimatedHeight - padding;
+      const bottomSpot = anchorRect.bottom + padding;
+      let top: number;
 
-      const putAbove = () => (top = topSpot + 11);
-      const putBelow = () => (top = bottomSpot + 12);
+      const putAbove = () => {
+        top = topSpot + 11;
+      };
+      const putBelow = () => {
+        top = bottomSpot + 12;
+      };
 
       const cantFitAbove = topSpot < 0;
       const cantFitBelow = bottomSpot + estimatedHeight > windowHeight;
@@ -124,7 +129,7 @@ const SummaryPopover: React.FC = () => {
 
           const sizeBase = overHalfWayDown ? anchorRect.y : windowHeight - bottomSpot;
           const randomHeightMultiplier = 2.3; // tried to relate text length to height
-          setAbstract(slice(paper?.abstract, sizeBase * randomHeightMultiplier) + '...');
+          setAbstract(`${slice(paper?.abstract, sizeBase * randomHeightMultiplier)}...`);
         } else {
           putBelow();
         }
@@ -135,7 +140,14 @@ const SummaryPopover: React.FC = () => {
       popoverRef.style.left = `${left}px`;
       popoverRef.style.top = `${top}px`;
     }
-  }, [anchorEl, popoverRef, abstract]);
+
+    return () => {
+      if (popoverRef) {
+        popoverRef.style.left = '';
+        popoverRef.style.top = '';
+      }
+    };
+  }, [isOpen, anchorEl, popoverRef]);
 
   return (
     <>
