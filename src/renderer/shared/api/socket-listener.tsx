@@ -28,7 +28,7 @@ const SocketListener = ({ eventName, handleEvent, id = '' }) => {
         window.socket.off(eventName, eventHandler as any);
       }
     };
-  }, [eventName, handleEvent]);
+  }, []);
 
   return null;
 };
