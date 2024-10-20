@@ -2,7 +2,7 @@ import repository from '@services/web/onboard/repository';
 import {
   doesReferenceCollectionExist,
   seedReferencePapers,
-} from '../../maintenance/scripts/seed-reference-papers';
+} from '@services/web/onboard/seed-reference-papers';
 
 export async function ensureReferenceCollectionExists() {
   const collectionExists = await doesReferenceCollectionExist();

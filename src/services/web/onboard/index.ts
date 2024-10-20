@@ -25,7 +25,7 @@ async function addInitialReferences(form) {
   const { inputIds } = form;
 
   if (inputIds?.length) {
-    await seedReferencePapers(undefined, inputIds);
+    // await seedReferencePapers(undefined, inputIds);
   }
 
   return 'References seeded!';
