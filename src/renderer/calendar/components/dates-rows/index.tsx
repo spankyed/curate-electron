@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Button, CircularProgress, Pagination, Typography } from '@mui/material';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import SummaryPopover from '@renderer/shared/components/paper/tile/summary/summary';
@@ -9,7 +10,7 @@ import {
   scrollableContainerRefAtom,
   updatePaperInCalenderAtom,
 } from '../../store';
-import { scrollToElement } from '@renderer/shared/utils/scrollPromise';
+// import { scrollToElement } from '@renderer/shared/utils/scrollPromise';
 import RowItem from './row-item';
 import { isSummaryOpenAtom } from '../../../shared/components/paper/tile/summary/store';
 import { emptyObjectAtom } from '@renderer/shared/store';
@@ -25,11 +26,11 @@ function DateRows(): React.ReactElement {
   const datesLength = datesAtoms.length;
   const updatePaper = useSetAtom(updatePaperInCalenderAtom);
 
-  useEffect(() => {
-    const handlePaperUpdate = (event) => {
-      updatePaper(event.detail);
-    };
+  const handlePaperUpdate = (event) => {
+    updatePaper(event.detail);
+  };
 
+  useEffect(() => {
     window.addEventListener('paperUpdate', handlePaperUpdate);
 
     return () => {
