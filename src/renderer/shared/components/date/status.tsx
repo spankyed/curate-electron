@@ -15,14 +15,22 @@ function ScrapeStatus({
   scrapeAtom: any;
   status: string;
 }): React.ReactElement {
-  const contentByStatus = {
-    pending: <ActionButton date={date} scrapeAtom={scrapeAtom} />,
-    scraping: <Scraping />,
-    ranking: <Ranking />,
-    error: <ErrorState />,
-  };
+  function getContent(status) {
+    switch (status) {
+      case 'pending':
+        return <ActionButton date={date} scrapeAtom={scrapeAtom} />;
+      case 'scraping':
+        return <Scraping />;
+      case 'ranking':
+        return <Ranking />;
+      case 'error':
+        return <ErrorState />;
+      default:
+        return <ErrorState />;
+    }
+  }
 
-  return <>{status ? contentByStatus[status] : contentByStatus.error}</>;
+  return <>{getContent(status)}</>;
 }
 
 export default ScrapeStatus;
