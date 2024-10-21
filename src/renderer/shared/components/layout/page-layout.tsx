@@ -1,9 +1,10 @@
-import React, { useState, useEffect, ReactNode, createRef } from 'react';
+import type React from 'react';
+import { useState, useEffect, type ReactNode, createRef } from 'react';
 import Box from '@mui/material/Box';
 import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import { forwardRef } from 'react';
-import { colors } from '@renderer/shared/styles/theme';
+// import { colors } from '@renderer/shared/styles/theme';
 
 interface PageLayoutProps {
   children: ReactNode;
@@ -13,6 +14,7 @@ interface PageLayoutProps {
 
 const height = 'calc(100vh - 65px)';
 
+// eslint-disable-next-line react/display-name
 const PageLayout = forwardRef<HTMLDivElement, PageLayoutProps>(
   ({ children, compact = true, ...props }, ref: React.ForwardedRef<HTMLDivElement>) => {
     const [showScroll, setShowScroll] = useState(false);

@@ -1,6 +1,6 @@
 // import './assets/main.css'
 
-import React from 'react';
+import type React from 'react';
 import { createRoot } from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
@@ -14,11 +14,19 @@ import SearchPage from '@renderer/search';
 import OnboardPage from '@renderer/onboard';
 import BackfillPage from '@renderer/backfill';
 import './shared/styles/index.css';
+import { ErrorBoundary } from 'react-error-boundary';
+import DevErrorBoundary from '@renderer/shared/error/dev';
+
+const ErrorBoundaryLayout = () => (
+  <ErrorBoundary FallbackComponent={DevErrorBoundary}>
+    <Layout />
+  </ErrorBoundary>
+);
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: <ErrorBoundaryLayout />,
     children: [
       { index: true, element: <Navigate to="/calendar" /> },
       { path: 'calendar', element: <CalendarPage /> },
