@@ -63,7 +63,11 @@ const Calendar: React.FC = () => {
       className="calendar"
     >
       <CalendarMain />
-      <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} />
+      <SocketListener
+        eventName="date_status"
+        handleEvent={handleDateStatusUpdate}
+        page="calendar"
+      />
     </PageLayout>
   );
 };

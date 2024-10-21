@@ -54,6 +54,7 @@ const BackfillPage = () => {
         eventName="date_status"
         handleEvent={handleDateStatusUpdate}
         id="batch-scrape"
+        page="batch"
       />
     </PageLayout>
   );

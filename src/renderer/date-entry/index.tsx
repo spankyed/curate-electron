@@ -93,10 +93,14 @@ function RenderByState({ dateId, state }) {
             date={dateId}
             scrapeAtom={scrapePapersDateEntryAtom}
           />
-          <SocketListener eventName="date_status" handleEvent={handleDateStatusUpdate} />
+          <SocketListener
+            eventName="date_status"
+            handleEvent={handleDateStatusUpdate}
+            page="date-entry"
+          />
         </>
       );
-    case 'complete':
+    // case 'complete':
     default:
       return <MainTabs papersAtom={filteredPapersAtom} slideUp={true} />;
   }

@@ -74,7 +74,7 @@ const PaperEntryPage = () => {
           <PdfModal paperId={paper?.id} />
         </>
       )}
-      <SocketListener eventName="chat_status" handleEvent={handleStreamStatus} />
+      <SocketListener eventName="chat_status" handleEvent={handleStreamStatus} page="paper-entry" />
     </PageLayout>
   );
 };

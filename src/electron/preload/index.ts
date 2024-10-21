@@ -1,4 +1,4 @@
-import { contextBridge, ipcRenderer } from 'electron';
+import { contextBridge, ipcRenderer, type IpcRendererEvent } from 'electron';
 
 declare global {
   interface Window {
@@ -43,8 +43,8 @@ declare global {
       'scrape-date': (date: string) => Promise<any>;
     };
     socket: {
-      on: (channel, callback: () => void) => void;
-      off: (channel, callback: () => void) => void;
+      on: (channel, page: string, callback: () => void) => void;
+      off: (channel, page: string) => void;
     };
   }
 }
@@ -93,11 +93,34 @@ contextBridge.exposeInMainWorld('api', {
   'scrape-date': (date) => ipcRenderer.invoke('scrape-date', date),
 });
 
-contextBridge.exposeInMainWorld('socket', {
-  on: (channel, callback) => ipcRenderer.on(channel, callback),
-  off: (channel, callback) => ipcRenderer.off(channel, callback),
-});
+type SocketCallback = (event: IpcRendererEvent, ...args) => void;
+const callbackStore: { [channel: string]: { [page: string]: SocketCallback } } = {};
 
-// contextBridge.exposeInMainWorld('socket', {
-//   onMessage: (callback) => ipcRenderer.on('socket-message', (_event, value) => callback(value)),
-// })
+contextBridge.exposeInMainWorld('socket', {
+  on: (channel: string, page: string, callback: SocketCallback) => {
+    console.log(`Registering listener for channel: ${channel} on page: ${page}`);
+
+    if (!callbackStore[channel]) {
+      callbackStore[channel] = {};
+    }
+    callbackStore[channel][page] = callback;
+
+    ipcRenderer.on(channel, callback);
+  },
+  off: (channel: string, page: string) => {
+    console.log(`Removing listener for channel: ${channel} on page: ${page}`);
+
+    const storedCallback = callbackStore[channel]?.[page];
+    if (storedCallback) {
+      ipcRenderer.off(channel, storedCallback);
+
+      delete callbackStore[channel][page];
+
+      if (Object.keys(callbackStore[channel]).length === 0) {
+        delete callbackStore[channel];
+      }
+    } else {
+      console.warn(`No listener found for channel: ${channel} on page: ${page}`);
+    }
+  },
+});
