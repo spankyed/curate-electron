@@ -2,7 +2,7 @@
 
 import type React from 'react';
 import { createRoot } from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom';
+import { createHashRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'jotai';
 import { colors } from './shared/styles/theme';
@@ -23,7 +23,7 @@ const ErrorBoundaryLayout = () => (
   </ErrorBoundary>
 );
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
     path: '/',
     element: <ErrorBoundaryLayout />,
