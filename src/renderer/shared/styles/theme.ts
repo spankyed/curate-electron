@@ -78,7 +78,7 @@ export const colors = createTheme({
       // main: '#5a48a7',
       light: deepPurple[400],
       // light: '#5a48a7',
-      dark: '#3b278e',
+      dark: '#5a5affff',
       // darker: blue[900],
     },
     secondary: {
