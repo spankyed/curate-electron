@@ -15,10 +15,10 @@ function DevErrorBoundary({ error }) {
 
   return (
     <section className="fallback">
+      <img src={logo} alt="Logo" />
       <header className="fallback__header">
         <h1 className="fallback__title">Oh no! Something went wrong</h1>
       </header>
-      <img src={logo} alt="Logo" />
       <button className="fallback__restart-btn" onClick={restartApp}>
         Restart Application
       </button>

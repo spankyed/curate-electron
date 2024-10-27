@@ -15,11 +15,12 @@ import { useAtom } from 'jotai';
 import Sidebar from './sidebar';
 import SidebarToggleButton from './sidebar/toggle';
 import { colors } from '@renderer/shared/styles/theme';
-import MenuIcon from '@mui/icons-material/Menu';
+// import MenuIcon from '@mui/icons-material/Menu';
 import { sidebarOpenAtom } from './sidebar/store';
 import { NotificationManager } from '../notification';
 import * as api from '@renderer/shared/api/fetch';
 import { isNewUserAtom } from './store';
+import logo from '@renderer/assets/logo.svg';
 
 // const height = 'calc(100vh - 65px)';
 
@@ -130,7 +131,29 @@ function TitleArea({ isNewUser }) {
         style={{ WebkitAppRegion: 'no-drag' }} // Exclude the Link from being draggable
       >
         <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <img
+            src={logo}
+            alt="Logo"
+            style={{ width: '40px', height: '40px', marginLeft: '4rem' }}
+          />
           <Typography
+            variant="subtitle1"
+            component="div"
+            sx={{
+              padding: '4px 4px',
+              // marginLeft: '4.5rem',
+            }}
+            style={{
+              letterSpacing: '3px',
+              // -webkit-text-security: square;
+              webkitTextSecurity: 'square',
+              // WebkitAppRegion: 'no-drag'
+            }}
+          >
+            Home
+          </Typography>
+
+          {/* <Typography
             variant="subtitle1"
             component="div"
             sx={{
@@ -139,10 +162,12 @@ function TitleArea({ isNewUser }) {
               // border: '2px solid white',
               // backgroundColor: '#4a39ab7a',
               // backgroundColor: 'rgba(0, 0, 0, 0.3)',
-              backgroundColor: '#3b278e',
+              // backgroundColor: '#5a5affff',
+              backgroundColor: '#ffb900ff',
               alignContent: 'center',
               marginLeft: '4rem',
               pointerEvents: 'initial',
+              color: 'black',
               // backgroundColor: colors.palette.primary.light,
             }}
           >
@@ -150,7 +175,7 @@ function TitleArea({ isNewUser }) {
           </Typography>
           <Typography variant="subtitle1" component="div" sx={{ padding: '4px 4px' }}>
             GPT
-          </Typography>
+          </Typography> */}
         </div>
       </Link>
     </div>
