@@ -145,7 +145,7 @@ function TitleArea({ isNewUser }) {
             sx={{
               padding: '4px 4px',
               '&:hover': {
-                color: 'green',
+                color: 'grey',
               },
               textDecoration: onHomePage() ? 'underline' : 'none',
               // marginLeft: '4.5rem',
