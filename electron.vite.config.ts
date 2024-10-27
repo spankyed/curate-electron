@@ -50,5 +50,6 @@ export default defineConfig(({ command, mode }) => {
         },
       },
     },
+    // clearScreen: false,
   };
 });
