@@ -146,8 +146,9 @@ function TitleArea({ isNewUser }) {
               padding: '4px 4px',
               '&:hover': {
                 color: 'grey',
+                // color: onHomePage() ? '#414049' : 'grey',
               },
-              textDecoration: onHomePage() ? 'underline' : 'none',
+              color: onHomePage() ? 'grey' : 'inherit',
               // marginLeft: '4.5rem',
             }}
             style={{

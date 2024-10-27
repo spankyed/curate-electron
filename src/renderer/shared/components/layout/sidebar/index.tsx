@@ -58,6 +58,7 @@ const Sidebar: React.FC = () => {
           <ListItemText primary="Calendar" />
         </NavItem> */}
         <NavItem
+          selected={isActive('search')}
           onClick={() => navigate('search')}
           sx={
             {
@@ -68,10 +69,7 @@ const Sidebar: React.FC = () => {
           <ListItemIcon>
             <SearchIcon />
           </ListItemIcon>
-          <ListItemText
-            sx={{ marginLeft: '1rem', textDecoration: isActive('search') ? 'underline' : 'none' }}
-            primary="Search"
-          />
+          <ListItemText sx={{ marginLeft: '1rem' }} primary="Search" />
         </NavItem>
 
         {/* <NavItem onClick={() => navigate('analytics')}>
@@ -81,14 +79,11 @@ const Sidebar: React.FC = () => {
           <ListItemText primary="Reports" />
         </NavItem> */}
 
-        <NavItem onClick={() => navigate('backfill')}>
+        <NavItem selected={isActive('backfill')} onClick={() => navigate('backfill')}>
           <ListItemIcon>
             <ChecklistIcon />
           </ListItemIcon>
-          <ListItemText
-            sx={{ marginLeft: '1rem', textDecoration: isActive('backfill') ? 'underline' : 'none' }}
-            primary="Backfill"
-          />
+          <ListItemText sx={{ marginLeft: '1rem' }} primary="Backfill" />
         </NavItem>
       </List>
       <Dates />
