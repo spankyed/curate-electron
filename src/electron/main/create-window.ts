@@ -1,7 +1,11 @@
-import { shell, BrowserWindow } from 'electron';
+import { shell, BrowserWindow, app } from 'electron';
 import { join } from 'node:path';
 import { is } from '@electron-toolkit/utils';
 import icon from '../resources/icon.png?asset';
+
+if (is.dev) {
+  app.dock.setIcon(icon);
+}
 
 export function createWindow(): void {
   // const factor = screen.getPrimaryDisplay().scaleFactor;
@@ -26,7 +30,7 @@ export function createWindow(): void {
     // autoHideMenuBar: true,
     titleBarStyle: 'hidden',
     trafficLightPosition: { x: 15, y: 20 },
-    ...(process.platform === 'linux' ? { icon } : {}),
+    ...(process.platform === 'linux' ? { icon } : { icon }),
     webPreferences: {
       preload: join(__dirname, '../preload/index.mjs'),
       sandbox: false,
