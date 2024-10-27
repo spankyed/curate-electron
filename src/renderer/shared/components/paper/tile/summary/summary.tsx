@@ -13,6 +13,7 @@ import {
 } from './store';
 // import { colors } from '@renderer/shared/styles/theme';
 import { roundScore } from '@renderer/shared/utils/roundScore';
+import { useNavigate } from 'react-router-dom';
 
 const padding = -8;
 
@@ -50,6 +51,7 @@ const ScoreDiv = styled(Box)<{ paper: any }>(({ theme, paper }) => {
 });
 
 const SummaryPopover: React.FC = () => {
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useAtom(isSummaryOpenAtom);
   const [anchorEl] = useAtom(anchorElAtom);
   const [popoverRef, setPopoverRefAtom] = useAtom(popoverRefAtom);
@@ -149,10 +151,23 @@ const SummaryPopover: React.FC = () => {
     };
   }, [isOpen, anchorEl, popoverRef]);
 
+  const onThumbnailClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+
+    const is = (tag: string) => (e.target as HTMLElement).tagName === tag;
+    const ignore = is('BUTTON') || is('path') || is('svg') || is('LI');
+
+    if (ignore) return;
+
+    // console.log('paper: ', paper);
+    navigate(`/paper/${paper?.id}`);
+  };
+
   return (
     <>
       {isOpen && (
         <div
+          onClick={onThumbnailClick}
           onMouseLeave={handleMouseOut}
           ref={popoverRefCallback}
           style={{

@@ -7,7 +7,7 @@ import {
   popoverTargetAtom,
   hoverTimeoutAtom,
 } from './summary/store';
-import { Paper } from '@renderer/shared/utils/types';
+import type { Paper } from '@renderer/shared/utils/types';
 
 type TileProps = {
   paper: Paper;
