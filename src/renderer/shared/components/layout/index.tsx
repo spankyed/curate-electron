@@ -9,7 +9,7 @@ import {
   InputBase,
   TextField,
 } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 import { useAtom } from 'jotai';
 import Sidebar from './sidebar';
@@ -92,6 +92,9 @@ function Layout(): React.ReactElement {
 }
 
 function TitleArea({ isNewUser }) {
+  const location = useLocation();
+  const onHomePage = () => location.pathname.includes('calendar');
+
   const [, setSidebarOpen] = useAtom(sidebarOpenAtom); // Assuming you have a setter function for the sidebar open state
 
   const toggleSidebar = () => {
@@ -141,6 +144,10 @@ function TitleArea({ isNewUser }) {
             component="div"
             sx={{
               padding: '4px 4px',
+              '&:hover': {
+                color: 'green',
+              },
+              textDecoration: onHomePage() ? 'underline' : 'none',
               // marginLeft: '4.5rem',
             }}
             style={{

@@ -1,22 +1,12 @@
 import type React from 'react';
-import {
-  Box,
-  Divider,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  ListSubheader,
-} from '@mui/material';
+import { Box, List, ListItemIcon, ListItemText } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import AssessmentIcon from '@mui/icons-material/Assessment';
-import DateRangeIcon from '@mui/icons-material/DateRange';
 import ChecklistIcon from '@mui/icons-material/Checklist';
 
 import { useAtom } from 'jotai';
 import Dates from './dates';
 import { sidebarOpenAtom } from './store';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { styled } from '@mui/system';
 import ListItemButton from '@mui/material/ListItemButton'; // Import ListItemButton
 import { colors } from '@renderer/shared/styles/theme';
@@ -27,6 +17,9 @@ const NavItem = styled(ListItemButton)(({ theme }) => ({
 
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const isActive = (path: string) => location.pathname.includes(path);
+
   const [isSidebarOpen] = useAtom(sidebarOpenAtom);
 
   return (
@@ -75,7 +68,10 @@ const Sidebar: React.FC = () => {
           <ListItemIcon>
             <SearchIcon />
           </ListItemIcon>
-          <ListItemText sx={{ marginLeft: '1rem' }} primary="Search" />
+          <ListItemText
+            sx={{ marginLeft: '1rem', textDecoration: isActive('search') ? 'underline' : 'none' }}
+            primary="Search"
+          />
         </NavItem>
 
         {/* <NavItem onClick={() => navigate('analytics')}>
@@ -89,7 +85,10 @@ const Sidebar: React.FC = () => {
           <ListItemIcon>
             <ChecklistIcon />
           </ListItemIcon>
-          <ListItemText sx={{ marginLeft: '1rem' }} primary="Backfill" />
+          <ListItemText
+            sx={{ marginLeft: '1rem', textDecoration: isActive('backfill') ? 'underline' : 'none' }}
+            primary="Backfill"
+          />
         </NavItem>
       </List>
       <Dates />
