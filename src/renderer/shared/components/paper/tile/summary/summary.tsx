@@ -50,6 +50,7 @@ const ScoreDiv = styled(Box)<{ paper: any }>(({ theme, paper }) => {
   };
 });
 
+// transition to use popover api https://dev.to/hnrq/create-a-react-tooltip-component-using-popover-api-155o
 const SummaryPopover: React.FC = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useAtom(isSummaryOpenAtom);
