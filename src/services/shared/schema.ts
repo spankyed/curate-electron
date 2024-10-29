@@ -3,13 +3,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'url';
 import { app } from 'electron';
 
-const filename = fileURLToPath(import.meta.url);
-const dirname = path.dirname(filename);
-
 // const dbRoot = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/sqlite';
 const inDevelopment = !app.isPackaged;
 
 const getDatabasePath = () => {
+  const filename = fileURLToPath(import.meta.url);
+  const dirname = path.dirname(filename);
+
   if (inDevelopment) {
     // Development: use the project directory
     return path.join(dirname, '../../src/services/database/sqlite/curate.db');
