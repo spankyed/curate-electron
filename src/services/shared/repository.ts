@@ -153,6 +153,10 @@ async function getReferenceCollectionCount() {
   return collection.count();
 }
 
+async function chromaHeartbeat() {
+  return client.heartbeat();
+}
+
 const chroma = {
   storeReferencePaperChroma,
   checkForExistingReferenceCollection,
@@ -161,6 +165,7 @@ const chroma = {
   initializeReferenceCollection,
   deleteReferenceCollection,
   getReferenceCollectionCount,
+  chromaHeartbeat,
 };
 
 export { chroma, updateDate, storePapers, getDatesByYear };
