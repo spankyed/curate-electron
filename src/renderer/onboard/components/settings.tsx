@@ -33,8 +33,12 @@ function UserSettings() {
         <Box sx={{ maxWidth: 620, m: 'auto' }}>
           <Grid container spacing={2} alignItems="center">
             <Grid item xs={3}>
+              <Typography variant="body2" color="textSecondary">
+                (feature unavailable)
+              </Typography>
               <Checkbox
-                sx={{ color: '#9e9e9e !important' }}
+                disabled={true}
+                sx={{ color: '#9e9e9e !important', justifyContent: 'center' }}
                 checked={autoScrapeDates}
                 onChange={(event) => setAutoScrapeDates(event.target.checked)}
               />

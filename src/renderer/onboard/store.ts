@@ -11,7 +11,7 @@ export const onboardingStateAtom = atom<'onboarding' | 'loading'>('onboarding');
 
 export const canGoNextAtom = atom(true);
 export const inputIdsAtom = atom<string[]>([]);
-export const autoScrapeDatesAtom = atom(true);
+export const autoScrapeDatesAtom = atom(false);
 export const apiKeyOpenAIAtom = atom('');
 
 export const recommendButtonDisabledAtom = atom(false);
@@ -28,7 +28,7 @@ export const completeOnboardingAtom = atom(null, async (get, set) => {
   set(onboardingStateAtom, 'loading');
 
   try {
-    const dateList = await api.onboard(form);
+    const dateList = await api.onboard(form as any);
     // if (dateList.length) {
     //   set(setSidebarDataAtom, dateList)
     // }
