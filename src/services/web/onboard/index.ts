@@ -22,7 +22,7 @@ async function onboardNewUser(settings) {
 
   await Promise.all([
     sharedRepository.getDatesByYear(currentYear.toString()),
-    // sharedRepository.chroma.initializeReferenceCollection(),
+    sharedRepository.chroma.initializeReferenceCollection(),
   ]);
 
   setSetting({ ...settings, isNewUser: false });
@@ -36,7 +36,7 @@ async function addInitialReferences(form) {
   const { inputIds } = form;
 
   if (inputIds?.length) {
-    // await seedReferencePapers(undefined, inputIds);
+    await seedReferencePapers(undefined, inputIds);
   }
 
   return 'References seeded!';

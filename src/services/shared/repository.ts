@@ -4,7 +4,8 @@ import { ChromaClient } from 'chromadb';
 import type { DateRecord, PaperRecord } from './types';
 import moment from 'moment';
 import { Sequelize, DataTypes, Op } from 'sequelize';
-import { ReferenceCollectionName } from './chroma';
+
+export const ReferenceCollectionName = 'paper-embeddings';
 
 function updateDate(date: string, changes: Partial<DateRecord>): Promise<any> {
   return DatesTable.update(changes, { where: { value: date } });
@@ -113,8 +114,12 @@ async function addToReferenceCollection(papers: Partial<PaperRecord>[]) {
   return ids;
 }
 
-async function initializeReferenceCollection() {
+async function initializeReferenceCollection(recreate = false) {
   const collectionExists = await checkForExistingReferenceCollection();
+
+  if (collectionExists && !recreate) {
+    return;
+  }
 
   if (collectionExists) {
     await client.deleteCollection({ name: ReferenceCollectionName });

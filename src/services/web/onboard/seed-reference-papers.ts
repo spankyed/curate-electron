@@ -13,7 +13,7 @@ export function doesReferenceCollectionExist() {
 }
 
 export async function seedReferencePapers(papers?: any[], ids = null) {
-  await sharedRepository.chroma.initializeReferenceCollection();
+  await sharedRepository.chroma.initializeReferenceCollection(true);
 
   if (!papers || !papers.length) {
     papers = await scrapeAndStoreReferencePapers(ids);
