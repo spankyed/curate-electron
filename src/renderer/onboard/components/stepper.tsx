@@ -53,12 +53,12 @@ const IconStyled = styled('div')<{
   justifyContent: 'center',
   alignItems: 'center',
   ...(ownerState.active && {
-    backgroundColor: secondaryColor,
+    backgroundColor: 'rgba(57, 73, 171, 0.16)',
     border: `2px solid rgba(255,255,255,0.25)`,
     boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)',
   }),
   ...(ownerState.completed && {
-    backgroundColor: secondaryColor,
+    backgroundColor: 'rgba(57, 73, 171, 0.16)',
   }),
 }));
 
