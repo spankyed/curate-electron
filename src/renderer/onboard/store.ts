@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import type dayjs from 'dayjs';
 import { isNewUserAtom } from '@renderer/shared/components/layout/store';
-import { setSidebarDataAtom } from '@renderer/shared/components/layout/sidebar/dates/store';
+// import { setSidebarDataAtom } from '@renderer/shared/components/layout/sidebar/dates/store';
 import { addAlertAtom } from '@renderer/shared/components/notification/store';
 import * as api from '@renderer/shared/api/fetch';
 
@@ -13,26 +13,35 @@ export const canGoNextAtom = atom(true);
 export const inputIdsAtom = atom<string[]>([]);
 export const autoScrapeDatesAtom = atom(false);
 export const apiKeyOpenAIAtom = atom('');
+export const validKeyErrorAtom = atom('');
 
 export const recommendButtonDisabledAtom = atom(false);
 
 export const completeOnboardingAtom = atom(null, async (get, set) => {
   const form = {
     // inputIds: get(inputIdsAtom),
-    config: {
-      autoScrapeNewDates: get(autoScrapeDatesAtom),
-      apiKeyOpenAI: get(apiKeyOpenAIAtom),
-    },
+    autoScrapeNewDates: get(autoScrapeDatesAtom),
+    apiKeyOpenAI: get(apiKeyOpenAIAtom),
   };
 
   set(onboardingStateAtom, 'loading');
 
   try {
-    const dateList = await api.onboard(form as any);
+    const success = await api.onboard(form as any);
+
+    if (!success) {
+      set(validKeyErrorAtom, 'Invalid API key. Please try a different key.');
+      set(onboardingStateAtom, 'onboarding');
+
+      return false;
+    }
+
+    set(validKeyErrorAtom, '');
+    set(isNewUserAtom, false);
+
     // if (dateList.length) {
     //   set(setSidebarDataAtom, dateList)
     // }
-    set(isNewUserAtom, false);
     return true;
   } catch (error) {
     set(addAlertAtom, { message: 'Failed to complete onboarding due to a server error.' });
