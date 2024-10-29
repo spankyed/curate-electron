@@ -151,12 +151,14 @@ function TitleArea({ isNewUser }) {
               color: onHomePage() ? 'grey' : 'inherit',
               // marginLeft: '4.5rem',
             }}
-            style={{
-              letterSpacing: '3px',
-              // -webkit-text-security: square;
-              webkitTextSecurity: 'square',
-              // WebkitAppRegion: 'no-drag'
-            }}
+            style={
+              {
+                letterSpacing: '3px',
+                // -webkit-text-security: square;
+                webkitTextSecurity: 'square',
+                // WebkitAppRegion: 'no-drag'
+              } as any
+            }
           >
             Home
           </Typography>

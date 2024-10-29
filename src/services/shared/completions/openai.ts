@@ -1,6 +1,6 @@
 import type {
   ChatCompletionCreateParams,
-  ChatCompletionChunk,
+  // ChatCompletionChunk,
 } from 'openai/resources/chat/completions';
 import OpenAI from 'openai';
 import { pdfText } from './prompts';
