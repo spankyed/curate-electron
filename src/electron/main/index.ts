@@ -6,6 +6,13 @@ import { handleStaticFiles } from './handle-static-files';
 import { setSetting } from '@services/shared/settings';
 import dotenv from 'dotenv';
 import { sequelize } from '@services/shared/schema';
+import { startChromaDB } from './start-chroma-db';
+
+// setSetting({
+//   isNewUser: true,
+// });
+
+startChromaDB();
 
 // This method will be called when Electron has finished initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
