@@ -45,6 +45,9 @@ const PageTitle: React.FC<{ value: string; count: number }> = ({ value, count })
     return `${weekday}, ${month} ${day}, ${year}`;
   }, [value]);
 
+  const dateIsToday = dayjs(value).isSame(dayjs(), 'day');
+  const prevDayIsBefore1991 = dayjs(value).subtract(1, 'day').isBefore('1991-01-01');
+
   const handleArrowClick = (direction: 'next' | 'prev') => {
     const date = dayjs(value);
     const newDate = direction === 'next' ? date.add(1, 'day') : date.subtract(1, 'day');
@@ -53,7 +56,12 @@ const PageTitle: React.FC<{ value: string; count: number }> = ({ value, count })
 
   return (
     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
-      <IconButton sx={{ mr: 8 }} aria-label="next" onClick={() => handleArrowClick('prev')}>
+      <IconButton
+        disabled={prevDayIsBefore1991}
+        sx={{ mr: 8 }}
+        aria-label="next"
+        onClick={() => handleArrowClick('prev')}
+      >
         <ArrowBackIosNewIcon fontSize="large" />
       </IconButton>
       <ScoreBadge badgeContent={`${count}`} count={count} max={999} invisible={count === 0}>
@@ -75,7 +83,12 @@ const PageTitle: React.FC<{ value: string; count: number }> = ({ value, count })
           {dateEntryState === 'error' ? `Error loading date ${value}` : formattedDate}
         </Typography>
       </ScoreBadge>
-      <IconButton sx={{ ml: 8 }} aria-label="next" onClick={() => handleArrowClick('next')}>
+      <IconButton
+        disabled={dateIsToday}
+        sx={{ ml: 8 }}
+        aria-label="next"
+        onClick={() => handleArrowClick('next')}
+      >
         <ArrowForwardIosIcon fontSize="large" />
       </IconButton>
     </Box>
