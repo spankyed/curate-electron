@@ -69,14 +69,9 @@ async function storePapers(papers: PaperRecord[]): Promise<any> {
   }
 }
 
-const client = new ChromaClient();
-// const embedder = await createEmbedder();
-// let embedder: any = null;
-// (async () => {
-//   embedder = await createEmbedder();
-// })();
-
-// const collection = await client.getCollection({ name: 'paper-embeddings', embeddingFunction: embedder });
+const client = new ChromaClient({
+  // path: "http://localhost:8000"
+});
 
 async function checkForExistingReferenceCollection() {
   const existingCollections = await client.listCollections();

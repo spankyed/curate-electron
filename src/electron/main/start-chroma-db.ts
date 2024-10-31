@@ -72,19 +72,21 @@ export async function startChromaDB() {
   console.log('paths: ', { resourcesPath: process.resourcesPath, chromaPath, dbPath });
 
   // Start the ChromaDB process
+  // ? chroma run --host localhost --port 8000 --path ./my_chroma_data
+  // ? http://localhost:8000/docs
   chromaProc = spawn(chromaPath, args);
   // chromaProc = spawn(chromaPath, args, { env });
 
   chromaProc.stdout.on('data', (data) => {
-    console.log(`[ChromaDB stdout] ${data}`);
+    // console.log(`[ChromaDB stdout] ${data}`);
   });
 
   chromaProc.stderr.on('data', (data) => {
-    console.error(`[ChromaDB stderr] ${data}`);
+    // console.error(`[ChromaDB stderr] ${data}`);
   });
 
   chromaProc.on('close', (code) => {
-    console.log(`ChromaDB process exited with code ${code}`);
+    // console.log(`ChromaDB process exited with code ${code}`);
   });
 
   waitForChromaDBReady()
@@ -99,9 +101,19 @@ export async function startChromaDB() {
   return chromaProc;
 }
 
+export function cleanupResources() {
+  console.log('Closing chroma server...');
+  if (chromaProc) {
+    try {
+      chromaProc.kill();
+      console.log('ChromaDB process terminated');
+    } catch (error) {
+      console.log('Error terminating ChromaDB process:', error);
+    }
+  }
+}
+
 // Manually kill the chroma process
 app.on('before-quit', () => {
-  if (chromaProc) {
-    chromaProc.kill();
-  }
+  cleanupResources();
 });
