@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, crashReporter } from 'electron';
 import { electronApp, optimizer } from '@electron-toolkit/utils';
 import { createWindow } from './create-window';
 import { handleServices } from './handle-services';
@@ -64,3 +64,35 @@ app.on('window-all-closed', () => {
     app.quit();
   }
 });
+
+if (!app.isPackaged) {
+  app.setPath('crashDumps', '/electron-crash-dumps');
+}
+
+crashReporter.start({
+  // submitURL: 'https://your-domain.com/url-to-submit',
+  uploadToServer: false, // Set to true if you have a server to receive crash reports
+});
+
+// process.on('uncaughtException', (error) => {
+//   console.error('Uncaught Exception:', error);
+//   cleanupResources();
+//   // Optionally, show an error dialog or attempt to restart
+// });
+
+// process.on('unhandledRejection', (reason, promise) => {
+//   console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+//   // Handle the rejection
+// });
+
+// process.on('SIGINT', () => {
+//   console.log('Received SIGINT');
+//   cleanupResources();
+//   process.exit(0);
+// });
+
+// process.on('SIGTERM', () => {
+//   console.log('Received SIGTERM');
+//   cleanupResources();
+//   process.exit(0);
+// });
