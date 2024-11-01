@@ -21,7 +21,6 @@ export const scrapeAndRankPapers = async (date, alwaysNotify = true) => {
 
     // Use the worker thread for getRelevancyScores
     const rankedPapers = await spawnRankingProcess(papers);
-    console.log('rankedPapers: ', rankedPapers);
     const paperRecords = rankedPapers.sort((a, b) => b.relevancy - a.relevancy);
 
     console.log('Storing papers in DB...', date);

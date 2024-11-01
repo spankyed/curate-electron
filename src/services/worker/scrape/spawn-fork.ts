@@ -16,7 +16,7 @@ export default function spawnRankingProcess(papers) {
     // });
 
     child.on('message', (data) => {
-      console.log('data from child: ', data);
+      // console.log('data from child: ', data);
       if (data.ready) {
         // Child is ready, send the papers data
         child.send(papers);
