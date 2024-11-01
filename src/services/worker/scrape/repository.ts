@@ -18,6 +18,7 @@ async function getReferenceCollection() {
 }
 
 async function queryReferenceCollection(corpus: any[], nResults = 5) {
+  console.log('corpus: ', corpus);
   const collection = await getReferenceCollection();
 
   return collection.query({

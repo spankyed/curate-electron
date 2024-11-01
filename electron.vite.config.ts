@@ -24,6 +24,7 @@ export default defineConfig(({ command, mode }) => {
           input: {
             index: resolve(__dirname, 'src/electron/main/index.ts'),
             'ranking-process': resolve(__dirname, 'src/services/worker/scrape/ranking-process.ts'),
+            'query-process': resolve(__dirname, 'src/services/worker/scrape/query-process.ts'),
           },
         },
       },

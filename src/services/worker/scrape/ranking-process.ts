@@ -1,5 +1,7 @@
 import os from 'node:os';
 import repository, { ReferenceCollectionName } from './repository';
+import { fork } from 'node:child_process';
+import path from 'node:path';
 
 if (!process.send) {
   throw new Error('This script must be run as a child process');
@@ -20,7 +22,96 @@ process.on('message', async (papers) => {
 
 process.send({ ready: true });
 
-export async function getRelevancyScores(papers, nResults = 5) {
+function processBatchInChildProcess(batch, nResults) {
+  return new Promise((resolve, reject) => {
+    const childPath = path.resolve(__dirname, 'query-process.js');
+
+    const child = fork(childPath, ['child']);
+
+    // const child = fork(childPath, [], {
+    //   stdio: ['inherit', 'inherit', 'inherit', 'ipc'], // Ensure IPC is enabled
+    // });
+
+    child.on('message', (message) => {
+      console.log('message: ', message);
+      if (message.results) {
+        resolve(message.results);
+        child.kill();
+      } else if (message.error) {
+        reject(new Error(message.error));
+        child.kill();
+      }
+    });
+
+    child.on('error', (error) => {
+      console.error('Child process error:', error);
+      reject(error);
+    });
+
+    child.on('exit', (code) => {
+      if (code !== 0) {
+        console.error(`Child process exited with code ${code}`);
+      }
+    });
+
+    // Send the batch to the child process
+    console.log('1');
+    child.send({ batch, nResults });
+  });
+}
+
+export async function getRelevancyScores(papers, nResults = 4) {
+  console.log('Starting getRelevancyScores...');
+
+  const collectionExists = await repository.chroma.checkForExistingReferenceCollection();
+  if (!collectionExists) {
+    throw new Error(`Collection ${ReferenceCollectionName} does not exist`);
+  }
+
+  try {
+    console.log('Number of papers:', papers.length);
+
+    const batchSize = 50;
+    const batchedPapers = chunkArray(papers, batchSize);
+
+    // Array to hold promises from child processes
+    const batchPromises = [];
+
+    for (let i = 0; i < batchedPapers.length; i++) {
+      const batch = batchedPapers[i].map((paper) => `${paper.title}. ${paper.abstract}`);
+      console.log(`Processing batch ${i + 1} of ${batchedPapers.length}`);
+
+      // Spawn a child process for each batch
+      const promise = processBatchInChildProcess(batch, nResults);
+      batchPromises.push(promise);
+      console.log(2);
+    }
+
+    // Wait for all child processes to complete
+    console.log(3);
+    const batchResults = await Promise.all(batchPromises);
+    console.log('batchResults: ', batchResults);
+
+
+    batchResults.forEach((results, i) => {
+      const batch = batchedPapers[i];
+      batch.forEach((paper, index) => {
+        const relevancyScores = results.distances?.[index] || [];
+        const avgRelevancy =
+          relevancyScores.reduce((a, b) => a + b, 0) / (relevancyScores.length || 1);
+        paper.relevancy = avgRelevancy ? 1 - avgRelevancy : 0;
+      });
+    });
+
+    console.log('Completed getRelevancyScores');
+    return papers;
+  } catch (err) {
+    console.error('Error in getRelevancyScores:', err);
+    throw err;
+  }
+}
+
+export async function getRelevancyScores1(papers, nResults = 5) {
   console.log('Starting getRelevancyScores...');
 
   const collectionExists = await repository.chroma.checkForExistingReferenceCollection();
