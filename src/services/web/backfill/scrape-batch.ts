@@ -1,4 +1,4 @@
-import scrapeAndRankPapers from '@services/worker/scrape/scrape-and-rank';
+import { scrapeAndRankPapers } from '@services/worker/scrape';
 import repository from '../onboard/repository';
 import { updateWorkStatus } from '@services/shared/status';
 
