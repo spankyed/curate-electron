@@ -1,7 +1,7 @@
 import { assign, type ErrorActorEvent, fromPromise, setup } from 'xstate';
 import * as sharedRepository from '@services/shared/repository';
 import { updateWorkStatus } from '@services/shared/status';
-import scrapePapersByDate from './scrape-papers-by-date';
+import scrapeArxivByDate from './scrape-arxiv-by-date';
 import spawnRankingProcess from './spawn-fork';
 import { DateStatuses, type PaperRecord } from '@services/shared/types';
 
@@ -17,8 +17,8 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
       };
     },
     actors: {
-      scrapePapersByDate: fromPromise(async ({ input }: { input: { date: string } }) => {
-        const papers = await scrapePapersByDate(input.date);
+      scrapeArxivByDate: fromPromise(async ({ input }: { input: { date: string } }) => {
+        const papers = await scrapeArxivByDate(input.date);
 
         return papers;
       }),
@@ -95,7 +95,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
           'setScrapingStatus',
         ],
         invoke: {
-          src: 'scrapePapersByDate',
+          src: 'scrapeArxivByDate',
           input: ({ context }) => ({ date: context.date }),
           onDone: {
             target: 'Check if papers were found',

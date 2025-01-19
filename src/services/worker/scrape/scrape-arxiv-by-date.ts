@@ -19,7 +19,7 @@ const createArxivQuery = (dateString: string): string => {
   return `search_query=cat:cs.AI+AND+submittedDate:[${formattedDate}0000+TO+${formattedDate}2359]&start=0&max_results=${maxResults}`;
 };
 
-export default async function scrapePapersByDate(date: string): Promise<PaperRecord[]> {
+export default async function scrapeArxivByDate(date: string): Promise<PaperRecord[]> {
   try {
     const query = createArxivQuery(date);
     const url = ARXIV_API_ENDPOINT + query;
@@ -37,7 +37,7 @@ export default async function scrapePapersByDate(date: string): Promise<PaperRec
 }
 
 // Example usage
-// scrapePapersByDate('2024-02-21').then(papers => {
+// scrapeArxivByDate('2024-02-21').then(papers => {
 //   console.log(papers);
 // }).catch(error => {
 //   console.error('Error fetching papers:', error);
