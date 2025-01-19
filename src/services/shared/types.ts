@@ -10,6 +10,14 @@ export enum DateStatuses {
 }
 
 export type PaperStatuses = 0 | 1 | 2 | 3;
+
+// export enum PaperStatuses {
+//   UNSPECIFIED = 0,
+//   APPROVED = 1,
+//   GENERATED = 2,
+//   PUBLISHED = 3,
+// }
+
 export type TableTypes = {
   dates: DateRecord;
   papers: PaperRecord;

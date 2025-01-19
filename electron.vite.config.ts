@@ -23,7 +23,10 @@ export default defineConfig(({ command, mode }) => {
         rollupOptions: {
           input: {
             index: resolve(__dirname, 'src/electron/main/index.ts'),
-            'ranking-process': resolve(__dirname, 'src/services/worker/scrape/ranking-process.ts'),
+            'ranking-process': resolve(
+              __dirname,
+              'src/services/worker/scrape-rank/rank/ranking-process.ts'
+            ),
           },
         },
       },

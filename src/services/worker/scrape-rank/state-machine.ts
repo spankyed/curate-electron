@@ -1,4 +1,4 @@
-import { assign, type ErrorActorEvent, fromPromise, setup } from 'xstate';
+import { assign, type ErrorActorEvent, fromPromise, setup, log } from 'xstate';
 import * as sharedRepository from '@services/shared/repository';
 import { updateWorkStatus } from '@services/shared/status';
 import scrapeArxivByDate from './scrape-arxiv-by-date';
@@ -42,7 +42,6 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
       }),
     },
     actions: {
-      log: (_, params: { message: string }) => console.log(params.message),
       logError: ({ context }) =>
         console.error(
           `_Error scraping/ranking papers for [${context.date}]:`,
@@ -90,10 +89,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
     },
     states: {
       'Scrape arxiv by date': {
-        entry: [
-          { type: 'log', params: { message: `_Scraping papers for: ${date}` } },
-          'setScrapingStatus',
-        ],
+        entry: [log(`_Scraping papers for: ${date}`), 'setScrapingStatus'],
         invoke: {
           src: 'scrapeArxivByDate',
           input: ({ context }) => ({ date: context.date }),
@@ -124,7 +120,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
       },
 
       'Rank papers in batches': {
-        entry: [{ type: 'log', params: { message: '_Ranking papers..' } }, 'setRankingStatus'],
+        entry: [log('_Ranking papers..'), 'setRankingStatus'],
         invoke: {
           src: 'spawnRankingProcess',
           input: ({ context }) => ({ papers: context.papers }),
@@ -146,7 +142,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
       },
 
       'Store ranked papers': {
-        entry: [{ type: 'log', params: { message: '_Storing papers..' } }],
+        entry: log('_Storing papers..'),
         invoke: {
           src: 'storePapers',
           input: ({ context }) => ({ rankedPapers: context.papers }),
@@ -163,10 +159,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
       },
 
       'Handle success': {
-        entry: [
-          { type: 'log', params: { message: `_Sucessfully scraped ranked papers for: ${date}` } },
-          'setCompleteStatus',
-        ],
+        entry: [log(`_Sucessfully scraped ranked papers for: ${date}`), 'setCompleteStatus'],
         type: 'final',
       },
 
