@@ -1,5 +1,14 @@
 // export type RecordTypes = DateRecord | PaperRecord | { lastRun: string };
-export type DateStatuses = 'pending' | 'scraping' | 'ranking' | 'complete';
+// export type DateStatuses = 'pending' | 'scraping' | 'ranking' | 'complete';
+
+export enum DateStatuses {
+  PENDING = 'pending',
+  SCRAPING = 'scraping',
+  RANKING = 'ranking',
+  COMPLETE = 'complete',
+  ERROR = 'error',
+}
+
 export type PaperStatuses = 0 | 1 | 2 | 3;
 export type TableTypes = {
   dates: DateRecord;

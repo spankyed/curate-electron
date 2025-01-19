@@ -1,7 +1,7 @@
 import cron from 'node-cron';
-import scrapeAndRankPapers from '@services/worker/scripts/scrape';
+import { runScrapeAndRank } from '@services/worker/scrape';
 import repository from '@services/web/onboard/repository';
-import { getCurrentDate } from '../backfill/add-dates';
+// import { getCurrentDate } from '@services/web/backfill/add-dates';
 import { getSetting } from '@services/shared/settings';
 
 // ! not used
@@ -48,7 +48,7 @@ async function attemptToScrapeTodaysPapers(date: any) {
   const dateRecord = await repository.getDate(date);
   const isPending = dateRecord?.status === 'pending';
 
-  const result = isPending ? await scrapeAndRankPapers(date, false) : [];
+  const result = isPending ? await runScrapeAndRank(date, false) : [];
 
   if (scrapeJobs[date] && (result.length || !isPending)) {
     scrapeJobs[date].stop();

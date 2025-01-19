@@ -1,4 +1,4 @@
-import { scrapeAndRankPapers } from '@services/worker/scrape';
+import { runScrapeAndRank } from '@services/worker/scrape';
 import repository from '../onboard/repository';
 import { updateWorkStatus } from '@services/shared/status';
 
@@ -18,7 +18,7 @@ export async function scrapeBatch(dates?: any[]) {
     const batch = pendingDates.slice(i, i + batchSize);
 
     try {
-      const batchResults = await Promise.all(batch.map((date: any) => scrapeAndRankPapers(date)));
+      const batchResults = await Promise.all(batch.map((date: any) => runScrapeAndRank(date)));
       // results.push(...batchResults);
     } catch (error) {
       // Log the error and possibly decide whether to continue with the next batch
