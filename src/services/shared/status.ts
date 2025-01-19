@@ -12,7 +12,7 @@ export async function updateWorkStatus(
   alwaysNotify = true
 ) {
   if (alwaysNotify || status === 'complete') {
-    console.log('update-work-status: ', { key, status, data: !!data, final });
+    // console.log('update-work-status: ', { key, status, data: !!data, final });
     sendToMainWindow('date_status', { type: 'dates', key, status, data, final });
   }
 

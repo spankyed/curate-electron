@@ -89,7 +89,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
     },
     states: {
       'Scrape arxiv by date': {
-        entry: [log(`_Scraping papers for: ${date}`), 'setScrapingStatus'],
+        entry: [log(`- Scraping papers: ${date}`), 'setScrapingStatus'],
         invoke: {
           src: 'scrapeArxivByDate',
           input: ({ context }) => ({ date: context.date }),
@@ -120,7 +120,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
       },
 
       'Rank papers in batches': {
-        entry: [log('_Ranking papers..'), 'setRankingStatus'],
+        entry: [log('- Ranking papers..'), 'setRankingStatus'],
         invoke: {
           src: 'spawnRankingProcess',
           input: ({ context }) => ({ papers: context.papers }),
@@ -142,7 +142,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
       },
 
       'Store ranked papers': {
-        entry: log('_Storing papers..'),
+        entry: log('- Storing papers..'),
         invoke: {
           src: 'storePapers',
           input: ({ context }) => ({ rankedPapers: context.papers }),
@@ -159,7 +159,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
       },
 
       'Handle success': {
-        entry: [log(`_Sucessfully scraped ranked papers for: ${date}`), 'setCompleteStatus'],
+        entry: [log(`- Sucessfully scraped ranked papers for: ${date}`), 'setCompleteStatus'],
         type: 'final',
       },
 

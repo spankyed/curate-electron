@@ -21,7 +21,7 @@ process.on('message', async (papers) => {
 process.send({ ready: true });
 
 export async function getRelevancyScores(papers, nResults = 5) {
-  console.log('Starting getRelevancyScores...');
+  console.log('-- Starting get-relevancy-rcores');
 
   const collectionExists = await repository.chroma.checkForExistingReferenceCollection();
   if (!collectionExists) {
@@ -29,7 +29,7 @@ export async function getRelevancyScores(papers, nResults = 5) {
   }
 
   try {
-    console.log('Number of papers:', papers.length);
+    console.log('   Total number of papers:', papers.length);
 
     // const batchSize = determineBatchSize();
     const batchSize = 50;
@@ -37,7 +37,7 @@ export async function getRelevancyScores(papers, nResults = 5) {
 
     for (let i = 0; i < batchedPapers.length; i++) {
       const batch = batchedPapers[i];
-      console.log(`Processing batch ${i + 1} of ${batchedPapers.length}`);
+      console.log(`   Processing batch [${batch.length}] (${i + 1} of ${batchedPapers.length})`);
 
       const paperTexts = batch.map((paper) => `${paper.title}. ${paper.abstract}`);
 
@@ -51,7 +51,7 @@ export async function getRelevancyScores(papers, nResults = 5) {
       });
     }
 
-    console.log('Completed getRelevancyScores');
+    console.log('-- Completed get-relevancy-scores');
     return papers;
   } catch (err) {
     console.error('Error in getRelevancyScores:', err);
