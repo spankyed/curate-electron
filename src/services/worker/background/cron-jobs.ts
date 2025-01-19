@@ -1,5 +1,5 @@
 import cron from 'node-cron';
-import { runScrapeAndRank } from '@services/worker/scrape';
+import { runScrapeAndRank } from '@services/worker/scrape-rank';
 import repository from '@services/web/onboard/repository';
 // import { getCurrentDate } from '@services/web/backfill/add-dates';
 import { getSetting } from '@services/shared/settings';

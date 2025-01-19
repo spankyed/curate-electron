@@ -2,7 +2,7 @@ import { assign, type ErrorActorEvent, fromPromise, setup } from 'xstate';
 import * as sharedRepository from '@services/shared/repository';
 import { updateWorkStatus } from '@services/shared/status';
 import scrapeArxivByDate from './scrape-arxiv-by-date';
-import spawnRankingProcess from './spawn-fork';
+import spawnRankingProcess from './rank/spawn-fork';
 import { DateStatuses, type PaperRecord } from '@services/shared/types';
 
 export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) => {
@@ -22,7 +22,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
 
         return papers;
       }),
-      rankPapers: fromPromise(
+      spawnRankingProcess: fromPromise(
         async ({ input }: { input: { papers: PaperRecord[] } }): Promise<PaperRecord[]> => {
           const rankedPapers = await spawnRankingProcess(input.papers);
 
@@ -45,7 +45,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
       log: (_, params: { message: string }) => console.log(params.message),
       logError: ({ context }) =>
         console.error(
-          `Error scraping/ranking papers for [${context.date}]:`,
+          `_Error scraping/ranking papers for [${context.date}]:`,
           (context.error as { message: string })?.message
         ),
       setScrapingStatus: ({ context }) => {
@@ -126,7 +126,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
       'Rank papers in batches': {
         entry: [{ type: 'log', params: { message: '_Ranking papers..' } }, 'setRankingStatus'],
         invoke: {
-          src: 'rankPapers',
+          src: 'spawnRankingProcess',
           input: ({ context }) => ({ papers: context.papers }),
           onDone: {
             target: 'Store ranked papers',

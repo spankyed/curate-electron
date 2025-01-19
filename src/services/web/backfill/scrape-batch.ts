@@ -1,4 +1,4 @@
-import { runScrapeAndRank } from '@services/worker/scrape';
+import { runScrapeAndRank } from '@services/worker/scrape-rank';
 import repository from '../onboard/repository';
 import { updateWorkStatus } from '@services/shared/status';
 

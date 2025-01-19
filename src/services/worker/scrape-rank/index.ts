@@ -1,4 +1,3 @@
-// runScrapeAndRank.js
 import { createActor } from 'xstate';
 import { createScrapeAndRankMachine } from './state-machine';
 import type { PaperRecord } from '@services/shared/types';

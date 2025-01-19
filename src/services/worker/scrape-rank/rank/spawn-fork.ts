@@ -1,10 +1,15 @@
-// https://blog.theodo.com/2022/07/simplify-your-applications-with-xstate/
-// https://www.youtube.com/watch?v=qqyQGEjWSAw
 // import * as fs from 'fs';
 // import repository from './repository';
 
 import path from 'node:path';
 import { fork } from 'node:child_process';
+import type { PaperRecord } from '@services/shared/types';
+
+type SerializableData = {
+  rankedPapers?: PaperRecord[];
+  error?: string;
+  ready?: boolean;
+};
 
 export default function spawnRankingProcess(papers) {
   return new Promise((resolve, reject) => {
@@ -15,7 +20,7 @@ export default function spawnRankingProcess(papers) {
     //   stdio: ['inherit', 'inherit', 'inherit', 'ipc'], // Ensure IPC is enabled
     // });
 
-    child.on('message', (data) => {
+    child.on('message', (data: SerializableData) => {
       // console.log('data from child: ', data);
       if (data.ready) {
         // Child is ready, send the papers data

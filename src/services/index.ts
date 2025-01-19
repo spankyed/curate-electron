@@ -7,7 +7,7 @@ import chatController from './web/chat';
 import backfill from './web/backfill';
 import onboard from './web/onboard';
 
-import scrape from './worker/scrape';
+import scrape from './worker/scrape-rank';
 
 // import mocks from '../../../tests/mocks';
 // const { calendarModel } = mocks;
