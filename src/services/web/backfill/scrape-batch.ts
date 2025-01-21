@@ -27,6 +27,7 @@ export async function scrapeBatch(dates?: any[]) {
     }
   }
 
+  // updateWorkStatus({ key: 'backfill', status: 'complete' });
   updateWorkStatus({ key: 'batch', status: 'complete' });
   // return results;
 }

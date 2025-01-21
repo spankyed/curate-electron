@@ -203,7 +203,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
   │                   │                       │
   │                   ▼                       │
   │          ┌────────────────┐     .─────.   │
-  │       ┌─▶│scape next batch│───▶( error )  │
+  │       ┌─▶│ rank next batch│───▶( error )  │
   │       │  └────────────────┘     `─────'   │
   │       │           │                       │
   │       │           ▼                       │
