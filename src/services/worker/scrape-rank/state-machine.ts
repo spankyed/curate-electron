@@ -128,7 +128,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
             target: 'Store ranked papers',
             actions: assign({
               rankedPapers: ({ event }) =>
-                // Sort within the machine logic if needed
+                // Sort within the machine logic
                 event.output.sort((a, b) => b.relevancy - a.relevancy),
             }),
           },
@@ -159,7 +159,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
       },
 
       'Handle success': {
-        entry: [log(`- Sucessfully scraped ranked papers for: ${date}`), 'setCompleteStatus'],
+        entry: [log(`- Sucessfully scraped & ranked papers: ${date}`), 'setCompleteStatus'],
         type: 'final',
       },
 

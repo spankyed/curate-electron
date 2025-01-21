@@ -132,7 +132,9 @@ function deleteReferenceCollection() {
   return client.deleteCollection({ name: ReferenceCollectionName });
 }
 
-let cachedCollection: any = null;
+type InferredCollection = Awaited<ReturnType<typeof client.getOrCreateCollection>>;
+
+let cachedCollection: InferredCollection | null = null;
 
 async function getReferenceCollection() {
   if (!cachedCollection) {

@@ -6,18 +6,18 @@ const client = new ChromaClient({
   // path: "http://localhost:8000"
 });
 
-let cachedCollection: any = null;
+type InferredCollection = Awaited<ReturnType<typeof client.getOrCreateCollection>>;
+
+let cachedCollection: InferredCollection | null = null;
 
 async function getReferenceCollection() {
   if (!cachedCollection) {
     cachedCollection = await client.getOrCreateCollection({ name: ReferenceCollectionName });
-    // cachedCollection = await client.getCollection({ name: ReferenceCollectionName, embeddingFunction: embedder });
   }
   return cachedCollection;
-  // return await client.getCollection({ name: ReferenceCollectionName, embeddingFunction: embedder });
 }
 
-async function queryReferenceCollection(corpus: any[], nResults = 5) {
+async function queryReferenceCollection(corpus: string[], nResults = 5) {
   const collection = await getReferenceCollection();
 
   return collection.query({

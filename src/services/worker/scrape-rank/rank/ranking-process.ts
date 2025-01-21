@@ -14,14 +14,14 @@ process.on('message', async (papers) => {
 
     process.send({ rankedPapers });
   } catch (error) {
-    process.send({ error: error.message });
+    process.send({ error: (error as Error).message });
   }
 });
 
 process.send({ ready: true });
 
 export async function getRelevancyScores(papers, nResults = 5) {
-  console.log('-- Starting get-relevancy-rcores');
+  console.log('-- Starting get-relevancy-scores');
 
   const collectionExists = await repository.chroma.checkForExistingReferenceCollection();
   if (!collectionExists) {
@@ -41,6 +41,7 @@ export async function getRelevancyScores(papers, nResults = 5) {
 
       const paperTexts = batch.map((paper) => `${paper.title}. ${paper.abstract}`);
 
+      // query for free memory
       const results = await repository.chroma.queryReferenceCollection(paperTexts, nResults);
 
       batch.forEach((paper, index) => {
