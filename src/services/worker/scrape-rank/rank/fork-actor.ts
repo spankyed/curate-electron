@@ -4,38 +4,25 @@ import type { PaperRecord } from '@services/shared/types';
 import path from 'node:path';
 import { fork } from 'node:child_process';
 
-// The shape of data we receive from the child
 interface ChildMessage {
-  ready?: boolean; // child signals readiness
-  scores?: number[]; // example from your snippet
+  type: 'PROC.ERROR' | 'PROC.SCORES' | 'PROC.DONE';
+  ready?: boolean;
+  scores?: number[];
   error?: string;
 }
 
-type ParentEvent =
-  | { type: 'START'; data: PaperRecord[] }
-  | { type: 'PROC.READY' }
-  | { type: 'PROC.SCORES'; scores: number[] }
-  | { type: 'PROC.ERROR'; error: string }
-  | { type: 'PROC.COMPLETE' }
-  | { type: 'NEXT_BATCH' }
-  | { type: 'done.invoke.spawnChildProcess' } // for completeness
-  | { type: 'error.platform.spawnChildProcess'; data: any };
-
-// The state machine
 export function createParentRankMachine(initialPapers: PaperRecord[]) {
   return setup({
     types: {} as {
       context: {
         papers: PaperRecord[];
-        batches: PaperRecord[][];
+        batchSize: number;
         currentBatchIndex: number;
+        batches: PaperRecord[][];
+        results: PaperRecord[];
         childProcActorRef?: ActorRefFromLogic<AnyActorLogic>;
         error?: Error | string;
-        results: PaperRecord[];
-        batchSize: number;
-        isComplete: boolean;
       };
-      // events: ParentEvent;
     },
     guards: {
       hasMoreBatches: ({ context }) => context.currentBatchIndex < context.batches.length - 1,
@@ -47,11 +34,12 @@ export function createParentRankMachine(initialPapers: PaperRecord[]) {
 
         child.on('message', (message: ChildMessage) => {
           if (message.ready) {
-            sendBack({ type: 'READY' });
+            sendBack({ type: 'PROC.READY' });
           } else if (message.scores) {
-            sendBack({ type: 'SCORES', scores: message.scores });
+            sendBack(message);
+            // sendBack({ type: 'PROC.SCORES', scores: message.scores });
           } else if (message.error) {
-            sendBack({ type: 'ERROR', error: new Error(message.error) });
+            sendBack({ type: 'PROC.ERROR', error: new Error(message.error) });
           }
         });
 
@@ -69,8 +57,6 @@ export function createParentRankMachine(initialPapers: PaperRecord[]) {
 
         receive((event) => {
           if (event.type === 'RECIEVE_BATCH') {
-            child.send(event);
-          } else if (event.type === 'COMPLETE') {
             child.send(event);
           } else if (event.type === 'KILL') {
             child.kill();
@@ -104,27 +90,25 @@ export function createParentRankMachine(initialPapers: PaperRecord[]) {
         error: ({ event }) => event.error,
       }),
       mergeScores: assign(({ context, event }) => {
-        const { currentBatchIndex, batches, results } = context;
-        const { scores } = event as unknown as { scores: number[] };
+        if (!event.scores || event.scores.length === 0) {
+          throw new Error('No scores received for the batch');
+        }
 
-        // Example approach: if the child returns just an array of numbers,
-        // you must map them back onto the correct papers in `results`.
-        // Typically, you'd store the final relevancy in the "batch" itself.
-        // This is just a placeholder example:
+        const currentBatch = context.batches[context.currentBatchIndex];
 
-        // 1) find the batch in `results` or `batches`
-        const batch = batches[currentBatchIndex];
-        // 2) attach scores to each paper
-        batch.forEach((paper, i) => {
-          paper.relevancy = scores[i];
-        });
-        // 3) Merge the updated batch back into `results`
-        //   e.g. if `results` is a flat array, you compute an offset
-        // For simplicity, let's assume results is also chunked or we flatten at the end.
+        if (currentBatch.length !== event.scores.length) {
+          throw new Error('Mismatch between the number of papers and scores');
+        }
+
+        const scoredBatch = currentBatch.map((paper, index) => ({
+          ...paper,
+          score: event.scores[index],
+        }));
+
+        const updatedResults = [...context.results, ...scoredBatch];
 
         return {
-          ...context,
-          results, // now updated in place
+          results: updatedResults,
         };
       }),
       emitError: ({ context }) => {
@@ -141,7 +125,6 @@ export function createParentRankMachine(initialPapers: PaperRecord[]) {
       childProcActorRef: undefined,
       currentBatchIndex: 0,
       results: [],
-      isComplete: false,
     },
     states: {
       'Chunk into batches': {
@@ -157,7 +140,7 @@ export function createParentRankMachine(initialPapers: PaperRecord[]) {
       'Spawn child process': {
         entry: 'spawnChildProcess',
         on: {
-          READY: 'Send batches',
+          'PROC.READY': 'Send batches',
         },
       },
 
@@ -179,7 +162,7 @@ export function createParentRankMachine(initialPapers: PaperRecord[]) {
               }),
             ],
           },
-          'PROC.COMPLETE': {
+          'PROC.DONE': {
             target: 'Handle Success',
           },
         },

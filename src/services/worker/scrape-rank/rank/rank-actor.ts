@@ -46,6 +46,8 @@ export function createRankMachine() {
 
           sendBack(message);
         });
+
+        process.send?.({ type: 'PROC.READY', ready: true });
       }),
     },
     actions: {
@@ -61,10 +63,10 @@ export function createRankMachine() {
         scores: ({ event }) => event.output,
       }),
       sendBatchScores: ({ event }) => {
-        process.send?.({ type: 'UPDATE', scores: event.output.scores });
+        process.send?.({ type: 'PROC.SCORES', scores: event.output.scores });
       },
       sendComplete: () => {
-        process.send?.({ type: 'COMPLETE' });
+        process.send?.({ type: 'PROC.DONE' });
       },
       sendError: ({ context }) => {
         process.send?.({ error: (context.error as { message: string })?.message });
