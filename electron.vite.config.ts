@@ -27,6 +27,10 @@ export default defineConfig(({ command, mode }) => {
               __dirname,
               'src/services/worker/scrape-rank/utils/ranking-process.ts'
             ),
+            'score-computer': resolve(
+              __dirname,
+              'src/services/worker/scrape-rank/actors/score-computer.ts'
+            ),
           },
         },
       },
