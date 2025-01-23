@@ -1,5 +1,5 @@
 import os from 'node:os';
-import repository, { ReferenceCollectionName } from '../repository';
+import repository, { ReferenceCollectionName } from './repository';
 import type { PaperRecord } from '@services/shared/types';
 
 export async function getRelevancyScores(papersBatch: PaperRecord[], nResults = 5) {

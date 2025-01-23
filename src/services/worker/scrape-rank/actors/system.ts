@@ -1,8 +1,8 @@
 import { assign, type ErrorActorEvent, fromPromise, setup, log } from 'xstate';
 import * as sharedRepository from '@services/shared/repository';
 import { updateWorkStatus } from '@services/shared/status';
-import scrapeArxivByDate from '../scrape-arxiv-by-date';
-import spawnRankingProcess from '../rank/spawn-fork';
+import scrapeArxivByDate from '../utils/scrape-arxiv-by-date';
+import spawnRankingProcess from '../utils/spawn-fork';
 import { DateStatuses, type PaperRecord } from '@services/shared/types';
 
 export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) => {

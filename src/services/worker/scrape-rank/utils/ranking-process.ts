@@ -1,5 +1,5 @@
 import os from 'node:os';
-import repository, { ReferenceCollectionName } from '../repository';
+import repository, { ReferenceCollectionName } from './repository';
 
 if (!process.send) {
   throw new Error('This script must be run as a child process');

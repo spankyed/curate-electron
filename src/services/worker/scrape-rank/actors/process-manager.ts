@@ -1,8 +1,10 @@
 import { ActorRefFromLogic, AnyActorLogic, assign, fromCallback, log, setup } from 'xstate';
-import { chunkArray } from '../rank/utils';
+import { chunkArray } from '../utils';
 import type { PaperRecord } from '@services/shared/types';
 import path from 'node:path';
 import { fork } from 'node:child_process';
+
+const pathToChildScript = path.resolve(__dirname, 'score-computer.js');
 
 interface ChildMessage {
   type: 'PROC.ERROR' | 'PROC.SCORES' | 'PROC.DONE';
@@ -29,8 +31,7 @@ export function createParentRankMachine(initialPapers: PaperRecord[]) {
     },
     actors: {
       childProcess: fromCallback(({ sendBack, receive }) => {
-        const childPath = path.resolve(__dirname, 'ranking-process.js');
-        const child = fork(childPath, ['child']);
+        const child = fork(pathToChildScript, ['child']);
 
         child.on('message', (message: ChildMessage) => {
           if (message.ready) {
