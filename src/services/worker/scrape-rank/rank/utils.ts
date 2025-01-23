@@ -11,24 +11,26 @@ export async function getRelevancyScores(papersBatch: PaperRecord[], nResults = 
   }
 
   try {
-    console.log('   Total number of papers:', papersBatch.length);
+    console.log('   Total number of papers in batch:', papersBatch.length);
 
     // console.log(`   Processing batch [${papersBatch.length}] (${i + 1} of ${papersBatch.length})`);
 
     const queryTexts = papersBatch.map((paper) => `${paper.title}. ${paper.abstract}`);
 
-    // query for free memory
+    // todo query for free memory ?
     const results = await repository.chroma.queryReferenceCollection(queryTexts, nResults);
 
-    papersBatch.forEach((paper, index) => {
-      const relevancyScores = results.distances?.[index] || [];
-      const avgRelevancy =
-        relevancyScores.reduce((a, b) => a + b, 0) / (relevancyScores.length || 1);
-      paper.relevancy = avgRelevancy ? 1 - avgRelevancy : 0;
-    });
+    return results.distances;
 
-    console.log('-- Completed get-relevancy-scores');
-    return papersBatch;
+    // papersBatch.forEach((paper, index) => {
+    //   const relevancyScores = results.distances?.[index] || [];
+    //   const avgRelevancy =
+    //     relevancyScores.reduce((a, b) => a + b, 0) / (relevancyScores.length || 1);
+    //   paper.relevancy = avgRelevancy ? 1 - avgRelevancy : 0;
+    // });
+
+    // console.log('-- Completed get-relevancy-scores');
+    // return papersBatch;
   } catch (err) {
     console.error('Error in getRelevancyScores:', err);
     throw err;
@@ -60,10 +62,13 @@ export function determineBatchSize() {
   return Math.min(batchSize, maxBatchSize);
 }
 
-export function chunkArray(array, size) {
-  const result: PaperRecord[][] = [];
-  for (let i = 0; i < array.length; i += size) {
-    result.push(array.slice(i, i + size));
+/**
+ * Utility for chunking the papers, if you need it here
+ */
+export function chunkArray<T>(arr: T[], size: number) {
+  const result: T[][] = [];
+  for (let i = 0; i < arr.length; i += size) {
+    result.push(arr.slice(i, i + size));
   }
   return result;
 }
