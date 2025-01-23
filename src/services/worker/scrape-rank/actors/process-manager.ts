@@ -1,5 +1,5 @@
 import { ActorRefFromLogic, AnyActorLogic, assign, fromCallback, log, setup } from 'xstate';
-import { chunkArray } from './utils';
+import { chunkArray } from '../rank/utils';
 import type { PaperRecord } from '@services/shared/types';
 import path from 'node:path';
 import { fork } from 'node:child_process';

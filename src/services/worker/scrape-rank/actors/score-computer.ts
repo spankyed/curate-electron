@@ -7,7 +7,7 @@ import {
   fromCallback,
   AnyEventObject,
 } from 'xstate';
-import { getRelevancyScores } from './utils';
+import { getRelevancyScores } from '../rank/utils';
 import type { PaperRecord } from '@services/shared/types';
 
 export function createRankMachine() {
@@ -73,7 +73,7 @@ export function createRankMachine() {
       },
     },
   }).createMachine({
-    id: 'ranking-processor',
+    id: 'score-computer',
     initial: 'Wait for batch',
     context: {
       batchId: 0,

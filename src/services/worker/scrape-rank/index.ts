@@ -1,5 +1,5 @@
 import { createActor } from 'xstate';
-import { createScrapeAndRankMachine } from './state-machine';
+import { createScrapeAndRankMachine } from './actors/system';
 import type { PaperRecord } from '@services/shared/types';
 
 async function scrapePapers(date) {
