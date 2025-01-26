@@ -29,7 +29,7 @@ export default defineConfig(({ command, mode }) => {
             ),
             'score-computer': resolve(
               __dirname,
-              'src/services/worker/scrape-rank/actors/score-computer.ts'
+              'src/services/worker/scrape-rank/actors/rank-computer.ts'
             ),
           },
         },

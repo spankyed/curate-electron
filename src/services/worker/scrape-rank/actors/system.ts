@@ -128,11 +128,15 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
           input: ({ context }) => ({ papers: context.papers }),
           onDone: {
             target: 'Store ranked papers',
-            actions: assign({
-              rankedPapers: ({ event }) =>
-                // Sort within the machine logic
-                event.output.sort((a, b) => b.relevancy - a.relevancy),
-            }),
+            actions: [
+              log('rank output received'),
+              log(({ event }) => event.output),
+              assign({
+                rankedPapers: ({ event }) =>
+                  // Sort within the machine logic
+                  event.output.sort((a, b) => b.relevancy - a.relevancy),
+              }),
+            ],
           },
           onError: {
             target: 'Handle error',
