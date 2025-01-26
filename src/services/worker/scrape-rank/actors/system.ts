@@ -4,6 +4,7 @@ import { updateWorkStatus } from '@services/shared/status';
 import scrapeArxivByDate from '../utils/scrape-arxiv-by-date';
 import spawnRankingProcess from '../utils/spawn-fork';
 import { DateStatuses, type PaperRecord } from '@services/shared/types';
+// import { createProcessManagerActor } from './process-manager';
 
 export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) => {
   return setup({
@@ -22,6 +23,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
 
         return papers;
       }),
+      // spawnRankingProcess: createProcessManagerActor(),
       spawnRankingProcess: fromPromise(
         async ({ input }: { input: { papers: PaperRecord[] } }): Promise<PaperRecord[]> => {
           const rankedPapers = await spawnRankingProcess(input.papers);
@@ -78,7 +80,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
       },
     },
   }).createMachine({
-    id: 'scrapes-and-rank-machine',
+    id: 'scrape-and-rank-system',
     initial: 'Scrape arxiv by date',
     context: {
       date,

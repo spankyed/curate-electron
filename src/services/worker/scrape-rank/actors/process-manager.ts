@@ -13,14 +13,14 @@ interface ChildMessage {
   error?: string;
 }
 
-export function createParentRankMachine(initialPapers: PaperRecord[]) {
+export function createProcessManagerActor(initialPapers: PaperRecord[]) {
   return setup({
     types: {} as {
       context: {
         papers: PaperRecord[];
         batchSize: number;
-        currentBatchIndex: number;
         batches: PaperRecord[][];
+        currentBatchIndex: number;
         results: PaperRecord[];
         childProcActorRef?: ActorRefFromLogic<AnyActorLogic>;
         error?: Error | string;
@@ -91,15 +91,7 @@ export function createParentRankMachine(initialPapers: PaperRecord[]) {
         error: ({ event }) => event.error,
       }),
       mergeScores: assign(({ context, event }) => {
-        if (!event.scores || event.scores.length === 0) {
-          throw new Error('No scores received for the batch');
-        }
-
         const currentBatch = context.batches[context.currentBatchIndex];
-
-        if (currentBatch.length !== event.scores.length) {
-          throw new Error('Mismatch between the number of papers and scores');
-        }
 
         const scoredBatch = currentBatch.map((paper, index) => ({
           ...paper,
@@ -117,15 +109,25 @@ export function createParentRankMachine(initialPapers: PaperRecord[]) {
       },
     },
   }).createMachine({
-    id: 'fork-machine',
+    id: 'process-manager',
     initial: 'Chunk into batches',
+    // context: ({ input }: { input: { papers: PaperRecord[] } }) => ({
+    //   papers: input.papers,
+    //   batchSize: 50,
+    //   batches: [],
+    //   currentBatchIndex: 0,
+    //   results: [],
+    //   childProcActorRef: undefined,
+    //   error: undefined,
+    // }),
     context: {
       papers: initialPapers,
       batchSize: 50,
       batches: [],
-      childProcActorRef: undefined,
       currentBatchIndex: 0,
       results: [],
+      childProcActorRef: undefined,
+      error: undefined,
     },
     states: {
       'Chunk into batches': {
@@ -149,36 +151,52 @@ export function createParentRankMachine(initialPapers: PaperRecord[]) {
         entry: 'sendNextBatch',
         on: {
           'PROC.ERROR': {
-            target: 'Handler Failure',
+            target: 'Handler error',
             actions: assign({
               error: ({ event }) => event.error,
             }),
           },
-          'PROC.SCORES': {
-            actions: [
-              'sendNextBatch',
-              'mergeScores',
-              assign({
-                currentBatchIndex: ({ context }) => context.currentBatchIndex + 1,
+          'PROC.SCORES': [
+            {
+              target: 'Handle error',
+              guard: ({ event }) => !event.scores || event.scores.length === 0,
+              actions: assign({ error: () => new Error('No scores received for the batch') }),
+            },
+            {
+              target: 'Handle error',
+              guard: ({ context, event }) =>
+                context.batches[context.currentBatchIndex].length !== event.scores.length,
+              actions: assign({
+                error: () => new Error('Mismatch between the number of papers and scores'),
               }),
-            ],
-          },
+            },
+            {
+              actions: [
+                'sendNextBatch',
+                'mergeScores',
+                assign({
+                  currentBatchIndex: ({ context }) => context.currentBatchIndex + 1,
+                }),
+              ],
+            },
+          ],
           'PROC.DONE': {
-            target: 'Handle Success',
+            target: 'Handle success',
           },
         },
       },
 
-      'Handle Success': {
+      'Handle success': {
         entry: [log('All batches processed successfully!')],
         type: 'final',
-        output: ({ context }) => context.results,
+        // output: ({ context }) => context.results,
       },
 
-      'Handle Failure': {
+      'Handle error': {
         entry: 'emitError',
         type: 'final',
       },
     },
+    output: ({ context }) => context.results,
   });
 }
