@@ -6,18 +6,19 @@ import {
   spawnChild,
   fromCallback,
   AnyEventObject,
+  log,
 } from 'xstate';
 import { getRelevancyScores } from '../utils';
 import type { PaperRecord } from '@services/shared/types';
 import { createActor } from 'xstate';
 
-const scoreComputerMachine = setup({
+const rankComputerMachine = setup({
   types: {
     context: {} as {
       batchId: number;
       batch: PaperRecord[];
       // scores: PaperRecord[];
-      scores: number[];
+      scores: number[][];
       isLastBatch: boolean;
       error: ErrorActorEvent['error'];
       // error: Error | null;
@@ -34,10 +35,6 @@ const scoreComputerMachine = setup({
     isLastBatch: ({ context }) => context.isLastBatch,
   },
   actors: {
-    computeScores: fromPromise(async ({ input }: { input: { batch: PaperRecord[] } }) => {
-      const rankedPapers = await getRelevancyScores(input.batch);
-      return rankedPapers;
-    }),
     processListener: fromCallback(({ sendBack }) => {
       process.on('message', async (message: AnyEventObject) => {
         // if (!process.send) {
@@ -49,23 +46,28 @@ const scoreComputerMachine = setup({
 
       process.send?.({ type: 'PROC.READY', ready: true });
     }),
+    computeScores: fromPromise(async ({ input }: { input: { batch: PaperRecord[] } }) => {
+      // console.log('computeScores', input.batch);
+      const rankedPapers = await getRelevancyScores(input.batch);
+      return rankedPapers;
+    }),
   },
   actions: {
-    receiveError: assign({
+    setError: assign({
       error: ({ event }) => event.error,
     }),
-    receiveBatch: assign({
+    setBatch: assign({
       batch: ({ event }) => event.batch,
       isLastBatch: ({ event }) => event.isLastBatch || false,
       batchId: ({ context }) => context.batchId + 1,
     }),
-    receiveScores: assign({
+    setScores: assign({
       scores: ({ event }) => event.output,
     }),
     sendBatchScores: ({ event }) => {
       process.send?.({ type: 'PROC.SCORES', scores: event.output.scores });
     },
-    sendComplete: () => {
+    sendDone: () => {
       process.send?.({ type: 'PROC.DONE' });
     },
     sendError: ({ context }) => {
@@ -73,7 +75,7 @@ const scoreComputerMachine = setup({
     },
   },
 }).createMachine({
-  id: 'score-computer',
+  id: 'rank-computer',
   initial: 'Wait for batch',
   context: {
     batchId: 0,
@@ -88,7 +90,8 @@ const scoreComputerMachine = setup({
       on: {
         RECIEVE_BATCH: {
           target: 'Process batch',
-          actions: 'receiveBatch',
+          // actions: [log(({ event }) => event), 'setBatch'],
+          actions: ['setBatch'],
         },
       },
     },
@@ -100,23 +103,23 @@ const scoreComputerMachine = setup({
         onDone: [
           {
             guard: 'isLastBatch',
-            target: 'Handle success',
-            actions: ['receiveScores', 'sendBatchScores'],
+            target: 'Handle done',
+            actions: ['setScores', 'sendBatchScores'],
           },
           {
-            target: 'Wait for Batch',
-            actions: ['receiveScores', 'sendBatchScores'],
+            target: 'Wait for batch',
+            actions: ['setScores', 'sendBatchScores'],
           },
         ],
         onError: {
           target: 'Handle error',
-          actions: 'receiveError',
+          actions: 'setError',
         },
       },
     },
 
-    'Handle complete': {
-      entry: 'sendComplete',
+    'Handle done': {
+      entry: 'sendDone',
       type: 'final',
     },
 
@@ -127,19 +130,18 @@ const scoreComputerMachine = setup({
   },
 });
 
-const actor = createActor(scoreComputerMachine);
+const actor = createActor(rankComputerMachine);
 
-// Subscribe to state changes
-actor.subscribe({
-  next: (state) => {
-    console.log('Current state:', state.value);
-  },
-  error: (error) => {
-    console.error('Unhandled error in score-computer:', error);
-  },
-  complete: () => {
-    console.log('score-computer completed');
-  },
-});
+// actor.subscribe({
+//   next: (state) => {
+//     console.log('Current state:', state.value);
+//   },
+//   error: (error) => {
+//     console.error('Unhandled error in rank-computer:', error);
+//   },
+//   complete: () => {
+//     console.log('rank-computer completed');
+//   },
+// });
 
 actor.start();

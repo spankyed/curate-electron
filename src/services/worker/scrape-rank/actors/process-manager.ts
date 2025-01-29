@@ -1,19 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ActorRefFromLogic, AnyActorLogic, assign, fromCallback, log, setup } from 'xstate';
-import { chunkArray } from '../utils';
+import { chunkArray, getAvgScore } from '../utils';
 import type { PaperRecord } from '@services/shared/types';
 import path from 'node:path';
 import { fork } from 'node:child_process';
 
-const pathToChildScript = path.resolve(__dirname, 'score-computer.js');
+const pathToChildScript = path.resolve(__dirname, 'rank-computer.js');
 
 interface ChildMessage {
   type: 'PROC.ERROR' | 'PROC.SCORES' | 'PROC.DONE';
   ready?: boolean;
-  scores?: number[];
+  scores?: number[]
   error?: string;
 }
 
-export function createProcessManagerActor(initialPapers: PaperRecord[]) {
+export function createProcessManagerActor() {
   return setup({
     types: {} as {
       context: {
@@ -25,6 +26,7 @@ export function createProcessManagerActor(initialPapers: PaperRecord[]) {
         childProcActorRef?: ActorRefFromLogic<AnyActorLogic>;
         error?: Error | string;
       };
+      output: PaperRecord[];
     },
     guards: {
       hasMoreBatches: ({ context }) => context.currentBatchIndex < context.batches.length - 1,
@@ -95,7 +97,7 @@ export function createProcessManagerActor(initialPapers: PaperRecord[]) {
 
         const scoredBatch = currentBatch.map((paper, index) => ({
           ...paper,
-          score: event.scores[index],
+          relevancy: getAvgScore(event.scores[index]),
         }));
 
         const updatedResults = [...context.results, ...scoredBatch];
@@ -104,31 +106,33 @@ export function createProcessManagerActor(initialPapers: PaperRecord[]) {
           results: updatedResults,
         };
       }),
-      emitError: ({ context }) => {
-        console.error('Ranking process failed:', context.error);
+      throwError: ({ context }) => {
+        throw context.error;
+        // console.error('Ranking process failed:', context.error);
       },
     },
   }).createMachine({
     id: 'process-manager',
     initial: 'Chunk into batches',
-    // context: ({ input }: { input: { papers: PaperRecord[] } }) => ({
-    //   papers: input.papers,
-    //   batchSize: 50,
-    //   batches: [],
-    //   currentBatchIndex: 0,
-    //   results: [],
-    //   childProcActorRef: undefined,
-    //   error: undefined,
-    // }),
-    context: {
-      papers: initialPapers,
+    context: ({ input }: any) => ({
+      // context: ({ input }: { input: { papers: PaperRecord[] } }) => ({
+      papers: input.papers,
       batchSize: 50,
       batches: [],
       currentBatchIndex: 0,
       results: [],
       childProcActorRef: undefined,
       error: undefined,
-    },
+    }),
+    // context: {
+    //   papers: initialPapers,
+    //   batchSize: 50,
+    //   batches: [],
+    //   currentBatchIndex: 0,
+    //   results: [],
+    //   childProcActorRef: undefined,
+    //   error: undefined,
+    // },
     states: {
       'Chunk into batches': {
         entry: assign({
@@ -151,7 +155,7 @@ export function createProcessManagerActor(initialPapers: PaperRecord[]) {
         entry: 'sendNextBatch',
         on: {
           'PROC.ERROR': {
-            target: 'Handler error',
+            target: 'Handle error',
             actions: assign({
               error: ({ event }) => event.error,
             }),
@@ -181,22 +185,23 @@ export function createProcessManagerActor(initialPapers: PaperRecord[]) {
             },
           ],
           'PROC.DONE': {
-            target: 'Handle success',
+            target: 'Handle done',
           },
         },
       },
 
-      'Handle success': {
+      'Handle done': {
         entry: [log('All batches processed successfully!')],
         type: 'final',
         // output: ({ context }) => context.results,
       },
 
       'Handle error': {
-        entry: 'emitError',
+        entry: 'throwError',
         type: 'final',
       },
     },
+
     output: ({ context }) => context.results,
   });
 }

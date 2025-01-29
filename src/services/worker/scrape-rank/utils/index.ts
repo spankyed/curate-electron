@@ -20,21 +20,31 @@ export async function getRelevancyScores(papersBatch: PaperRecord[], nResults = 
     // todo query for free memory ?
     const results = await repository.chroma.queryReferenceCollection(queryTexts, nResults);
 
-    return results.distances;
-
-    // papersBatch.forEach((paper, index) => {
-    //   const relevancyScores = results.distances?.[index] || [];
-    //   const avgRelevancy =
-    //     relevancyScores.reduce((a, b) => a + b, 0) / (relevancyScores.length || 1);
-    //   paper.relevancy = avgRelevancy ? 1 - avgRelevancy : 0;
+    // const avgRelevancies = results.distances.map((relevancyScores: number[] | undefined) => {
+    //   if (!relevancyScores || relevancyScores.length === 0) {
+    //     // Handle undefined or empty arrays
+    //     return 0;
+    //   }
+    //   const avgRelevancy = relevancyScores.reduce((a, b) => a + b, 0) / relevancyScores.length;
+    //   return 1 - avgRelevancy;
     // });
 
     // console.log('-- Completed get-relevancy-scores');
-    // return papersBatch;
+
+    return results.distances;
   } catch (err) {
     console.error('Error in getRelevancyScores:', err);
     throw err;
   }
+}
+
+export function getAvgScore(scores: number[] | undefined): number {
+  if (!scores?.length) return 0; // Early return for undefined or empty arrays
+
+  const sum = scores.reduce((a, b) => a + b, 0);
+  const average = sum / scores.length;
+
+  return 1 - average;
 }
 
 // todo limit the memory allocated to chroma server in order to test whether memory is the bottleneck

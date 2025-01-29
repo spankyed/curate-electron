@@ -2,9 +2,9 @@ import { assign, type ErrorActorEvent, fromPromise, setup, log } from 'xstate';
 import * as sharedRepository from '@services/shared/repository';
 import { updateWorkStatus } from '@services/shared/status';
 import scrapeArxivByDate from '../utils/scrape-arxiv-by-date';
-import spawnRankingProcess from '../utils/spawn-fork';
 import { DateStatuses, type PaperRecord } from '@services/shared/types';
-// import { createProcessManagerActor } from './process-manager';
+import { createProcessManagerActor } from './process-manager';
+// import spawnRankingProcess from '../utils/spawn-fork';
 
 export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) => {
   return setup({
@@ -16,6 +16,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
         rankedPapers: PaperRecord[];
         error: ErrorActorEvent['error'];
       };
+      output: PaperRecord[];
     },
     actors: {
       scrapeArxivByDate: fromPromise(async ({ input }: { input: { date: string } }) => {
@@ -23,14 +24,14 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
 
         return papers;
       }),
-      // spawnRankingProcess: createProcessManagerActor(),
-      spawnRankingProcess: fromPromise(
-        async ({ input }: { input: { papers: PaperRecord[] } }): Promise<PaperRecord[]> => {
-          const rankedPapers = await spawnRankingProcess(input.papers);
+      spawnRankingProcess: createProcessManagerActor(),
+      // spawnRankingProcess: fromPromise(
+      //   async ({ input }: { input: { papers: PaperRecord[] } }): Promise<PaperRecord[]> => {
+      //     const rankedPapers = await spawnRankingProcess(input.papers);
 
-          return rankedPapers as PaperRecord[];
-        }
-      ),
+      //     return rankedPapers as PaperRecord[];
+      //   }
+      // ),
       storePapers: fromPromise(async ({ input }: { input: { rankedPapers: PaperRecord[] } }) => {
         const { rankedPapers } = input;
 
@@ -134,7 +135,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
               assign({
                 rankedPapers: ({ event }) =>
                   // Sort within the machine logic
-                  event.output.sort((a, b) => b.relevancy - a.relevancy),
+                  event.output?.sort((a, b) => b.relevancy - a.relevancy),
               }),
             ],
           },
@@ -153,7 +154,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
           src: 'storePapers',
           input: ({ context }) => ({ rankedPapers: context.papers }),
           onDone: {
-            target: 'Handle success',
+            target: 'Handle done',
           },
           onError: {
             target: 'Handle error',
@@ -164,7 +165,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
         },
       },
 
-      'Handle success': {
+      'Handle done': {
         entry: [log(`- Sucessfully scraped & ranked papers: ${date}`), 'setCompleteStatus'],
         type: 'final',
       },
@@ -174,6 +175,7 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
         type: 'final',
       },
     },
+    output: ({ context }) => context.rankedPapers,
   });
 };
 
