@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@main/*": ["../src/electron/main/*"],
+      "@services/*": ["../src/services/*"],
+      "@renderer/*": ["../src/renderer/*"]
+    },
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["../src/**/*.ts", "../tests/**/*.ts"],
+  "exclude": ["node_modules"]
+}
