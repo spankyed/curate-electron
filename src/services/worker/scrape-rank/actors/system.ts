@@ -1,12 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { assign, type ErrorActorEvent, fromPromise, setup, log } from 'xstate';
-import * as sharedRepository from '@services/shared/repository';
-import { updateWorkStatus } from '@services/shared/status';
-import scrapeArxivByDate from '../utils/scrape-arxiv-by-date';
 import { DateStatuses, type PaperRecord } from '@services/shared/types';
 import { createProcessManagerActor } from './process-manager';
-// import spawnRankingProcess from '../utils/spawn-fork';
 
-export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) => {
+export interface ScrapeAndRankDependencies {
+  scrapeArxivByDate: (date: string) => Promise<PaperRecord[]>;
+  sharedRepository: any;
+  updateWorkStatus: (statusData: any, alwaysNotify: boolean) => Promise<string>;
+}
+
+export const createScrapeAndRankMachine = (
+  date: string,
+  alwaysNotify = true,
+  deps: ScrapeAndRankDependencies
+) => {
   return setup({
     types: {} as {
       context: {
@@ -20,24 +27,15 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
     },
     actors: {
       scrapeArxivByDate: fromPromise(async ({ input }: { input: { date: string } }) => {
-        const papers = await scrapeArxivByDate(input.date);
-
-        return papers;
+        return deps.scrapeArxivByDate(input.date);
       }),
       spawnRankingProcess: createProcessManagerActor(),
-      // spawnRankingProcess: fromPromise(
-      //   async ({ input }: { input: { papers: PaperRecord[] } }): Promise<PaperRecord[]> => {
-      //     const rankedPapers = await spawnRankingProcess(input.papers);
-
-      //     return rankedPapers as PaperRecord[];
-      //   }
-      // ),
       storePapers: fromPromise(async ({ input }: { input: { rankedPapers: PaperRecord[] } }) => {
         const { rankedPapers } = input;
 
         await Promise.all([
-          sharedRepository.storePapers(rankedPapers),
-          sharedRepository.updateDate(date, {
+          deps.sharedRepository.storePapers(rankedPapers),
+          deps.sharedRepository.updateDate(date, {
             status: DateStatuses.COMPLETE,
             count: rankedPapers.length,
           }),
@@ -51,18 +49,21 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
           (context.error as { message: string })?.message
         ),
       setScrapingStatus: ({ context }) => {
-        sharedRepository.updateDate(context.date, { status: DateStatuses.SCRAPING });
-        updateWorkStatus(
+        deps.sharedRepository.updateDate(context.date, { status: DateStatuses.SCRAPING });
+        deps.updateWorkStatus(
           { key: context.date, status: DateStatuses.SCRAPING },
           context.alwaysNotify
         );
       },
       setRankingStatus: ({ context }) => {
-        sharedRepository.updateDate(context.date, { status: DateStatuses.RANKING });
-        updateWorkStatus({ key: context.date, status: DateStatuses.RANKING }, context.alwaysNotify);
+        deps.sharedRepository.updateDate(context.date, { status: DateStatuses.RANKING });
+        deps.updateWorkStatus(
+          { key: context.date, status: DateStatuses.RANKING },
+          context.alwaysNotify
+        );
       },
       setCompleteStatus: ({ context }) => {
-        updateWorkStatus(
+        deps.updateWorkStatus(
           {
             key: context.date,
             status: DateStatuses.COMPLETE,
@@ -73,8 +74,8 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
         );
       },
       setErrorStatus: ({ context }) => {
-        sharedRepository.updateDate(context.date, { status: DateStatuses.PENDING });
-        updateWorkStatus(
+        deps.sharedRepository.updateDate(context.date, { status: DateStatuses.PENDING });
+        deps.updateWorkStatus(
           { key: context.date, status: DateStatuses.ERROR, data: [], final: true },
           context.alwaysNotify
         );
@@ -116,9 +117,10 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
           {
             target: 'Handle error',
             guard: ({ context }) => context.papers.length === 0,
-            actions: assign({ error: () => new Error('No papers found after scraping') }),
+            actions: [assign({ error: () => new Error('No papers found after scraping') })],
           },
           { target: 'Rank papers in batches' },
+          // { target: 'Rank papers in batches', actions: [ log('ffs'), log(({context})=> ({papers: context.papers}))] },
         ],
       },
 
@@ -178,54 +180,3 @@ export const createScrapeAndRankMachine = (date: string, alwaysNotify = true) =>
     output: ({ context }) => context.rankedPapers,
   });
 };
-
-/*
-  ┌───────────────────────────────────────────┐
-  │           .───────────────.               │
-  │          ( scrape API req  )              │
-  │           `───────────────'               │
-  │                   │                       │
-  │                   ▼                       │
-  │       ┌───────────────────────┐           │
-  │       │ scrape arxiv by date  │           │
-  │       └───────────────────────┘           │
-  │                   │                       │
-  │                   │                       │
-  │                   ▼                       │
-  │                   Λ                       │
-  │                  ╱ ╲                      │
-  │                 ╱   ╲                     │
-  │                ╱     ╲                    │
-  │               ╱papers ╲  no   .─────.     │
-  │              ▕  were   ▏────▶( error )    │
-  │               ╲found? ╱       `─────'     │
-  │                ╲     ╱                    │
-  │                 ╲   ╱                     │
-  │                  ╲ ╱                      │
-  │                   V                       │
-  │                   │ yes                   │
-  │                   ▼                       │
-  │        ┌─────────────────────┐            │
-  │        │spawn ranking process│            │
-  │        └─────────────────────┘            │
-  │                   │                       │
-  │                   ▼                       │
-  │          ┌────────────────┐     .─────.   │
-  │       ┌─▶│ rank next batch│───▶( error )  │
-  │       │  └────────────────┘     `─────'   │
-  │       │           │                       │
-  │       │           ▼                       │
-  │       │           Λ                       │
-  │       │          ╱ ╲                      │
-  │       │ no      ╱   ╲                     │
-  │       └────────▕done?▏                    │
-  │                 ╲   ╱                     │
-  │                  ╲ ╱                      │
-  │                   V                       │
-  │               yes │                       │
-  │                   ▼                       │
-  │                 .───.                     │
-  │                ( end )                    │
-  │                 `───'                     │
-  └───────────────────────────────────────────┘
-*/

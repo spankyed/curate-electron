@@ -1,5 +1,6 @@
 import { EventEmitter } from 'node:events';
 import { mockScores } from './mock-scores';
+import { vi } from 'vitest';
 
 type Message = {
   type: string;
@@ -17,7 +18,7 @@ class MockChildProcess extends EventEmitter {
     if (message.type === 'RECIEVE_BATCH') {
       setTimeout(() => {
         if (!message.isLastBatch) {
-          this.emit('message', { scores: mockScores }); // Example mock scores
+          this.emit('message', { type: 'PROC.SCORES', scores: mockScores }); // Example mock scores
         } else {
           this.emit('message', { type: 'PROC.DONE' });
         }
@@ -32,8 +33,9 @@ class MockChildProcess extends EventEmitter {
 }
 
 // Mock implementation of `fork`
-export const fork = jest.fn((scriptPath: string, args: string[]) => {
-  const isRankComputer = scriptPath.endsWith('rank-computer.js');
+export const fork = vi.fn((scriptPath: string, args: string[]) => {
+  const isRankComputer = scriptPath.endsWith('child-process.js');
+
   if (isRankComputer && args.includes('child')) {
     const child = new MockChildProcess();
 

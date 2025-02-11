@@ -1,20 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ActorRefFromLogic, AnyActorLogic, assign, fromCallback, log, setup } from 'xstate';
-import { chunkArray, getAvgScore } from '../utils';
+import {
+  type ActorRefFromLogic,
+  type AnyActorLogic,
+  assign,
+  fromCallback,
+  log,
+  setup,
+} from 'xstate';
+import { chunkArray, getAvgScore } from '@services/worker/scrape-rank/utils';
 import type { PaperRecord } from '@services/shared/types';
 import path from 'node:path';
 import { fork } from 'node:child_process';
 
-const pathToChildScript = path.resolve(__dirname, 'rank-computer.js');
-
 interface ChildMessage {
   type: 'PROC.ERROR' | 'PROC.SCORES' | 'PROC.DONE';
   ready?: boolean;
-  scores?: number[]
+  scores?: number[];
   error?: string;
 }
 
 export function createProcessManagerActor() {
+  const pathToChildScript = path.resolve(__dirname, 'child-process.js');
+
   return setup({
     types: {} as {
       context: {
@@ -29,13 +36,14 @@ export function createProcessManagerActor() {
       output: PaperRecord[];
     },
     guards: {
-      hasMoreBatches: ({ context }) => context.currentBatchIndex < context.batches.length - 1,
+      // hasMoreBatches: ({ context }) => context.currentBatchIndex < context.batches.length - 1,
     },
     actors: {
       childProcess: fromCallback(({ sendBack, receive }) => {
         const child = fork(pathToChildScript, ['child']);
 
         child.on('message', (message: ChildMessage) => {
+          console.log('[proc manager] Message: ', message);
           if (message.ready) {
             sendBack({ type: 'PROC.READY' });
           } else if (message.scores) {
@@ -78,9 +86,15 @@ export function createProcessManagerActor() {
       }),
       sendNextBatch: ({ context }) => {
         // const currentBatch = context.batches[context.currentBatchIndex];
+
+        // console.log({ batches: JSON.stringify(context.batches, null, 2) });
+
+
         const nextBatchIdx = context.currentBatchIndex + 1;
         const nextBactch = context.batches[nextBatchIdx];
         const isLastBatch = nextBatchIdx === context.batches.length - 1;
+        
+        // console.log('nextBactch: ', nextBactch);
 
         context.childProcActorRef?.send({
           type: 'RECIEVE_BATCH',
@@ -118,6 +132,7 @@ export function createProcessManagerActor() {
       // context: ({ input }: { input: { papers: PaperRecord[] } }) => ({
       papers: input.papers,
       batchSize: 50,
+      // batchSize: 50,
       batches: [],
       currentBatchIndex: 0,
       results: [],
@@ -168,8 +183,14 @@ export function createProcessManagerActor() {
             },
             {
               target: 'Handle error',
-              guard: ({ context, event }) =>
-                context.batches[context.currentBatchIndex].length !== event.scores.length,
+              guard: ({ context, event }) => {
+                // console.log('event.scores: ', event.scores);
+                // console.log({ batches: JSON.stringify(context.batches, null, 2), curreBatch: context.currentBatchIndex });
+
+                // console.log('check', context.batches[context.currentBatchIndex].length !== event.scores.length)
+                // console.log('made it past check');
+                return context.batches[context.currentBatchIndex].length !== event.scores.length
+              },
               actions: assign({
                 error: () => new Error('Mismatch between the number of papers and scores'),
               }),

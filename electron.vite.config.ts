@@ -23,9 +23,9 @@ export default defineConfig(({ command, mode }) => {
         rollupOptions: {
           input: {
             index: resolve(__dirname, 'src/electron/main/index.ts'),
-            'ranking-process': resolve(
+            'child-process': resolve(
               __dirname,
-              'src/services/worker/scrape-rank/utils/ranking-process.ts'
+              'src/services/worker/scrape-rank/utils/child-process.ts'
             ),
             'rank-computer': resolve(
               __dirname,

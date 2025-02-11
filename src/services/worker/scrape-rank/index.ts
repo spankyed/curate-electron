@@ -1,6 +1,10 @@
 import { createActor, toPromise } from 'xstate';
 import { createScrapeAndRankMachine } from './actors/system';
 
+import * as sharedRepository from '@services/shared/repository';
+import { updateWorkStatus } from '@services/shared/status';
+import scrapeArxivByDate from '@services/worker/scrape-rank/utils/scrape-arxiv-by-date';
+
 export default {
   'scrape-date': scrapePapers,
 };
@@ -12,7 +16,12 @@ async function scrapePapers(date) {
 }
 
 export async function runScrapeAndRank(date, alwaysNotify = true) {
-  const machine = createScrapeAndRankMachine(date, alwaysNotify);
+  const machine = createScrapeAndRankMachine(date, alwaysNotify, {
+    scrapeArxivByDate,
+    sharedRepository,
+    updateWorkStatus,
+  });
+
   const actor = createActor(machine);
   actor.start();
 
