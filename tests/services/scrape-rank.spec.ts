@@ -2,7 +2,7 @@
 import { createActor, fromPromise, toPromise } from 'xstate';
 import { test, expect, vi } from 'vitest';
 import { mockPaperRecords } from '../__mocks__/mock-papers'; // Import from __mocks__
-import { createScrapeAndRankMachine } from '@services/worker/scrape-rank/actors/system';
+import { createScrapeAndRankMachine } from '@services/worker/scrape-rank/actors/scrape-rank-system';
 import { delay } from 'utils/delay';
 
 vi.mock('node:child_process'); // Mock the child_process module globally using __mocks__/child_process.ts

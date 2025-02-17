@@ -1,5 +1,5 @@
 import { createActor, toPromise } from 'xstate';
-import { createScrapeAndRankMachine } from './actors/system';
+import { createScrapeAndRankMachine } from './actors/scrape-rank-system';
 
 import * as sharedRepository from '@services/shared/repository';
 import { updateWorkStatus } from '@services/shared/status';

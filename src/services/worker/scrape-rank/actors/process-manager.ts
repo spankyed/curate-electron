@@ -44,13 +44,10 @@ export function createProcessManagerActor() {
 
         child.on('message', (message: ChildMessage) => {
           console.log('[proc manager] Message: ', message);
-          if (message.ready) {
-            sendBack({ type: 'PROC.READY' });
-          } else if (message.scores) {
-            sendBack(message);
-            // sendBack({ type: 'PROC.SCORES', scores: message.scores });
-          } else if (message.error) {
+          if (message.type === 'PROC.ERROR') {
             sendBack({ type: 'PROC.ERROR', error: new Error(message.error) });
+          } else {
+            sendBack(message);
           }
         });
 
@@ -85,20 +82,13 @@ export function createProcessManagerActor() {
         childProcActorRef: ({ spawn }) => spawn('childProcess'),
       }),
       sendNextBatch: ({ context }) => {
-        // const currentBatch = context.batches[context.currentBatchIndex];
-
-        // console.log({ batches: JSON.stringify(context.batches, null, 2) });
-
-
-        const nextBatchIdx = context.currentBatchIndex + 1;
-        const nextBactch = context.batches[nextBatchIdx];
-        const isLastBatch = nextBatchIdx === context.batches.length - 1;
-        
-        // console.log('nextBactch: ', nextBactch);
+        const currentBatch = context.batches[context.currentBatchIndex];
+        const isLastBatch = context.currentBatchIndex === context.batches.length - 1;
+        console.log('currentBatch: ', currentBatch);
 
         context.childProcActorRef?.send({
-          type: 'RECIEVE_BATCH',
-          batch: nextBactch,
+          type: 'RECIEVE_BATCH', // (Also consider correcting the spelling: RECEIVE_BATCH)
+          batch: currentBatch,
           // batchId: nextBatchIdx,
           isLastBatch,
         });
@@ -131,7 +121,7 @@ export function createProcessManagerActor() {
     context: ({ input }: any) => ({
       // context: ({ input }: { input: { papers: PaperRecord[] } }) => ({
       papers: input.papers,
-      batchSize: 50,
+      batchSize: 10,
       // batchSize: 50,
       batches: [],
       currentBatchIndex: 0,
@@ -184,11 +174,11 @@ export function createProcessManagerActor() {
             {
               target: 'Handle error',
               guard: ({ context, event }) => {
-                // console.log('event.scores: ', event.scores);
+                console.log('event.scores: ', event.scores);
                 // console.log({ batches: JSON.stringify(context.batches, null, 2), curreBatch: context.currentBatchIndex });
 
-                // console.log('check', context.batches[context.currentBatchIndex].length !== event.scores.length)
-                // console.log('made it past check');
+                console.log('check', context.batches[context.currentBatchIndex].length !== event.scores.length)
+                console.log('made it past check');
                 return context.batches[context.currentBatchIndex].length !== event.scores.length
               },
               actions: assign({

@@ -42,7 +42,7 @@ export function createRankComputerActor({ getRelevancyScores }) {
           sendBack(message);
         });
 
-        process.send?.({ type: 'PROC.READY', ready: true });
+        process.send?.({ type: 'PROC.READY' });
       }),
       computeScores: fromPromise(async ({ input }: { input: { batch: PaperRecord[] } }) => {
         // console.log('computeScores', input.batch);
