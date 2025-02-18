@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   type ActorRefFromLogic,
   type AnyActorLogic,
@@ -20,7 +19,7 @@ interface ChildMessage {
   error?: string;
 }
 
-export function createProcessManagerActor() {
+export function createProcessManagerActor(batchSize: number) {
   const pathToChildScript = path.resolve(__dirname, 'child-process.js');
 
   return setup({
@@ -38,10 +37,10 @@ export function createProcessManagerActor() {
     },
     guards: {
       hasPapers: ({ context }) => context.papers.length > 0,
-      wasLastBatch: ({ context }) => context.currentBatchIndex === context.batches.length - 1,
+      wasLastBatch: ({ context }) => context.currentBatchIndex - 1 === context.batches.length - 1,
       hasDistances: ({ event }) => event.distances && event.distances.length > 0,
       batchSizeMismatch: ({ context, event }) =>
-        context.batches[context.currentBatchIndex - 1].length !== event.distances.length,
+        context.batches[context.currentBatchIndex].length !== event.distances.length,
     },
     actors: {
       childProcess: fromCallback(({ sendBack, receive }) => {
@@ -69,7 +68,7 @@ export function createProcessManagerActor() {
         });
 
         receive((event) => {
-          if (event.type === 'RECIEVE_BATCH') {
+          if (event.type === 'RECEIVE_BATCH') {
             child.send(event);
           } else if (event.type === 'KILL') {
             child.kill();
@@ -95,7 +94,7 @@ export function createProcessManagerActor() {
         // console.log('currentBatch: ', currentBatch);
 
         context.childProcActorRef?.send({
-          type: 'RECIEVE_BATCH', // (Also consider correcting the spelling: RECEIVE_BATCH)
+          type: 'RECEIVE_BATCH',
           batch: currentBatch,
         });
       },
@@ -105,9 +104,9 @@ export function createProcessManagerActor() {
       mergeInSimilarityScores: assign(({ context, event }) => {
         console.log('event.distances: ', event.distances);
 
-        const lastBatch = context.batches[context.currentBatchIndex - 1];
+        const processedBatch = context.batches[context.currentBatchIndex];
 
-        const scoredBatch = lastBatch.map((paper, index) => ({
+        const scoredBatch = processedBatch.map((paper, index) => ({
           ...paper,
           relevancy: averageSimilarityScores(event.distances[index]),
         }));
@@ -135,23 +134,13 @@ export function createProcessManagerActor() {
     context: ({ input }: any) => ({
       // context: ({ input }: { input: { papers: PaperRecord[] } }) => ({
       papers: input.papers,
-      batchSize: 10,
-      // batchSize: 50,
+      batchSize,
       batches: [],
       currentBatchIndex: 0,
       results: [],
       childProcActorRef: undefined,
       error: undefined,
     }),
-    // context: {
-    //   papers: initialPapers,
-    //   batchSize: 50,
-    //   batches: [],
-    //   currentBatchIndex: 0,
-    //   results: [],
-    //   childProcActorRef: undefined,
-    //   error: undefined,
-    // },
     states: {
       'Split into batches': {
         always: {
@@ -169,7 +158,7 @@ export function createProcessManagerActor() {
       },
 
       'Send batches': {
-        entry: ['sendBatch', 'incrementBatchIndex'],
+        entry: ['sendBatch'],
         on: {
           'PROC.ERROR': {
             target: 'Handle error',
@@ -199,19 +188,27 @@ export function createProcessManagerActor() {
               },
             },
             {
-
-              target: 'Handle done',
-              guard: 'wasLastBatch',
-              actions: ['mergeInSimilarityScores'],
-            },
-            {
-              actions: ['mergeInSimilarityScores', 'sendBatch', 'incrementBatchIndex'],
+              target: 'Merge in similarity scores',
             },
           ],
           'PROC.DONE': {
             target: 'Handle done',
           },
         },
+      },
+
+      'Merge in similarity scores': {
+        entry: 'mergeInSimilarityScores',
+        exit: 'incrementBatchIndex',
+        always: [
+          {
+            guard: not('wasLastBatch'),
+            target: 'Send batches',
+          },
+          {
+            target: 'Handle done',
+          },
+        ],
       },
 
       'Handle done': {

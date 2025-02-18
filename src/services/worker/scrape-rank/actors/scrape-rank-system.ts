@@ -8,12 +8,14 @@ export interface ScrapeAndRankDependencies {
   sharedRepository: any;
   updateWorkStatus: (statusData: any, alwaysNotify: boolean) => Promise<string>;
 }
-
-export const createScrapeAndRankMachine = (
-  date: string,
-  alwaysNotify = true,
-  deps: ScrapeAndRankDependencies
-) => {
+type Config = {
+  date: string;
+  batchSize: number;
+  alwaysNotify: boolean;
+  deps: ScrapeAndRankDependencies;
+};
+export const createScrapeAndRankMachine = (config: Config) => {
+  const { date, batchSize, alwaysNotify, deps } = config;
   return setup({
     types: {} as {
       context: {
@@ -29,7 +31,7 @@ export const createScrapeAndRankMachine = (
       scrapeArxivByDate: fromPromise(async ({ input }: { input: { date: string } }) => {
         return deps.scrapeArxivByDate(input.date);
       }),
-      spawnRankingProcess: createProcessManagerActor(),
+      spawnRankingProcess: createProcessManagerActor(batchSize),
       storePapers: fromPromise(async ({ input }: { input: { rankedPapers: PaperRecord[] } }) => {
         const { rankedPapers } = input;
 

@@ -16,10 +16,15 @@ async function scrapePapers(date) {
 }
 
 export async function runScrapeAndRank(date, alwaysNotify = true) {
-  const machine = createScrapeAndRankMachine(date, alwaysNotify, {
-    scrapeArxivByDate,
-    sharedRepository,
-    updateWorkStatus,
+  const machine = createScrapeAndRankMachine({
+    date,
+    alwaysNotify,
+    batchSize: 10,
+    deps: {
+      scrapeArxivByDate,
+      sharedRepository,
+      updateWorkStatus,
+    },
   });
 
   const actor = createActor(machine);

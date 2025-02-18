@@ -1,34 +1,43 @@
 import { EventEmitter } from 'node:events';
-import { mockDistances } from './mock-scores';
-import { vi } from 'vitest';
+import { mockTopDistances } from './mock-distances';
+
+// Mock implementation of `fork`
+// export const fork = vi.fn((scriptPath: string, args: string[]) => {
+//   const isRankComputer = scriptPath.endsWith('child-process.js');
+
+//   if (isRankComputer && args.includes('child')) {
+//     const child = new MockChildProcess();
+
+//     setTimeout(() => {
+//       child.emit('message', { type: 'PROC.READY' });
+//     }, 10);
+
+//     return child;
+//   }
+
+//   throw new Error(`Unexpected fork call with scriptPath: ${scriptPath}`);
+// });
 
 type Message = {
   type: string;
-  isLastBatch?: boolean;
+  batch: unknown[];
 };
 
-class MockChildProcess extends EventEmitter {
+export class MockChildProcess extends EventEmitter {
   private isKilled = false;
-
   send(message: Message) {
     if (this.isKilled) {
       throw new Error('Cannot send message to a killed process');
     }
 
-    if (message.type === 'RECIEVE_BATCH') {
+    if (message.type === 'RECEIVE_BATCH') {
+      const batchLength = message.batch.length;
+
       setTimeout(() => {
-        if (!message.isLastBatch) {
-          this.emit('message', {
-            type: 'PROC.DISTANCES',
-            distances: randomizeDistances(mockDistances),
-          });
-        } else {
-          this.emit('message', {
-            type: 'PROC.DISTANCES',
-            distances: randomizeDistances(mockDistances),
-          });
-          this.emit('message', { type: 'PROC.DONE' });
-        }
+        this.emit('message', {
+          type: 'PROC.DISTANCES',
+          distances: randomizeDistances(mockTopDistances.slice(0, batchLength)),
+        });
       }, 50); // Simulate async delay
     }
   }
@@ -38,23 +47,6 @@ class MockChildProcess extends EventEmitter {
     this.emit('exit', 0); // Emit an exit event with code 0
   }
 }
-
-// Mock implementation of `fork`
-export const fork = vi.fn((scriptPath: string, args: string[]) => {
-  const isRankComputer = scriptPath.endsWith('child-process.js');
-
-  if (isRankComputer && args.includes('child')) {
-    const child = new MockChildProcess();
-
-    setTimeout(() => {
-      child.emit('message', { type: 'PROC.READY' });
-    }, 10);
-
-    return child;
-  }
-
-  throw new Error(`Unexpected fork call with scriptPath: ${scriptPath}`);
-});
 
 export function randomizeDistances(distances: number[][]): number[][] {
   return distances.map((row) =>

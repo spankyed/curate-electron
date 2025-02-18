@@ -22,7 +22,7 @@ export function createSimilarityComputer({ computeSimilarity }) {
       // events: {} as
       //   | ErrorActorEvent<unknown, string>
       //   | {
-      //       type: 'RECIEVE_BATCH';
+      //       type: 'RECEIVE_BATCH';
       //       batch: PaperRecord[];
       //       isLastBatch?: boolean;
       //     },
@@ -81,7 +81,7 @@ export function createSimilarityComputer({ computeSimilarity }) {
     states: {
       'Wait for batch': {
         on: {
-          RECIEVE_BATCH: {
+          RECEIVE_BATCH: {
             target: 'Process batch',
             // actions: [log(({ event }) => event), 'setBatch'],
             actions: ['setBatch'],
