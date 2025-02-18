@@ -8,11 +8,9 @@ import { delay } from 'utils/delay';
 vi.mock('node:child_process'); // Mock the child_process module globally using __mocks__/child_process.ts
 
 test('Scrape-rank machine', async () => {
-  console.log('here we go');
-
   const testMachine = createScrapeAndRankMachine('2025-01-15', false, {} as any).provide({
     actors: {
-      scrapeArxivByDate: fromPromise(async () => delay(1000, mockPaperRecords)),
+      scrapeArxivByDate: fromPromise(async () => delay(3000, mockPaperRecords)),
       storePapers: fromPromise(async () => Promise.resolve()),
     },
     actions: {

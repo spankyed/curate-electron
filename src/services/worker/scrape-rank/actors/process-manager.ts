@@ -6,16 +6,17 @@ import {
   fromCallback,
   log,
   setup,
+  not
 } from 'xstate';
-import { chunkArray, getAvgScore } from '@services/worker/scrape-rank/utils';
+import { chunkArray, averageSimilarityScores } from '@services/worker/scrape-rank/utils';
 import type { PaperRecord } from '@services/shared/types';
 import path from 'node:path';
 import { fork } from 'node:child_process';
 
 interface ChildMessage {
-  type: 'PROC.ERROR' | 'PROC.SCORES' | 'PROC.DONE';
+  type: 'PROC.ERROR' | 'PROC.DISTANCES' | 'PROC.DONE';
   ready?: boolean;
-  scores?: number[];
+  distances?: number[];
   error?: string;
 }
 
@@ -36,16 +37,20 @@ export function createProcessManagerActor() {
       output: PaperRecord[];
     },
     guards: {
-      // hasMoreBatches: ({ context }) => context.currentBatchIndex < context.batches.length - 1,
+      hasPapers: ({ context }) => context.papers.length > 0,
+      wasLastBatch: ({ context }) => context.currentBatchIndex === context.batches.length - 1,
+      hasDistances: ({ event }) => event.distances && event.distances.length > 0,
+      batchSizeMismatch: ({ context, event }) =>
+        context.batches[context.currentBatchIndex - 1].length !== event.distances.length,
     },
     actors: {
       childProcess: fromCallback(({ sendBack, receive }) => {
         const child = fork(pathToChildScript, ['child']);
 
         child.on('message', (message: ChildMessage) => {
-          console.log('[proc manager] Message: ', message);
+          // console.log('[proc manager] Message: ', message);
           if (message.type === 'PROC.ERROR') {
-            sendBack({ type: 'PROC.ERROR', error: new Error(message.error) });
+            sendBack({ type: 'PROC.ERROR', error: message.error });
           } else {
             sendBack(message);
           }
@@ -78,30 +83,33 @@ export function createProcessManagerActor() {
       }),
     },
     actions: {
+      splitIntoBatches: assign({
+        batches: ({ context }) => chunkArray(context.papers, context.batchSize),
+      }),
       spawnChildProcess: assign({
         childProcActorRef: ({ spawn }) => spawn('childProcess'),
       }),
-      sendNextBatch: ({ context }) => {
+      sendBatch: ({ context }) => {
         const currentBatch = context.batches[context.currentBatchIndex];
-        const isLastBatch = context.currentBatchIndex === context.batches.length - 1;
-        console.log('currentBatch: ', currentBatch);
+        console.log('currentBatchIdx: ', context.currentBatchIndex);
+        // console.log('currentBatch: ', currentBatch);
 
         context.childProcActorRef?.send({
           type: 'RECIEVE_BATCH', // (Also consider correcting the spelling: RECEIVE_BATCH)
           batch: currentBatch,
-          // batchId: nextBatchIdx,
-          isLastBatch,
         });
       },
       receiveError: assign({
         error: ({ event }) => event.error,
       }),
-      mergeScores: assign(({ context, event }) => {
-        const currentBatch = context.batches[context.currentBatchIndex];
+      mergeInSimilarityScores: assign(({ context, event }) => {
+        console.log('event.distances: ', event.distances);
 
-        const scoredBatch = currentBatch.map((paper, index) => ({
+        const lastBatch = context.batches[context.currentBatchIndex - 1];
+
+        const scoredBatch = lastBatch.map((paper, index) => ({
           ...paper,
-          relevancy: getAvgScore(event.scores[index]),
+          relevancy: averageSimilarityScores(event.distances[index]),
         }));
 
         const updatedResults = [...context.results, ...scoredBatch];
@@ -110,14 +118,20 @@ export function createProcessManagerActor() {
           results: updatedResults,
         };
       }),
+      incrementBatchIndex: assign({
+        currentBatchIndex: ({ context }) => context.currentBatchIndex + 1,
+      }),
       throwError: ({ context }) => {
         throw context.error;
         // console.error('Ranking process failed:', context.error);
       },
+      setError: assign({
+        error: (_, params: { message: string }) => new Error(params.message),
+      }),
     },
   }).createMachine({
     id: 'process-manager',
-    initial: 'Chunk into batches',
+    initial: 'Split into batches',
     context: ({ input }: any) => ({
       // context: ({ input }: { input: { papers: PaperRecord[] } }) => ({
       papers: input.papers,
@@ -139,12 +153,10 @@ export function createProcessManagerActor() {
     //   error: undefined,
     // },
     states: {
-      'Chunk into batches': {
-        entry: assign({
-          batches: ({ context }) => chunkArray(context.papers, context.batchSize),
-        }),
+      'Split into batches': {
         always: {
-          guard: ({ context }) => context.papers.length > 0,
+          guard: 'hasPapers',
+          actions: 'splitIntoBatches',
           target: 'Spawn child process',
         },
       },
@@ -157,42 +169,43 @@ export function createProcessManagerActor() {
       },
 
       'Send batches': {
-        entry: 'sendNextBatch',
+        entry: ['sendBatch', 'incrementBatchIndex'],
         on: {
           'PROC.ERROR': {
             target: 'Handle error',
-            actions: assign({
-              error: ({ event }) => event.error,
-            }),
+            actions: {
+              type: 'setError',
+              params: ({ event }) => ({ message: event.error }),
+            },
           },
-          'PROC.SCORES': [
+          'PROC.DISTANCES': [
             {
               target: 'Handle error',
-              guard: ({ event }) => !event.scores || event.scores.length === 0,
-              actions: assign({ error: () => new Error('No scores received for the batch') }),
-            },
-            {
-              target: 'Handle error',
-              guard: ({ context, event }) => {
-                console.log('event.scores: ', event.scores);
-                // console.log({ batches: JSON.stringify(context.batches, null, 2), curreBatch: context.currentBatchIndex });
-
-                console.log('check', context.batches[context.currentBatchIndex].length !== event.scores.length)
-                console.log('made it past check');
-                return context.batches[context.currentBatchIndex].length !== event.scores.length
+              guard: not('hasDistances'),
+              actions: {
+                type: 'setError',
+                params: { message: 'No distances received for the batch' },
               },
-              actions: assign({
-                error: () => new Error('Mismatch between the number of papers and scores'),
-              }),
             },
             {
-              actions: [
-                'sendNextBatch',
-                'mergeScores',
-                assign({
-                  currentBatchIndex: ({ context }) => context.currentBatchIndex + 1,
-                }),
-              ],
+              target: 'Handle error',
+              guard: 'batchSizeMismatch', // should never occur
+              actions: {
+                type: 'setError',
+                params: {
+                  message:
+                    'Mismatch between the number of papers in the current batch and distances received',
+                },
+              },
+            },
+            {
+
+              target: 'Handle done',
+              guard: 'wasLastBatch',
+              actions: ['mergeInSimilarityScores'],
+            },
+            {
+              actions: ['mergeInSimilarityScores', 'sendBatch', 'incrementBatchIndex'],
             },
           ],
           'PROC.DONE': {

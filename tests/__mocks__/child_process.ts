@@ -1,5 +1,5 @@
 import { EventEmitter } from 'node:events';
-import { mockScores } from './mock-scores';
+import { mockDistances } from './mock-scores';
 import { vi } from 'vitest';
 
 type Message = {
@@ -18,9 +18,15 @@ class MockChildProcess extends EventEmitter {
     if (message.type === 'RECIEVE_BATCH') {
       setTimeout(() => {
         if (!message.isLastBatch) {
-          this.emit('message', { type: 'PROC.SCORES', scores: randomizeScores(mockScores) });
+          this.emit('message', {
+            type: 'PROC.DISTANCES',
+            distances: randomizeDistances(mockDistances),
+          });
         } else {
-          this.emit('message', { type: 'PROC.SCORES', scores: randomizeScores(mockScores) });
+          this.emit('message', {
+            type: 'PROC.DISTANCES',
+            distances: randomizeDistances(mockDistances),
+          });
           this.emit('message', { type: 'PROC.DONE' });
         }
       }, 50); // Simulate async delay
@@ -50,15 +56,15 @@ export const fork = vi.fn((scriptPath: string, args: string[]) => {
   throw new Error(`Unexpected fork call with scriptPath: ${scriptPath}`);
 });
 
-export function randomizeScores(scores: number[][]): number[][] {
-  return scores.map(row =>
-    row.map(score => {
+export function randomizeDistances(distances: number[][]): number[][] {
+  return distances.map((row) =>
+    row.map((distance) => {
       // Generate a small random delta in the range [-0.02, +0.02]
       const delta = (Math.random() - 0.5) * 0.04;
-      let newScore = score + delta;
-      // Optional: clamp the new score between 0 and 1
-      newScore = Math.min(1, Math.max(0, newScore));
-      return newScore;
+      let newDistance = distance + delta;
+      // Clamp the new distance between 0 and 1
+      newDistance = Math.min(1, Math.max(0, newDistance));
+      return newDistance;
     })
   );
 }

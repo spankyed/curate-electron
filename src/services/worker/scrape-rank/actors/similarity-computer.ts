@@ -9,14 +9,12 @@ import {
 } from 'xstate';
 import type { PaperRecord } from '@services/shared/types';
 
-export function createRankComputerActor({ getRelevancyScores }) {
+export function createSimilarityComputer({ computeSimilarity }) {
   return setup({
     types: {
       context: {} as {
         batchId: number;
         batch: PaperRecord[];
-        // scores: PaperRecord[];
-        scores: number[][];
         isLastBatch: boolean;
         error: ErrorActorEvent['error'];
         // error: Error | null;
@@ -44,10 +42,10 @@ export function createRankComputerActor({ getRelevancyScores }) {
 
         process.send?.({ type: 'PROC.READY' });
       }),
-      computeScores: fromPromise(async ({ input }: { input: { batch: PaperRecord[] } }) => {
-        // console.log('computeScores', input.batch);
-        const rankedPapers = await getRelevancyScores(input.batch);
-        return rankedPapers;
+      computeDistances: fromPromise(async ({ input }: { input: { batch: PaperRecord[] } }) => {
+        // console.log('computeDistances', input.batch);
+        const distances = await computeSimilarity(input.batch);
+        return distances;
       }),
     },
     actions: {
@@ -59,11 +57,8 @@ export function createRankComputerActor({ getRelevancyScores }) {
         isLastBatch: ({ event }) => event.isLastBatch || false,
         batchId: ({ context }) => context.batchId + 1,
       }),
-      setScores: assign({
-        scores: ({ event }) => event.output,
-      }),
-      sendBatchScores: ({ event }) => {
-        process.send?.({ type: 'PROC.SCORES', scores: event.output.scores });
+      sendBatchDistances: ({ event }) => {
+        process.send?.({ type: 'PROC.DISTANCES', scores: event.output.distances });
       },
       sendDone: () => {
         process.send?.({ type: 'PROC.DONE' });
@@ -96,17 +91,12 @@ export function createRankComputerActor({ getRelevancyScores }) {
 
       'Process batch': {
         invoke: {
-          src: 'computeScores',
+          src: 'computeDistances',
           input: ({ context }) => ({ batch: context.batch }),
           onDone: [
             {
-              guard: 'isLastBatch',
-              target: 'Handle done',
-              actions: ['setScores', 'sendBatchScores'],
-            },
-            {
               target: 'Wait for batch',
-              actions: ['setScores', 'sendBatchScores'],
+              actions: ['sendBatchDistances'],
             },
           ],
           onError: {
@@ -116,10 +106,10 @@ export function createRankComputerActor({ getRelevancyScores }) {
         },
       },
 
-      'Handle done': {
-        entry: 'sendDone',
-        type: 'final',
-      },
+      // 'Handle done': {
+      //   entry: 'sendDone',
+      //   type: 'final',
+      // },
 
       'Handle error': {
         entry: 'sendError',

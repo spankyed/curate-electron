@@ -1,12 +1,10 @@
 import type { PaperRecord } from '@services/shared/types';
-
 export const mockPaperRecords = [
   {
     id: '2301.04567',
     date: '2025-01-15',
     title: 'Transformers in Reinforcement Learning',
     abstract: 'Exploring transformers for policy and value estimation in RL tasks.',
-    // relevancy: 0.87,
     status: 0,
   },
   {
@@ -14,7 +12,6 @@ export const mockPaperRecords = [
     date: '2025-01-15',
     title: 'Zero-Shot Learning with Large Language Models',
     abstract: "A study on LLMs' ability to perform zero-shot classification and reasoning.",
-    // relevancy: 0.92,
     status: 0,
   },
   {
@@ -22,7 +19,6 @@ export const mockPaperRecords = [
     date: '2025-01-15',
     title: 'Efficient Fine-Tuning for Domain-Specific Tasks',
     abstract: 'Proposing parameter-efficient fine-tuning techniques for domain adaptation.',
-    // relevancy: 0.78,
     status: 0,
   },
   {
@@ -30,7 +26,85 @@ export const mockPaperRecords = [
     date: '2025-01-15',
     title: 'AI for Game Physics Simulations',
     abstract: 'Leveraging AI models to enhance real-time physics in gaming applications.',
-    // relevancy: 0.83,
+    status: 0,
+  },
+  {
+    id: '2313.01234',
+    date: '2025-01-16',
+    title: 'Deep Reinforcement Learning for Robotics',
+    abstract: 'Implementing DRL methods for improved robotic control and autonomy.',
+    status: 0,
+  },
+  {
+    id: '2314.09876',
+    date: '2025-01-16',
+    title: 'Neural Architecture Search in Computer Vision',
+    abstract: 'Using NAS techniques to discover efficient architectures for vision tasks.',
+    status: 0,
+  },
+  {
+    id: '2315.03456',
+    date: '2025-01-17',
+    title: 'Self-Supervised Learning in Natural Language Processing',
+    abstract: 'Exploring self-supervised techniques to leverage unlabeled text data.',
+    status: 0,
+  },
+  {
+    id: '2316.07890',
+    date: '2025-01-17',
+    title: 'Graph Neural Networks for Social Network Analysis',
+    abstract: 'Applying GNNs to understand and predict social dynamics and interactions.',
+    status: 0,
+  },
+  {
+    id: '2317.04567',
+    date: '2025-01-18',
+    title: 'Adversarial Robustness in Deep Learning Models',
+    abstract: 'Investigating techniques to improve model robustness against adversarial attacks.',
+    status: 0,
+  },
+  {
+    id: '2318.06789',
+    date: '2025-01-18',
+    title: 'Explainable AI for Medical Diagnosis',
+    abstract: 'Developing interpretable models to assist in medical diagnostic decision-making.',
+    status: 0,
+  },
+  {
+    id: '2319.02345',
+    date: '2025-01-19',
+    title: 'Quantum Machine Learning for Drug Discovery',
+    abstract:
+      'Exploring the potential of quantum computing in accelerating drug discovery processes.',
+    status: 0,
+  },
+  {
+    id: '2320.05678',
+    date: '2025-01-19',
+    title: 'Multimodal Learning for Autonomous Vehicles',
+    abstract: 'Fusing data from multiple sensors to enhance autonomous vehicle perception.',
+    status: 0,
+  },
+  {
+    id: '2321.01234',
+    date: '2025-01-20',
+    title: 'Transfer Learning for Low-Resource Languages',
+    abstract:
+      'Leveraging high-resource language models to improve performance on low-resource languages.',
+    status: 0,
+  },
+  {
+    id: '2322.09876',
+    date: '2025-01-20',
+    title: 'Federated Learning in Healthcare',
+    abstract: 'Implementing federated learning to address data privacy in medical research.',
+    status: 0,
+  },
+  {
+    id: '2323.03456',
+    date: '2025-01-21',
+    title: 'Edge AI for Real-Time Data Processing',
+    abstract: 'Designing AI models optimized for low latency on edge devices.',
     status: 0,
   },
 ] as PaperRecord[];

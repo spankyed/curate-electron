@@ -2,7 +2,7 @@ import os from 'node:os';
 import repository, { ReferenceCollectionName } from './repository';
 import type { PaperRecord } from '@services/shared/types';
 
-export async function getRelevancyScores(papersBatch: PaperRecord[], nResults = 5) {
+export async function computeSimilarity(papersBatch: PaperRecord[], nResults = 5) {
   console.log('-- Starting get-relevancy-scores');
 
   const collectionExists = await repository.chroma.checkForExistingReferenceCollection();
@@ -38,13 +38,10 @@ export async function getRelevancyScores(papersBatch: PaperRecord[], nResults = 
   }
 }
 
-export function getAvgScore(scores: number[] | undefined): number {
-  if (!scores?.length) return 0; // Early return for undefined or empty arrays
-
-  const sum = scores.reduce((a, b) => a + b, 0);
-  const average = sum / scores.length;
-
-  return 1 - average;
+export function averageSimilarityScores(distances: number[]): number {
+  const avgDistance =
+    distances.reduce((sum, distance) => sum + distance, 0) / (distances.length || 1);
+  return avgDistance ? 1 - avgDistance : 0;
 }
 
 // todo limit the memory allocated to chroma server in order to test whether memory is the bottleneck
