@@ -5,7 +5,7 @@ import {
   type ErrorActorEvent,
   spawnChild,
   fromCallback,
-  AnyEventObject,
+  type AnyEventObject,
 } from 'xstate';
 import type { PaperRecord } from '@services/shared/types';
 
@@ -68,7 +68,7 @@ export function createSimilarityComputer({ computeSimilarity }) {
       },
     },
   }).createMachine({
-    id: 'rank-computer',
+    id: 'similarity-computer',
     initial: 'Wait for batch',
     context: {
       batchId: 0,
@@ -124,9 +124,9 @@ export function createSimilarityComputer({ computeSimilarity }) {
 //     console.log('Current state:', state.value);
 //   },
 //   error: (error) => {
-//     console.error('Unhandled error in rank-computer:', error);
+//     console.error('Unhandled error in similarity-computer:', error);
 //   },
 //   complete: () => {
-//     console.log('rank-computer completed');
+//     console.log('similarity-computer completed');
 //   },
 // });

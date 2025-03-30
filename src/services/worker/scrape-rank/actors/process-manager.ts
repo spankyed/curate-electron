@@ -5,7 +5,7 @@ import {
   fromCallback,
   log,
   setup,
-  not
+  not,
 } from 'xstate';
 import { chunkArray, averageSimilarityScores } from '@services/worker/scrape-rank/utils';
 import type { PaperRecord } from '@services/shared/types';
@@ -37,7 +37,7 @@ export function createProcessManagerActor(batchSize: number) {
     },
     guards: {
       hasPapers: ({ context }) => context.papers.length > 0,
-      wasLastBatch: ({ context }) => context.currentBatchIndex - 1 === context.batches.length - 1,
+      wasLastBatch: ({ context }) => context.currentBatchIndex === context.batches.length - 1,
       hasDistances: ({ event }) => event.distances && event.distances.length > 0,
       batchSizeMismatch: ({ context, event }) =>
         context.batches[context.currentBatchIndex].length !== event.distances.length,
@@ -83,15 +83,17 @@ export function createProcessManagerActor(batchSize: number) {
     },
     actions: {
       splitIntoBatches: assign({
-        batches: ({ context }) => chunkArray(context.papers, context.batchSize),
+        batches: ({ context }) => {
+          // console.log({ papersCount: context.papers.length, batchCount: chunkArray(context.papers, context.batchSize).length });
+          return chunkArray(context.papers, context.batchSize);
+        },
+        // batches: ({ context }) => chunkArray(context.papers, context.batchSize),
       }),
       spawnChildProcess: assign({
         childProcActorRef: ({ spawn }) => spawn('childProcess'),
       }),
       sendBatch: ({ context }) => {
         const currentBatch = context.batches[context.currentBatchIndex];
-        console.log('currentBatchIdx: ', context.currentBatchIndex);
-        // console.log('currentBatch: ', currentBatch);
 
         context.childProcActorRef?.send({
           type: 'RECEIVE_BATCH',
@@ -102,7 +104,7 @@ export function createProcessManagerActor(batchSize: number) {
         error: ({ event }) => event.error,
       }),
       mergeInSimilarityScores: assign(({ context, event }) => {
-        console.log('event.distances: ', event.distances);
+        // console.log('event.distances: ', event.distances);
 
         const processedBatch = context.batches[context.currentBatchIndex];
 
@@ -199,11 +201,11 @@ export function createProcessManagerActor(batchSize: number) {
 
       'Merge in similarity scores': {
         entry: 'mergeInSimilarityScores',
-        exit: 'incrementBatchIndex',
         always: [
           {
             guard: not('wasLastBatch'),
             target: 'Send batches',
+            actions: 'incrementBatchIndex',
           },
           {
             target: 'Handle done',
@@ -212,9 +214,11 @@ export function createProcessManagerActor(batchSize: number) {
       },
 
       'Handle done': {
-        entry: [log('All batches processed successfully!')],
+        entry: [
+          log('All batches processed successfully!'),
+          // log(({ context }) => ({ resultsLength: context.results.length })),
+        ],
         type: 'final',
-        // output: ({ context }) => context.results,
       },
 
       'Handle error': {

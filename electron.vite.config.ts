@@ -29,7 +29,7 @@ export default defineConfig(({ command, mode }) => {
             ),
             'rank-computer': resolve(
               __dirname,
-              'src/services/worker/scrape-rank/actors/rank-computer.ts'
+              'src/services/worker/scrape-rank/actors/similarity-computer.ts'
             ),
           },
         },

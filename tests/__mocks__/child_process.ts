@@ -1,5 +1,6 @@
 import { EventEmitter } from 'node:events';
 import { mockTopDistances } from './mock-distances';
+import { vi } from 'vitest';
 
 // Mock implementation of `fork`
 // export const fork = vi.fn((scriptPath: string, args: string[]) => {
@@ -31,14 +32,15 @@ export class MockChildProcess extends EventEmitter {
     }
 
     if (message.type === 'RECEIVE_BATCH') {
-      const batchLength = message.batch.length;
+      // console.log('message.batch: ', message.batch);
+      const batch = message.batch;
 
       setTimeout(() => {
         this.emit('message', {
           type: 'PROC.DISTANCES',
-          distances: randomizeDistances(mockTopDistances.slice(0, batchLength)),
+          distances: randomizeDistances(mockTopDistances.slice(0, batch.length)),
         });
-      }, 50); // Simulate async delay
+      }, 200); // Simulate async delay
     }
   }
 
@@ -47,6 +49,21 @@ export class MockChildProcess extends EventEmitter {
     this.emit('exit', 0); // Emit an exit event with code 0
   }
 }
+export const fork = vi.fn((scriptPath: string, args: string[]) => {
+  const isRankComputer = scriptPath.endsWith('child-process.js');
+
+  if (isRankComputer && args.includes('child')) {
+    const child = new MockChildProcess();
+
+    setTimeout(() => {
+      child.emit('message', { type: 'PROC.READY' });
+    }, 10);
+
+    return child;
+  }
+
+  throw new Error(`Unexpected fork call with scriptPath: ${scriptPath}`);
+});
 
 export function randomizeDistances(distances: number[][]): number[][] {
   return distances.map((row) =>

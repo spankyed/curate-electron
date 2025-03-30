@@ -134,8 +134,6 @@ export const createScrapeAndRankMachine = (config: Config) => {
           onDone: {
             target: 'Store ranked papers',
             actions: [
-              log('rank output received'),
-              log(({ event }) => event.output),
               assign({
                 rankedPapers: ({ event }) =>
                   // Sort within the machine logic
