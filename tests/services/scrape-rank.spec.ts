@@ -9,11 +9,9 @@ import { delay } from 'utils/delay';
 vi.mock('node:child_process');
 
 test('Scrape-rank machine', async () => {
-  const testBatchSize = 2; // ! max is 15 for the mock data
-
   const testMachine = createScrapeAndRankMachine({
     date: '2022-01-01',
-    batchSize: testBatchSize,
+    batchSize: 2, // ! max is 15 for the mock data
     alwaysNotify: false,
     deps: {
       scrapeArxivByDate: async () => delay(1000, mockPaperRecords),
