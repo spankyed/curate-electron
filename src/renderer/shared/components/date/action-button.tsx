@@ -15,8 +15,12 @@ function ActionButton({ date, scrapeAtom }: { date: string; scrapeAtom: any }): 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={3} margin={3}>
       <Typography variant="h4" sx={{ opacity: 0.15 }}>
-        No Papers Found
+        No Papers
       </Typography>
+      {/* if attempted  use copy below */}
+      {/* <Typography variant="h4" sx={{ opacity: 0.15 }}>
+        No Papers Found
+      </Typography> */}
 
       <Box display="flex" gap={2}>
         <Button variant="contained" onClick={scrape} sx={{ p: 1, px: 10, position: 'relative' }}>
