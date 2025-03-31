@@ -14,8 +14,8 @@ function ActionButton({ date, scrapeAtom }: { date: string; scrapeAtom: any }): 
 
   return (
     <Box display="flex" flexDirection="column" alignItems="center" gap={3} margin={3}>
-      <Typography variant="h3" sx={{ opacity: 0.5 }}>
-        Not Scraped
+      <Typography variant="h4" sx={{ opacity: 0.15 }}>
+        No Papers Found
       </Typography>
 
       <Box display="flex" gap={2}>

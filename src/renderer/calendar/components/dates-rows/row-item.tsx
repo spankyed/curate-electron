@@ -27,6 +27,7 @@ function RowItem({
     return formatDate(inputDate, {
       weekday: 'short',
       month: 'short',
+      year: 'numeric',
       day: '2-digit',
     });
   }, []);
