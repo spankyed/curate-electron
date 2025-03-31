@@ -58,7 +58,7 @@ export function createSimilarityComputer({ computeSimilarity }) {
         batchId: ({ context }) => context.batchId + 1,
       }),
       sendBatchDistances: ({ event }) => {
-        process.send?.({ type: 'PROC.DISTANCES', scores: event.output.distances });
+        process.send?.({ type: 'PROC.DISTANCES', distances: event.output });
       },
       sendDone: () => {
         process.send?.({ type: 'PROC.DONE' });
@@ -73,7 +73,6 @@ export function createSimilarityComputer({ computeSimilarity }) {
     context: {
       batchId: 0,
       batch: [],
-      scores: [],
       isLastBatch: false,
       error: null,
     },
