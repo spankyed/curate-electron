@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import type React from 'react';
 import { Typography, Box, Button } from '@mui/material';
 import { useAtom } from 'jotai';
-import SavedSearchIcon from '@mui/icons-material/SavedSearch';
+// import SavedSearchIcon from '@mui/icons-material/SavedSearch';
 import DescriptionIcon from '@mui/icons-material/Description';
 import StarHalfIcon from '@mui/icons-material/StarHalf';
 

@@ -1,23 +1,24 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Box, Button, CircularProgress, Pagination, Typography } from '@mui/material';
-import { DateRow } from '@renderer/shared/utils/types';
-import { PrimitiveAtom, useAtom, useAtomValue } from 'jotai';
+import type React from 'react';
+import { useCallback } from 'react';
+import { Box, Typography } from '@mui/material';
+import type { DateRow } from '@renderer/shared/utils/types';
+import { type PrimitiveAtom, useAtomValue } from 'jotai';
 import { formatDate } from '@renderer/shared/utils/dateFormatter';
 import List from './papers-carousel';
 import { useNavigate } from 'react-router-dom';
-import { selectedDateAtom } from '@renderer/shared/store';
+// import { selectedDateAtom } from '@renderer/shared/store';
 import { scrapePapersAtom } from '@renderer/calendar/store';
 import ScrapeStatus from '@renderer/shared/components/date/status';
 import { colors } from '@renderer/shared/styles/theme';
 
 function RowItem({
   dateAtom,
-  isFocalElement,
+  // isFocalElement,
 }: {
   dateAtom: PrimitiveAtom<DateRow>;
   isFocalElement: boolean;
 }): React.ReactElement {
-  const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
+  // const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);
   const { date, papers } = useAtomValue(dateAtom); // Access the state of each individual date atom
   const { value, status } = date;
   // const [selectedDate, setSelectedDate] = useAtom(selectedDateAtom);

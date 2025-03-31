@@ -24,6 +24,9 @@ export function createProcessManagerActor(batchSize: number) {
 
   return setup({
     types: {} as {
+      input: {
+        papers: PaperRecord[];
+      };
       context: {
         papers: PaperRecord[];
         batchSize: number;
@@ -133,7 +136,7 @@ export function createProcessManagerActor(batchSize: number) {
   }).createMachine({
     id: 'process-manager',
     initial: 'Split into batches',
-    context: ({ input }: any) => ({
+    context: ({ input }) => ({
       // context: ({ input }: { input: { papers: PaperRecord[] } }) => ({
       papers: input.papers,
       batchSize,
