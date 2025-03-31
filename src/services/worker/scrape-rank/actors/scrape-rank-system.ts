@@ -22,7 +22,6 @@ export const createScrapeAndRankMachine = (config: Config) => {
         date: string;
         alwaysNotify: boolean;
         papers: PaperRecord[];
-        rankedPapers: PaperRecord[];
         error: ErrorActorEvent['error'];
       };
       output: PaperRecord[];
@@ -69,7 +68,7 @@ export const createScrapeAndRankMachine = (config: Config) => {
           {
             key: context.date,
             status: DateStatuses.COMPLETE,
-            data: context.rankedPapers,
+            data: context.papers,
             final: true,
           },
           context.alwaysNotify
@@ -90,7 +89,6 @@ export const createScrapeAndRankMachine = (config: Config) => {
       date,
       alwaysNotify,
       papers: [],
-      rankedPapers: [],
       error: null,
     },
     states: {
@@ -135,7 +133,7 @@ export const createScrapeAndRankMachine = (config: Config) => {
             target: 'Store ranked papers',
             actions: [
               assign({
-                rankedPapers: ({ event }) =>
+                papers: ({ event }) =>
                   // Sort within the machine logic
                   event.output?.sort((a, b) => b.relevancy - a.relevancy),
               }),
@@ -177,6 +175,6 @@ export const createScrapeAndRankMachine = (config: Config) => {
         type: 'final',
       },
     },
-    output: ({ context }) => context.rankedPapers,
+    output: ({ context }) => context.papers,
   });
 };
