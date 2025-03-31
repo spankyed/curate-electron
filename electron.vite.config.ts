@@ -23,14 +23,14 @@ export default defineConfig(({ command, mode }) => {
         rollupOptions: {
           input: {
             index: resolve(__dirname, 'src/electron/main/index.ts'),
-            'child-process': resolve(
+            'child-process-entry': resolve(
               __dirname,
-              'src/services/worker/scrape-rank/utils/child-process.ts'
+              'src/services/worker/scrape-rank/utils/child-process-entry.ts'
             ),
-            'rank-computer': resolve(
-              __dirname,
-              'src/services/worker/scrape-rank/actors/similarity-computer.ts'
-            ),
+            // 'similarity-computer': resolve(
+            //   __dirname,
+            //   'src/services/worker/scrape-rank/actors/similarity-computer.ts'
+            // ),
           },
         },
       },

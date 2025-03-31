@@ -20,7 +20,7 @@ interface ChildMessage {
 }
 
 export function createProcessManagerActor(batchSize: number) {
-  const pathToChildScript = path.resolve(__dirname, 'child-process.js');
+  const pathToChildScript = path.resolve(__dirname, 'child-process-entry.js');
 
   return setup({
     types: {} as {
