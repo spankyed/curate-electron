@@ -1,0 +1,37 @@
+import { useAtom } from 'jotai';
+import { pdfModalOpen } from '../store';
+import ModalWrapper from '@renderer/core/components/common/modal';
+import PdfViewer from './pdf-viewer';
+import { useEffect, useState } from 'react';
+import { Box, Modal } from '@mui/material';
+
+function PdfModal({ paperId }) {
+  const [open, setOpen] = useAtom(pdfModalOpen);
+  const handleClose = () => setOpen(false);
+  const [width, setCalculatedWidth] = useState(750); // Default width
+  const [viewportWidth, setWindowWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    const updateWindowDimensions = () => {
+      const newWidth = window.innerWidth;
+      setWindowWidth(newWidth);
+    };
+
+    window.addEventListener('resize', updateWindowDimensions);
+
+    return () => window.removeEventListener('resize', updateWindowDimensions);
+  }, []);
+
+  useEffect(() => {
+    const calculatedWidth = viewportWidth > 1024 ? viewportWidth * 0.46 : 750;
+    setCalculatedWidth(calculatedWidth);
+  }, [window.innerWidth]);
+
+  return (
+    <ModalWrapper open={open} handleClose={handleClose} width={width} ovrStyles={{ width: 3 }}>
+      <PdfViewer paperId={paperId} width={width - 100} />
+    </ModalWrapper>
+  );
+}
+
+export default PdfModal;

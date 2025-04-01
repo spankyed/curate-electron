@@ -1,0 +1,127 @@
+import type React from 'react';
+import { useEffect } from 'react';
+import { useAtom, useSetAtom } from 'jotai';
+import { useParams } from 'react-router-dom';
+import {
+  dateEntryPapersAtom,
+  dateEntryStateAtom,
+  fetchPapersByDateAtom,
+  filteredPapersAtom,
+  resetDateEntryStatusAtom,
+  scrapePapersDateEntryAtom,
+  scrapingStateAtom,
+} from './store';
+import PageTitle from './components/page-title';
+import MainTabs from './components/main';
+import PageLayout from '@renderer/core/components/layout/page-layout';
+import ResetState from '@renderer/core/components/common/date/reset';
+import ScrapeStatus from '@renderer/core/components/common/date/status';
+import SocketListener from '@renderer/core/hooks/socket-listener';
+import { addAlertAtom } from '@renderer/core/components/common/notification/store';
+import dayjs from 'dayjs';
+import { updateSidebarDataAtom } from '@renderer/core/components/layout/sidebar/dates/store';
+
+interface Paper {
+  id: string;
+  title: string;
+  abstract?: string;
+  // Add other paper properties as needed
+}
+
+interface DateStatusUpdate {
+  key: string;
+  status: 'complete' | 'error' | 'pending' | 'loading';
+  data: Paper[];
+}
+
+type ScrapingStatus = 'complete' | 'pending' | 'scraping' | 'ranking';
+
+function DateEntryPage(): React.ReactElement {
+  let { dateId } = useParams<{ dateId: string }>();
+  dateId = dateId || '';
+
+  const [, fetchData] = useAtom(fetchPapersByDateAtom);
+  const [papers] = useAtom(dateEntryPapersAtom);
+  const setPageState = useSetAtom(dateEntryStateAtom);
+  const [state] = useAtom(dateEntryStateAtom);
+
+  useEffect(() => {
+    fetchData(dateId);
+    return () => {
+      setPageState('loading');
+    };
+  }, [dateId, fetchData, setPageState]);
+
+  return (
+    <PageLayout padding={3} style={{ marginTop: 3, margin: '0 auto' }}>
+      <PageTitle value={dateId} count={papers.length} />
+      <RenderByState dateId={dateId} state={state} />
+    </PageLayout>
+  );
+}
+
+interface RenderByStateProps {
+  dateId: string;
+  state: 'loading' | 'error' | 'unexpected' | 'pending' | 'complete';
+}
+
+function RenderByState({ dateId, state }: RenderByStateProps): React.ReactElement {
+  const [scrapeStatus, setScrapeStatus] = useAtom(scrapingStateAtom);
+  const setPageState = useSetAtom(dateEntryStateAtom);
+  const setPapers = useSetAtom(dateEntryPapersAtom);
+  const addAlert = useSetAtom(addAlertAtom);
+  const updateSidebarData = useSetAtom(updateSidebarDataAtom);
+
+  const handleDateStatusUpdate = ({ key, status: newStatus, data: papers }: DateStatusUpdate) => {
+    if (newStatus === 'complete') {
+      setPapers(papers);
+      if (papers.length === 0) {
+        setPageState('unexpected');
+      } else {
+        setPageState('complete');
+      }
+      setScrapeStatus('pending' as ScrapingStatus); // Reset the scrape status
+    } else {
+      setScrapeStatus(newStatus as ScrapingStatus);
+    }
+
+    if (newStatus === 'error') {
+      const id = dayjs(key).format('MM/DD/YYYY');
+      addAlert({ message: `There was a problem scraping papers for ${id}`, id });
+    }
+
+    updateSidebarData({ key, status: newStatus, count: papers?.length });
+  };
+
+  switch (state) {
+    case 'loading':
+      return <MainTabs isLoading={true} slideUp={true} />;
+    case 'error':
+      return <></>;
+    case 'unexpected':
+      return (
+        <div>
+          <ResetState date={dateId} resetStatusAtom={resetDateEntryStatusAtom} />
+        </div>
+      );
+    case 'pending':
+      return (
+        <>
+          <ScrapeStatus
+            status={scrapeStatus}
+            date={dateId}
+            scrapeAtom={scrapePapersDateEntryAtom}
+          />
+          <SocketListener
+            eventName="date_status"
+            handleEvent={handleDateStatusUpdate}
+            page="date-entry"
+          />
+        </>
+      );
+    default:
+      return <MainTabs papersAtom={filteredPapersAtom} slideUp={true} />;
+  }
+}
+
+export default DateEntryPage;

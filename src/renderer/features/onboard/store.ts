@@ -1,0 +1,72 @@
+import { atom } from 'jotai';
+import type dayjs from 'dayjs';
+import { isNewUserAtom } from '@renderer/core/components/layout/store';
+// import { setSidebarDataAtom } from '@renderer/core/components/common/layout/sidebar/dates/store';
+import { addAlertAtom } from '@renderer/core/components/common/notification/store';
+import * as api from '@renderer/core/api/fetch';
+
+type Day = dayjs.Dayjs | null;
+
+export const onboardingStateAtom = atom<'onboarding' | 'loading'>('onboarding');
+
+export const canGoNextAtom = atom(true);
+export const inputIdsAtom = atom<string[]>([]);
+export const autoScrapeDatesAtom = atom(false);
+export const apiKeyOpenAIAtom = atom('');
+export const validKeyErrorAtom = atom('');
+
+export const recommendButtonDisabledAtom = atom(false);
+
+export const completeOnboardingAtom = atom(null, async (get, set) => {
+  const form = {
+    // inputIds: get(inputIdsAtom),
+    autoScrapeNewDates: get(autoScrapeDatesAtom),
+    apiKeyOpenAI: get(apiKeyOpenAIAtom),
+  };
+
+  set(onboardingStateAtom, 'loading');
+
+  try {
+    const success = await api.onboard(form as any);
+
+    if (!success) {
+      set(validKeyErrorAtom, 'Invalid API key. Please try a different key.');
+      set(onboardingStateAtom, 'onboarding');
+
+      return false;
+    }
+
+    set(validKeyErrorAtom, '');
+    set(isNewUserAtom, false);
+
+    // if (dateList.length) {
+    //   set(setSidebarDataAtom, dateList)
+    // }
+    return true;
+  } catch (error) {
+    set(addAlertAtom, { message: 'Failed to complete onboarding due to a server error.' });
+    set(onboardingStateAtom, 'onboarding');
+    console.error('Failed to backfill data', error);
+    return false;
+  }
+});
+
+export const addInitialReferencesAtom = atom(null, async (get, set) => {
+  const form = {
+    inputIds: get(inputIdsAtom),
+  };
+
+  set(onboardingStateAtom, 'loading');
+
+  try {
+    const response = await api.addInitialReferences(form);
+    set(onboardingStateAtom, 'onboarding');
+
+    return true;
+  } catch (error) {
+    set(addAlertAtom, { message: 'Failed to add reference papers due to a server error.' });
+    set(onboardingStateAtom, 'onboarding');
+    console.error('Failed to backfill data', error);
+    return false;
+  }
+});

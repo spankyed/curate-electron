@@ -5,17 +5,17 @@ import { createRoot } from 'react-dom/client';
 import { createHashRouter, RouterProvider, Navigate } from 'react-router-dom';
 import { ThemeProvider } from '@mui/material/styles';
 import { Provider } from 'jotai';
-import { colors } from './shared/styles/theme';
-import Layout from './shared/components/layout';
-import CalendarPage from './calendar';
-import DateEntryPage from '@renderer/date-entry';
-import PaperEntryPage from '@renderer/paper-entry';
-import SearchPage from '@renderer/search';
-import OnboardPage from '@renderer/onboard';
-import BackfillPage from '@renderer/backfill';
-import './shared/styles/index.css';
+import { colors } from './core/styles/theme';
+import Layout from './core/components/layout';
+import CalendarPage from './features/calendar';
+import DateEntryPage from '@renderer/features/date-entry';
+import PaperEntryPage from '@renderer/features/paper-entry';
+import SearchPage from '@renderer/features/search';
+import OnboardPage from '@renderer/features/onboard';
+import BackfillPage from '@renderer/features/backfill';
+import './core/styles/index.css';
 import { ErrorBoundary } from 'react-error-boundary';
-import DevErrorBoundary from '@renderer/shared/error/dev';
+import DevErrorBoundary from '@renderer/core/error/dev';
 
 const ErrorBoundaryLayout = () => (
   <ErrorBoundary FallbackComponent={DevErrorBoundary}>
