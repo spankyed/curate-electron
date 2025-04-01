@@ -1,8 +1,8 @@
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { Paper, Typography, Fade, Badge, Box } from '@mui/material';
+import { Paper, Typography, Box } from '@mui/material';
 import { styled } from '@mui/system';
-import { getColorShadeRedToGreen } from '../../../../utils/getColorShade';
+import { getColorShadeRedToGreen } from '@renderer/shared/utils/getColorShade';
 import { useAtom } from 'jotai';
 import {
   anchorElAtom,
@@ -11,46 +11,40 @@ import {
   popoverRefAtom,
   hoverTimeoutAtom,
 } from './store';
-// import { colors } from '@renderer/shared/styles/theme';
 import { roundScore } from '@renderer/shared/utils/roundScore';
 import { useNavigate } from 'react-router-dom';
+import type { Paper as PaperType } from '@renderer/shared/utils/types';
 
-const padding = -8;
+const PADDING = -8;
+const MAX_ABSTRACT_LENGTH = 900;
 
 const PopoverText = styled(Paper)(({ theme }) => ({
   maxWidth: '400px',
   padding: theme.spacing(2),
-  // backgroundColor: colors.sidebar,
   color: theme.palette.common.white,
   borderRadius: theme.shape.borderRadius,
   boxShadow: '0px 2px 8px rgba(0, 0, 0, 0.15)',
-  // transition: 'opacity 0.2s ease-in-out',
 }));
 
-const ScoreDiv = styled(Box)<{ paper: any }>(({ theme, paper }) => {
+const ScoreDiv = styled(Box)<{ paper: PaperType }>(({ theme, paper }) => {
   const bgColor = getColorShadeRedToGreen(paper);
   const textColor = bgColor === 'white' ? '#000' : theme.palette.common.white;
   return {
     display: 'inline-block',
-    float: 'left', // Ensures the text wraps around the div
+    float: 'left',
     backgroundColor: getColorShadeRedToGreen(paper),
     color: textColor,
     borderRadius: theme.shape.borderRadius,
-
-    // backgroundColor: colors.palette.background.paper,
     padding: '4px 8px',
     fontWeight: 'bold',
     letterSpacing: '0.1em',
     border: '1px solid rgba(255, 255, 255, 0.4)',
-    // boxShadow: '0 0 0 2px rgba(0, 0, 0, 0.35)', // Add shadow for contrast
-    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)', // subtle text shadow for depth
-    margin: '0 12px 0px 0', // Margin for wrapping text around the div
-    // black tint
+    textShadow: '1px 1px 2px rgba(0, 0, 0, 0.1)',
+    margin: '0 12px 0px 0',
     filter: 'brightness(0.9)',
   };
 });
 
-// transition to use popover api https://dev.to/hnrq/create-a-react-tooltip-component-using-popover-api-155o
 const SummaryPopover: React.FC = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useAtom(isSummaryOpenAtom);
@@ -59,9 +53,10 @@ const SummaryPopover: React.FC = () => {
   const [paper] = useAtom(popoverTargetAtom);
   const { relevancy: score } = paper || { relevancy: 0 };
   const [abstract, setAbstract] = useState(paper?.abstract || '');
-  const [hoverTimeout, setHoverTimeout] = useAtom(hoverTimeoutAtom);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [hoverTimeout, _] = useAtom(hoverTimeoutAtom);
 
-  const popoverRefCallback = (node: HTMLDivElement | null) => {
+  const popoverRefCallback = (node: HTMLButtonElement | null) => {
     setPopoverRefAtom(node);
   };
 
@@ -76,19 +71,7 @@ const SummaryPopover: React.FC = () => {
 
   useEffect(() => {
     setAbstract(paper?.abstract || '');
-  }, [paper]);
-  // useEffect(() => {
-  //   const handleClickOutside = (event: MouseEvent) => {
-  //     if (popoverRef.current && !popoverRef.current.contains(event.target as Node)) {
-  //       setIsOpen(false);
-  //     }
-  //   };
-
-  //   document.addEventListener('mousedown', handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener('mousedown', handleClickOutside);
-  //   };
-  // }, []);
+  }, [paper?.abstract]);
 
   useEffect(() => {
     if (isOpen && anchorEl && popoverRef) {
@@ -97,47 +80,26 @@ const SummaryPopover: React.FC = () => {
       const windowWidth = window.innerWidth;
       const windowHeight = window.innerHeight;
 
+      // Calculate horizontal position
       let left = anchorRect.left + (anchorRect.width - popoverRect.width) / 2;
+      left = Math.max(0, Math.min(left, windowWidth - popoverRect.width));
 
-      if (left < 0) {
-        left = 0;
-      } else if (left + popoverRect.width > windowWidth) {
-        left = windowWidth - popoverRect.width;
-      }
-
-      // let estimatedHeight = paper?.abstract.length * .4; // todo figure out way to estimate height with all the text
-      const estimatedHeight = popoverRect.height;
-      const topSpot = anchorRect.top - estimatedHeight - padding;
-      const bottomSpot = anchorRect.bottom + padding;
-      let top: number;
-
-      const putAbove = () => {
-        top = topSpot + 11;
-      };
-      const putBelow = () => {
-        top = bottomSpot + 12;
-      };
-
+      // Calculate vertical position
+      const topSpot = anchorRect.top - popoverRect.height - PADDING;
+      const bottomSpot = anchorRect.bottom + PADDING;
       const cantFitAbove = topSpot < 0;
-      const cantFitBelow = bottomSpot + estimatedHeight > windowHeight;
+      const cantFitBelow = bottomSpot + popoverRect.height > windowHeight;
+
+      let top: number;
       if (cantFitAbove) {
         if (cantFitBelow) {
           const overHalfWayDown = anchorRect.top + anchorRect.height / 2 > windowHeight / 2;
-
-          if (overHalfWayDown) {
-            putAbove();
-          } else {
-            putBelow();
-          }
-
-          const sizeBase = overHalfWayDown ? anchorRect.y : windowHeight - bottomSpot;
-          const randomHeightMultiplier = 2.3; // tried to relate text length to height
-          setAbstract(`${slice(paper?.abstract, sizeBase * randomHeightMultiplier)}...`);
+          top = overHalfWayDown ? topSpot + 11 : bottomSpot + 12;
         } else {
-          putBelow();
+          top = bottomSpot + 12;
         }
       } else {
-        putAbove();
+        top = topSpot + 11;
       }
 
       popoverRef.style.left = `${left}px`;
@@ -152,44 +114,50 @@ const SummaryPopover: React.FC = () => {
     };
   }, [isOpen, anchorEl, popoverRef]);
 
-  const onThumbnailClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
 
     const is = (tag: string) => (e.target as HTMLElement).tagName === tag;
     const ignore = is('BUTTON') || is('path') || is('svg') || is('LI');
 
     if (ignore) return;
-
-    // console.log('paper: ', paper);
     navigate(`/paper/${paper?.id}`);
   };
 
   return (
     <>
       {isOpen && (
-        <div
-          onClick={onThumbnailClick}
+        <button
+          type="button"
+          onClick={handleClick}
           onMouseLeave={handleMouseOut}
           ref={popoverRefCallback}
           style={{
-            position: 'absolute',
+            position: 'fixed',
             zIndex: 9999,
             cursor: 'pointer',
+            background: 'none',
+            border: 'none',
+            padding: 0,
+            margin: 0,
+            width: 'auto',
+            minWidth: '400px',
+            maxWidth: '400px',
+            textAlign: 'left',
           }}
         >
           <PopoverText>
-            <ScoreDiv paper={paper}>{`${roundScore(score)}%`}</ScoreDiv>
-            <Typography variant="body2">{abstract}</Typography>
+            <ScoreDiv paper={paper as PaperType}>{`${roundScore(score)}%`}</ScoreDiv>
+            <Typography variant="body2">
+              {abstract.length > MAX_ABSTRACT_LENGTH
+                ? `${abstract.slice(0, MAX_ABSTRACT_LENGTH)}...`
+                : abstract}
+            </Typography>
           </PopoverText>
-        </div>
+        </button>
       )}
     </>
   );
 };
 
 export default SummaryPopover;
-
-function slice(str, maxLength) {
-  if (!str) return '';
-  return str.length > maxLength ? str.slice(0, maxLength) : str;
-}
