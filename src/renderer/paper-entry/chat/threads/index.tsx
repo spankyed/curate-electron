@@ -45,7 +45,7 @@ export default function ThreadOptions() {
   };
 
   return (
-    <Box flex={1} pl={3} sx={{ display: 'flex', width: '40rem', justifyContent: 'space-between' }}>
+    <Box flex={0} pr={3} sx={{ display: 'flex', width: '40rem', justifyContent: 'space-between' }}>
       <FormControl color="secondary" sx={{ width: '20rem' }}>
         <InputLabel id="thread-select-label" sx={{ color: '#9e9e9e !important' }}>
           Thread

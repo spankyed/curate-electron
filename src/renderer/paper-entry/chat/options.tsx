@@ -22,9 +22,9 @@ export default function ChatOptions() {
     // <Box display="flex" justifyContent="space-between" p={2}>
     // <Box sx={{ my: 4, width: '80rem', mx: 'auto', display: 'flex', flexDirection: 'row', justifyContent: 'center' }}>
     <Box bgcolor={colors.palette.background.paper} className="flex row w-full pt-6 pl-3 pb-3">
-      <KeyUpdateButton />
-      <ModelOptions />
       <ThreadOptions />
+      <ModelOptions />
+      <KeyUpdateButton />
     </Box>
   );
 }
@@ -54,7 +54,7 @@ function KeyUpdateButton() {
   const setOpen = useSetAtom(keyModalOpen);
 
   return (
-    <Box sx={{ mr: 1 }}>
+    <Box sx={{ ml: 1 }}>
       <IconButton
         onClick={() => {
           setOpen(true);
