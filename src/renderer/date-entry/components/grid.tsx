@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { PlaceholderList } from '@renderer/calendar/components/placeholder';
 import PaperTile from '@renderer/shared/components/paper/tile';
 import { isSummaryOpenAtom } from '@renderer/shared/components/paper/tile/summary/store';
-import SummaryPopover from '@renderer/shared/components/paper/tile/summary/summary';
+import SummaryPopover from '@renderer/shared/components/paper/tile/summary/popover';
 // import { Link } from 'react-router-dom';
 import { Paper } from '@renderer/shared/utils/types';
 

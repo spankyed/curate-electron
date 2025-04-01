@@ -2,7 +2,7 @@ import type React from 'react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Box, Button, CircularProgress, Pagination, Typography } from '@mui/material';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import SummaryPopover from '@renderer/shared/components/paper/tile/summary/summary';
+import SummaryPopover from '@renderer/shared/components/paper/tile/summary/popover';
 import {
   calendarLoadMoreAtom,
   calendarModelAtom,
