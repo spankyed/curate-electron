@@ -55,6 +55,7 @@ const store = new Store<Settings>({
       '2305.01157',
       '2404.05966',
       '2404.07439',
+      '2309.02427', // Cognitive Architectures for Language Agents
     ],
   },
 });
