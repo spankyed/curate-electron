@@ -1,8 +1,8 @@
 import cron from 'node-cron';
 import { runScrapeAndRank } from '@services/worker/scrape-rank';
-import repository from '@services/web/onboard/repository';
+import repository from '@services/api/onboard/repository';
 // import { getCurrentDate } from '@services/web/backfill/add-dates';
-import { getSetting } from '@services/shared/settings';
+import { getSetting } from '@services/core/settings';
 
 // ! not used
 

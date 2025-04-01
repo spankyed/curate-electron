@@ -1,11 +1,11 @@
-import calendarController from './web/calendar';
-import paperEntryController from './web/paper-entry';
-import dateEntryController from './web/date-entry';
-import searchController from './web/search';
-import sharedController from './web/shared';
-import chatController from './web/chat';
-import backfill from './web/backfill';
-import onboard from './web/onboard';
+import calendarController from './api/calendar';
+import paperEntryController from './api/paper-entry';
+import dateEntryController from './api/date-entry';
+import searchController from './api/search';
+import sharedController from './api/shared';
+import chatController from './api/chat';
+import backfill from './api/backfill';
+import onboard from './api/onboard';
 
 import scrape from './worker/scrape-rank';
 

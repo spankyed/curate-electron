@@ -7,7 +7,7 @@ import {
   fromCallback,
   type AnyEventObject,
 } from 'xstate';
-import type { PaperRecord } from '@services/shared/types';
+import type { PaperRecord } from '@services/core/types';
 
 export function createSimilarityComputer({ computeSimilarity }) {
   return setup({

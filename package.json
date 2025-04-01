@@ -20,8 +20,8 @@
     "build:win": "npm run build && electron-builder --win",
     "build:mac": "electron-vite build && electron-builder --mac",
     "build:linux": "electron-vite build && electron-builder --linux",
-    "reset:user": "tsx src/services/shared/manual/reset-user.ts",
-    "reset:db": "tsx src/services/shared/manual/wipe-databases.ts"
+    "reset:user": "tsx src/services/core/maintenance/reset-user.ts",
+    "reset:db": "tsx src/services/core/maintenance/wipe-databases.ts"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",

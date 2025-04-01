@@ -3,9 +3,9 @@ import { electronApp, optimizer } from '@electron-toolkit/utils';
 import { createWindow } from './create-window';
 import { handleServices } from './handle-services';
 import { handleStaticFiles } from './handle-static-files';
-import { setSetting } from '@services/shared/settings';
+import { setSetting } from '@services/core/settings';
 import dotenv from 'dotenv';
-import { sequelize } from '@services/shared/schema';
+import { sequelize } from '@services/core/schema';
 import { startChromaDB } from './start-chroma-db';
 
 // setSetting({

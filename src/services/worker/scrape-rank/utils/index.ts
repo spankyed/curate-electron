@@ -1,6 +1,6 @@
 import os from 'node:os';
 import repository, { ReferenceCollectionName } from './repository';
-import type { PaperRecord } from '@services/shared/types';
+import type { PaperRecord } from '@services/core/types';
 
 export async function computeSimilarity(papersBatch: PaperRecord[], nResults = 5) {
   console.log('-- Starting get-relevancy-scores');

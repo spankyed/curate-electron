@@ -1,8 +1,8 @@
-import repository from '@services/web/onboard/repository';
+import repository from '@services/api/onboard/repository';
 import {
   doesReferenceCollectionExist,
   seedReferencePapers,
-} from '@services/web/onboard/seed-reference-papers';
+} from '@services/api/onboard/seed-reference-papers';
 
 export async function ensureReferenceCollectionExists() {
   const collectionExists = await doesReferenceCollectionExist();

@@ -1,7 +1,7 @@
 import { ensureReferenceCollectionExists } from './ensure-reference-collection';
 // import { scrapeBatch } from "../scripts/scrape-batch";
 import { startJobScrapeNewDatesWithRetry } from './cron-jobs';
-import { getSetting } from '@services/shared/settings';
+import { getSetting } from '@services/core/settings';
 
 async function runBackgroundScripts() {
   const isNewUser = getSetting('isNewUser');

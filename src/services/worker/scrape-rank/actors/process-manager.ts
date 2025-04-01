@@ -8,7 +8,7 @@ import {
   not,
 } from 'xstate';
 import { chunkArray, averageSimilarityScores } from '@services/worker/scrape-rank/utils';
-import type { PaperRecord } from '@services/shared/types';
+import type { PaperRecord } from '@services/core/types';
 import path from 'node:path';
 import { fork } from 'node:child_process';
 

@@ -1,4 +1,4 @@
-import type { PaperRecord } from '@services/shared/types';
+import type { PaperRecord } from '@services/core/types';
 export const mockPaperRecords = [
   {
     id: '2301.04567',

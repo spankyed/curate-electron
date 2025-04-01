@@ -1,6 +1,6 @@
 import axios from 'axios';
-import type { PaperRecord } from '@services/shared/types';
-import { extractPaperData } from '@services/shared/utils/extract-paper-data';
+import type { PaperRecord } from '@services/core/types';
+import { extractPaperData } from '@services/core/utils/extract-paper-data';
 
 const ARXIV_API_ENDPOINT = 'https://export.arxiv.org/api/query?';
 const maxResults = 1000;

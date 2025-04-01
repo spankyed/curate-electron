@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { assign, type ErrorActorEvent, fromPromise, setup, log } from 'xstate';
-import { DateStatuses, type PaperRecord } from '@services/shared/types';
+import { DateStatuses, type PaperRecord } from '@services/core/types';
 import { createProcessManagerActor } from './process-manager';
 
 export interface ScrapeAndRankDependencies {

@@ -1,7 +1,7 @@
 import { app } from 'electron';
 import { type ChildProcessWithoutNullStreams, spawn } from 'node:child_process';
 import path from 'node:path';
-import * as sharedRepository from '@services/shared/repository';
+import * as sharedRepository from '@services/core/repository';
 
 // import { is } from '@electron-toolkit/utils';
 

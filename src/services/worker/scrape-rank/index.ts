@@ -1,8 +1,8 @@
 import { createActor, toPromise } from 'xstate';
 import { createScrapeAndRankMachine } from './actors/scrape-rank-system';
 
-import * as sharedRepository from '@services/shared/repository';
-import { updateWorkStatus } from '@services/shared/status';
+import * as sharedRepository from '@services/core/repository';
+import { updateWorkStatus } from '@services/core/status';
 import scrapeArxivByDate from '@services/worker/scrape-rank/utils/scrape-arxiv-by-date';
 
 export default {
