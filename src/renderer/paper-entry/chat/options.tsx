@@ -38,7 +38,6 @@ function ModelOptions() {
         <InputLabel id="model-select-label">Model</InputLabel>
         <Select
           disabled={true}
-          label={<span style={{ color: '#9e9e9e' }}>After Date</span>}
           labelId="model-select-label"
           value={model}
           onChange={(e) => setModel(e.target.value)}

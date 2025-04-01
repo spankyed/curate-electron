@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import type React from 'react';
+import { useState } from 'react';
 import {
   Box,
   Grid,
-  Checkbox,
+  // Checkbox,
   Typography,
   TextField,
-  FormControl,
-  FormHelperText,
+  // FormControl,
+  // FormHelperText,
   IconButton,
   InputAdornment,
 } from '@mui/material';
 import { useAtom, useSetAtom } from 'jotai';
-import { apiKeyOpenAIAtom, autoScrapeDatesAtom, validKeyErrorAtom } from '../store';
+// import { apiKeyOpenAIAtom, autoScrapeDatesAtom, validKeyErrorAtom } from '../store';
+import { apiKeyOpenAIAtom, validKeyErrorAtom } from '../store';
 import { VisibilityOff, Visibility } from '@mui/icons-material';
 
 function UserSettings() {
-  const [autoScrapeDates, setAutoScrapeDates] = useAtom(autoScrapeDatesAtom);
+  // const [autoScrapeDates, setAutoScrapeDates] = useAtom(autoScrapeDatesAtom);
   const setApiKeyOpenAI = useSetAtom(apiKeyOpenAIAtom);
   const [showApiKey, setShowApiKey] = useState(false);
   const [error, setError] = useAtom(validKeyErrorAtom); // Add error state
@@ -42,7 +44,7 @@ function UserSettings() {
       <div style={{ marginTop: '3rem', display: 'flex', flexDirection: 'column' }}>
         <Box sx={{ maxWidth: 620, m: 'auto' }}>
           <Grid container spacing={2} alignItems="center">
-            <Grid item xs={3} sx={{ textAlign: 'center' }}>
+            {/* <Grid item xs={3} sx={{ textAlign: 'center' }}>
               <Checkbox
                 disabled={true}
                 sx={{ color: '#9e9e9e !important', justifyContent: 'center' }}
@@ -60,7 +62,7 @@ function UserSettings() {
                 New dates will not appear in the calender until papers have been successfully
                 scraped for the day.
               </Typography>
-            </Grid>
+            </Grid> */}
             <Grid item xs={3} sx={{ mt: 4 }}>
               <Typography>OpenAI API Key</Typography>
             </Grid>
