@@ -103,9 +103,9 @@ const RenderByState = () => {
     case 'complete':
       return <Results />;
     case 'empty':
-      return <PageMessage message={'No papers found'} />;
+      return <PageMessage message={'No papers were found'} />;
     case 'error':
-      return <PageMessage message={'Error occurred while fetching papers'} />;
+      return <PageMessage message={'An error occurred while searching papers'} />;
   }
 };
 
