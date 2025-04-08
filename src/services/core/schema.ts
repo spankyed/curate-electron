@@ -1,22 +1,36 @@
 import { Sequelize, DataTypes, Model } from 'sequelize';
 import path from 'node:path';
 import { fileURLToPath } from 'url';
-import { app } from 'electron';
+import type { App } from 'electron';
+
+let app: App | undefined;
+try {
+  app = (await import('electron')).app;
+} catch (e) {
+  // If electron is not available (e.g., when running scripts directly)
+  console.log('Running in non-Electron context');
+}
 
 // const dbRoot = '/Users/spankyed/Develop/Projects/CurateGPT/services/database/sqlite';
-const inDevelopment = !app.isPackaged;
+const inDevelopment = !app?.isPackaged;
 
-const getDatabasePath = () => {
+export const getDatabasePath = () => {
   const filename = fileURLToPath(import.meta.url);
   const dirname = path.dirname(filename);
 
   if (inDevelopment) {
     // Development: use the project directory
+    console.log(' :23 dirname:', dirname);
     return path.join(dirname, '../../src/services/database/sqlite/curate.db');
   }
 
-  // Production: use the app's user data directory
-  return path.join(app.getPath('userData'), 'curate.db');
+  if (app) {
+    // Production: use the app's user data directory
+    return path.join(app.getPath('userData'), 'curate.db');
+  }
+
+  // Fallback for non-Electron context
+  return path.join(dirname, '../../src/services/database/sqlite/curate.db');
 };
 
 export const sequelize = new Sequelize({
