@@ -20,7 +20,6 @@ export const getDatabasePath = () => {
 
   if (inDevelopment) {
     // Development: use the project directory
-    console.log(' :23 dirname:', dirname);
     return path.join(dirname, '../database/sqlite/curate.db');
   }
 
