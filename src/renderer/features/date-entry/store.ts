@@ -51,6 +51,7 @@ export const fetchPapersByDateAtom = atom(null, async (get, set, dateId: string)
     } else {
       set(dateEntryPapersAtom, papers);
       set(dateEntryStateAtom, date.status);
+      set(scrapingStateAtom, date.status);
     }
   } catch (error) {
     console.error('Failed to fetch papers for date', error);

@@ -36,7 +36,6 @@ function DateEntryPage(): React.ReactElement {
   const [, fetchData] = useAtom(fetchPapersByDateAtom);
   const [papers] = useAtom(dateEntryPapersAtom);
   const setPageState = useSetAtom(dateEntryStateAtom);
-  const [state] = useAtom(dateEntryStateAtom);
 
   useEffect(() => {
     fetchData(dateId);
@@ -48,19 +47,14 @@ function DateEntryPage(): React.ReactElement {
   return (
     <PageLayout padding={3} style={{ marginTop: 3, margin: '0 auto' }}>
       <PageTitle value={dateId} count={papers.length} />
-      <RenderByState dateId={dateId} state={state} />
+      <RenderByState dateId={dateId} />
     </PageLayout>
   );
 }
 
-interface RenderByStateProps {
-  dateId: string;
-  state: DateStatus | 'loading';
-}
-
-function RenderByState({ dateId, state }: RenderByStateProps): React.ReactElement {
+function RenderByState({ dateId }: { dateId: string }): React.ReactElement {
   const [scrapeStatus, setScrapeStatus] = useAtom(scrapingStateAtom);
-  const setPageState = useSetAtom(dateEntryStateAtom);
+  const [state, setPageState] = useAtom(dateEntryStateAtom);
   const setPapers = useSetAtom(dateEntryPapersAtom);
   const addAlert = useSetAtom(addAlertAtom);
   const updateSidebarData = useSetAtom(updateSidebarDataAtom);
@@ -75,6 +69,7 @@ function RenderByState({ dateId, state }: RenderByStateProps): React.ReactElemen
       }
       setScrapeStatus('pending'); // Reset the scrape status
     } else {
+      setPageState(newStatus);
       setScrapeStatus(newStatus);
     }
 

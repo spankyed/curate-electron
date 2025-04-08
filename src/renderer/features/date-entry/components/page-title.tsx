@@ -35,6 +35,8 @@ const PageTitle: React.FC<{ value: string; count: number }> = ({ value, count })
   const [dateEntryState] = useAtom(dateEntryStateAtom);
   const navigate = useNavigate();
 
+  const enabled = dateEntryState === 'complete' || dateEntryState === 'pending';
+
   // const [formattedDate, weekday] = useMemo(() => {
   const formattedDate = useMemo(() => {
     const [weekday, month, day, year] = formatDateParts(value, {
@@ -59,7 +61,7 @@ const PageTitle: React.FC<{ value: string; count: number }> = ({ value, count })
   return (
     <Box display="flex" flexDirection="row" alignItems="center" justifyContent="center">
       <IconButton
-        disabled={prevDayIsBefore1991}
+        disabled={prevDayIsBefore1991 || !enabled}
         sx={{ mr: 8 }}
         aria-label="next"
         onClick={() => handleArrowClick('prev')}
@@ -86,7 +88,7 @@ const PageTitle: React.FC<{ value: string; count: number }> = ({ value, count })
         </Typography>
       </ScoreBadge>
       <IconButton
-        disabled={dateIsToday}
+        disabled={dateIsToday || !enabled}
         sx={{ ml: 8 }}
         aria-label="next"
         onClick={() => handleArrowClick('next')}
