@@ -87,6 +87,8 @@ function RenderByState({ dateId, state }: RenderByStateProps): React.ReactElemen
   };
 
   switch (state) {
+    case 'complete':
+      return <MainTabs papersAtom={filteredPapersAtom} slideUp={true} />;
     case 'loading':
       return <MainTabs isLoading={true} slideUp={true} />;
     case 'error':
@@ -95,7 +97,10 @@ function RenderByState({ dateId, state }: RenderByStateProps): React.ReactElemen
           <ResetState date={dateId} resetStatusAtom={resetDateEntryStatusAtom} />
         </div>
       );
-    case 'pending':
+    // case 'pending':
+    // case 'scraping':
+    // case 'ranking':
+    default:
       return (
         <>
           <ScrapeStatus
@@ -110,8 +115,6 @@ function RenderByState({ dateId, state }: RenderByStateProps): React.ReactElemen
           />
         </>
       );
-    default:
-      return <MainTabs papersAtom={filteredPapersAtom} slideUp={true} />;
   }
 }
 

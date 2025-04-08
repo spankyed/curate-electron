@@ -2,10 +2,12 @@
 import { assign, type ErrorActorEvent, fromPromise, setup, log } from 'xstate';
 import { DateStatuses, type PaperRecord } from '@services/core/types';
 import { createProcessManagerActor } from './process-manager';
+// import type { Paper } from '@services/api/search/repository';
 
 export interface ScrapeAndRankDependencies {
   scrapeArxivByDate: (date: string) => Promise<PaperRecord[]>;
   sharedRepository: any;
+  // updateWorkStatus: (statusData: Paper[], alwaysNotify: boolean) => Promise<string>;
   updateWorkStatus: (statusData: any, alwaysNotify: boolean) => Promise<string>;
 }
 type Config = {
