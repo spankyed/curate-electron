@@ -18,23 +18,16 @@ import ResetState from '@renderer/core/components/common/date/reset';
 import ScrapeStatus from '@renderer/core/components/common/date/status';
 import SocketListener from '@renderer/core/hooks/socket-listener';
 import { addAlertAtom } from '@renderer/core/components/common/notification/store';
+import type { DateStatus, Paper } from '@renderer/core/config/types';
+
 import dayjs from 'dayjs';
 import { updateSidebarDataAtom } from '@renderer/core/components/layout/sidebar/dates/store';
 
-interface Paper {
-  id: string;
-  title: string;
-  abstract?: string;
-  // Add other paper properties as needed
-}
-
 interface DateStatusUpdate {
   key: string;
-  status: 'complete' | 'error' | 'pending' | 'loading';
+  status: DateStatus;
   data: Paper[];
 }
-
-type ScrapingStatus = 'complete' | 'pending' | 'scraping' | 'ranking';
 
 function DateEntryPage(): React.ReactElement {
   let { dateId } = useParams<{ dateId: string }>();
@@ -62,7 +55,7 @@ function DateEntryPage(): React.ReactElement {
 
 interface RenderByStateProps {
   dateId: string;
-  state: 'loading' | 'error' | 'unexpected' | 'pending' | 'complete';
+  state: DateStatus | 'loading';
 }
 
 function RenderByState({ dateId, state }: RenderByStateProps): React.ReactElement {
@@ -76,13 +69,13 @@ function RenderByState({ dateId, state }: RenderByStateProps): React.ReactElemen
     if (newStatus === 'complete') {
       setPapers(papers);
       if (papers.length === 0) {
-        setPageState('unexpected');
+        setPageState('error');
       } else {
         setPageState('complete');
       }
-      setScrapeStatus('pending' as ScrapingStatus); // Reset the scrape status
+      setScrapeStatus('pending'); // Reset the scrape status
     } else {
-      setScrapeStatus(newStatus as ScrapingStatus);
+      setScrapeStatus(newStatus);
     }
 
     if (newStatus === 'error') {
@@ -97,8 +90,6 @@ function RenderByState({ dateId, state }: RenderByStateProps): React.ReactElemen
     case 'loading':
       return <MainTabs isLoading={true} slideUp={true} />;
     case 'error':
-      return <></>;
-    case 'unexpected':
       return (
         <div>
           <ResetState date={dateId} resetStatusAtom={resetDateEntryStatusAtom} />

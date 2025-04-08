@@ -1,13 +1,13 @@
 import { atom } from 'jotai';
 import * as api from '@renderer/core/api/fetch';
+import type { DateStatus, Paper } from '@renderer/core/config/types';
 
 export const tabValueAtom = atom<'table' | 'grid'>('table');
 export const searchKeywordAtom = atom('');
-export const scrapingStateAtom = atom<'pending' | 'scraping' | 'ranking' | 'complete'>('pending');
-export const dateEntryStateAtom = atom<'loading' | 'pending' | 'complete' | 'error' | 'unexpected'>(
-  'loading'
-);
-export const dateEntryPapersAtom = atom<any[]>([]);
+// export const scrapingStateAtom = atom<'pending' | 'scraping' | 'ranking' | 'complete'>('pending');
+export const scrapingStateAtom = atom<DateStatus>('pending');
+export const dateEntryStateAtom = atom<'loading' | DateStatus>('loading');
+export const dateEntryPapersAtom = atom<Paper[]>([]);
 
 export const filteredPapersAtom = atom(
   (get) => {
@@ -24,7 +24,7 @@ export const filteredPapersAtom = atom(
       );
     });
   },
-  async (get, set, papers: any) => {
+  async (get, set, papers: Paper[]) => {
     set(dateEntryPapersAtom, papers);
   }
 );

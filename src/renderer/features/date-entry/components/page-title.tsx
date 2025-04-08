@@ -1,4 +1,5 @@
-import React, { useMemo } from 'react';
+import type React from 'react';
+import { useMemo } from 'react';
 import { Typography, Box, Badge, styled, IconButton } from '@mui/material';
 import { formatDateParts } from '@renderer/core/utils/dateFormatter';
 import { dateEntryStateAtom } from '../store';
@@ -9,6 +10,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import dayjs from 'dayjs';
 import { useNavigate } from 'react-router-dom';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const ScoreBadge = styled(Badge)<{ count: number }>(({ theme, count }) => ({
   '& .MuiBadge-badge': {
     // top: 8,
