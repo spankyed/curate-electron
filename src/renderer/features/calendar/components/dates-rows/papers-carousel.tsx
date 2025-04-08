@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Pagination, Box } from '@mui/material';
-import type { Paper } from '@renderer/core/utils/types';
+import type { Paper } from '@renderer/core/config/types';
 import { resetDateStatusCalenderAtom } from '../../store';
 import { useAtom } from 'jotai';
 import ResetState from '@renderer/core/components/common/date/reset';

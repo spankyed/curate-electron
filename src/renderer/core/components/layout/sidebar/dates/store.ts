@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { atom } from 'jotai';
 import * as api from '@renderer/core/api/fetch';
-import type { DatesRow } from '@renderer/core/utils/types';
+import type { DatesRow } from '@renderer/core/config/types';
 
 export const currentYearAtom = atom(new Date().getFullYear());
 export const datesRowsAtom = atom<DatesRow[]>([]);

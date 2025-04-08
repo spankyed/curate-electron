@@ -7,7 +7,7 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 import StarOutlinedIcon from '@mui/icons-material/StarOutlined';
 import { updateIsStarred } from '@renderer/core/api/fetch';
 // import { useState } from "react";
-import { Paper } from '@renderer/core/utils/types';
+import { Paper } from '@renderer/core/config/types';
 
 function Favorite({ paper = {} }: { paper?: Partial<Paper> }): React.ReactElement {
   const handleUpdateIsStarred = async () => {

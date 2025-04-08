@@ -13,7 +13,7 @@ import {
 } from './store';
 import { roundScore } from '@renderer/core/utils/roundScore';
 import { useNavigate } from 'react-router-dom';
-import type { Paper as PaperType } from '@renderer/core/utils/types';
+import type { Paper as PaperType } from '@renderer/core/config/types';
 
 const PADDING = -8;
 const MAX_ABSTRACT_LENGTH = 900;

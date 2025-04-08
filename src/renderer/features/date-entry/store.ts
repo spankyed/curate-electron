@@ -29,7 +29,7 @@ export const filteredPapersAtom = atom(
   }
 );
 
-export const fetchPapersByDateAtom = atom(null, async (get, set, dateId) => {
+export const fetchPapersByDateAtom = atom(null, async (get, set, dateId: string) => {
   if (!dateId) {
     console.error('Date not found', dateId);
     return;
@@ -46,7 +46,8 @@ export const fetchPapersByDateAtom = atom(null, async (get, set, dateId) => {
     }
 
     if (date.status === 'complete' && papers.length === 0) {
-      set(dateEntryStateAtom, 'unexpected');
+      console.error('No papers found when fetching by date');
+      set(dateEntryStateAtom, 'error');
     } else {
       set(dateEntryPapersAtom, papers);
       set(dateEntryStateAtom, date.status);
@@ -57,11 +58,11 @@ export const fetchPapersByDateAtom = atom(null, async (get, set, dateId) => {
   }
 });
 
-export const scrapePapersDateEntryAtom = atom(null, async (get, set, value) => {
+export const scrapePapersDateEntryAtom = atom(null, async (get, set, dateId: string) => {
   try {
     set(scrapingStateAtom, 'scraping');
 
-    await api.scrapeDate(value);
+    await api.scrapeDate(dateId);
   } catch (error) {
     console.error('Scraping failed:', error);
     set(scrapingStateAtom, 'pending');

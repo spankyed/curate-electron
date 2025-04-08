@@ -7,7 +7,7 @@ import {
   resetDateStatus
 } from '@renderer/core/api/fetch';
 import { selectedDateAtom } from '@renderer/core/store';
-import type { CalendarModel, DateRow } from '@renderer/core/utils/types';
+import type { CalendarModel, DateRow } from '@renderer/core/config/types';
 import { RefObject } from 'react';
 import { splitAtom } from 'jotai/utils';
 

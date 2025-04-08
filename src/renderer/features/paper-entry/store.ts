@@ -1,7 +1,7 @@
 import { atom } from 'jotai';
 import type { RefObject } from 'react';
 import * as api from '@renderer/core/api/fetch';
-import type { Paper } from '@renderer/core/utils/types';
+import type { Paper } from '@renderer/core/config/types';
 
 export const scrollableContainerRefAtom = atom<RefObject<HTMLDivElement> | null>(null);
 

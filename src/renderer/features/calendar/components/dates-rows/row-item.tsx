@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useCallback } from 'react';
 import { Box, Typography } from '@mui/material';
-import type { DateRow } from '@renderer/core/utils/types';
+import type { DateRow } from '@renderer/core/config/types';
 import { type PrimitiveAtom, useAtomValue } from 'jotai';
 import { formatDate } from '@renderer/core/utils/dateFormatter';
 import List from './papers-carousel';

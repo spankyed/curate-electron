@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import type { Paper } from '@renderer/core/utils/types';
+import type { Paper } from '@renderer/core/config/types';
 
 type HoveredPaper = Paper | null;
 type AnchorEl = HTMLElement | null;

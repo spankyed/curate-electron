@@ -1,5 +1,5 @@
 import { Atom, atom } from 'jotai';
-import { Paper } from '../utils/types';
+import { Paper } from '../config/types';
 // import * as api from '../api/fetch';
 
 export const selectedDateAtom = atom<string>('');

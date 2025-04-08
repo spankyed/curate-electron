@@ -1,4 +1,4 @@
-import type { Paper } from '@renderer/core/utils/types';
+import type { Paper } from '@renderer/core/config/types';
 import { Tooltip } from '@mui/material';
 import { getColorShadeRedToGreen } from '@renderer/core/utils/getColorShade';
 import { roundScore } from '@renderer/core/utils/roundScore';

@@ -5,7 +5,7 @@ import PaperTile from '@renderer/core/components/common/paper/tile';
 import { isSummaryOpenAtom } from '@renderer/core/components/common/paper/tile/summary/store';
 import SummaryPopover from '@renderer/core/components/common/paper/tile/summary/popover';
 // import { Link } from 'react-router-dom';
-import type { Paper } from '@renderer/core/utils/types';
+import type { Paper } from '@renderer/core/config/types';
 
 const ThumbPapersGrid: React.FC<{
   papers: Paper[];

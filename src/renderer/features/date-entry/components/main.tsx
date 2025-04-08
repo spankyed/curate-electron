@@ -12,7 +12,7 @@ import {
 import ThumbPapersGrid from './grid';
 import SearchAndActions from './search-actions';
 import PapersTable from './table';
-import { Paper } from '@renderer/core/utils/types';
+import { Paper } from '@renderer/core/config/types';
 import { dateEntryPapersAtom, tabValueAtom } from '../store';
 import { Atom, atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { emptyListAtom, updatePaperInListAtom } from '@renderer/core/store';

@@ -5,7 +5,7 @@ import { pdfModalOpen } from '../store';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from '@renderer/core/utils/dateFormatter';
 import Favorite from '@renderer/core/components/common/paper/favorite';
-import type { Paper } from '@renderer/core/utils/types';
+import type { Paper } from '@renderer/core/config/types';
 import { colors } from '@renderer/core/styles/theme';
 
 const createAuthorSearchURL = (authorName) => {

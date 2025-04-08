@@ -1,4 +1,4 @@
-import { PaperState } from '@renderer/core/utils/types';
+import { PaperState } from '@renderer/core/config/types';
 
 export const paperStates = {
   [PaperState.initial]: {

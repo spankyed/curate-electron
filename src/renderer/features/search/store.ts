@@ -1,5 +1,5 @@
 import { atom } from 'jotai';
-import type { Paper } from '@renderer/core/utils/types';
+import type { Paper } from '@renderer/core/config/types';
 import * as api from '@renderer/core/api/fetch';
 import type dayjs from 'dayjs'; // Import dayjs if you haven't already
 import { addAlertAtom, addSnackAtom } from '@renderer/core/components/common/notification/store';

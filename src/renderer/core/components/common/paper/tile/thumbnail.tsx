@@ -2,7 +2,7 @@ import type React from 'react';
 // import { useContext } from 'react';
 import { Box, Button, ButtonGroup, Tooltip } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
-import { type Paper, PaperState } from '@renderer/core/utils/types';
+import { type Paper, PaperState } from '@renderer/core/config/types';
 // import DeleteIcon from '@mui/icons-material/Delete';
 // import VisibilityIcon from '@mui/icons-material/Visibility';
 import Favorite from '../favorite';
@@ -10,7 +10,7 @@ import Favorite from '../favorite';
 import { getColorShadeRedToGreen } from '@renderer/core/utils/getColorShade';
 // import PaperAction, { RejectAction } from '../paper-action';
 import { colors } from '@renderer/core/styles/theme';
-import type { Video } from '@renderer/core/utils/types';
+import type { Video } from '@renderer/core/config/types';
 
 import defaultThumbnail from '@renderer/core/assets/arxiv-bg.jpg';
 

@@ -9,7 +9,7 @@ import {
   TableRow,
   Skeleton,
 } from '@mui/material';
-import type { Paper } from '@renderer/core/utils/types';
+import type { Paper } from '@renderer/core/config/types';
 import Favorite from '@renderer/core/components/common/paper/favorite';
 import Relevancy from '@renderer/core/components/common/paper/relevancy';
 import { colors } from '@renderer/core/styles/theme';
