@@ -21,7 +21,8 @@
     "build:mac": "electron-vite build && electron-builder --mac",
     "build:linux": "electron-vite build && electron-builder --linux",
     "reset:user": "tsx src/services/core/maintenance/reset-user.ts",
-    "reset:db": "tsx src/services/core/maintenance/wipe-databases.ts"
+    "reset:db": "tsx src/services/core/maintenance/wipe-databases.ts",
+    "reset:store": "tsx src/services/core/maintenance/wipe-store.ts"
   },
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.1",
