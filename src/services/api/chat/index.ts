@@ -118,12 +118,20 @@ async function deleteMessage(messageId) {
 async function sendMessage({ paperId, threadId, text, model }) {
   console.log('message received');
 
-  if (!getProvider(model)) {
-    return { error: 'Provider not found', code: 401 };
+  const provider = getProvider(model);
+  if (!provider) {
+    return { error: 'Provider not found', code: 404 };
+  }
+
+  // Check for OpenAI API key
+  if (provider === 'openai') {
+    const apiKey = getSetting('apiKeyOpenAI');
+    if (!apiKey) {
+      return { error: 'OpenAI API key not found', code: 403 };
+    }
   }
 
   const thread = await repository.getThread(threadId);
-
   if (!thread) {
     return { error: 'Thread not found', code: 404 };
   }
@@ -147,8 +155,20 @@ const threadStreams: {
 } = {};
 
 async function streamResponse({ paperId, threadId, model }) {
-  const thread = await repository.getThread(threadId);
+  const provider = getProvider(model);
+  if (!provider) {
+    return { error: 'Provider not found', code: 404 };
+  }
 
+  // Check for OpenAI API key
+  if (provider === 'openai') {
+    const apiKey = getSetting('apiKeyOpenAI');
+    if (!apiKey) {
+      return { error: 'OpenAI API key not found', code: 403 };
+    }
+  }
+
+  const thread = await repository.getThread(threadId);
   if (!thread) {
     return { error: 'Thread not found', code: 404 };
   }

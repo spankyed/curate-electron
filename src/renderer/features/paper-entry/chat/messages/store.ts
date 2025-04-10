@@ -2,7 +2,8 @@ import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import type { RefObject } from 'react';
 import * as api from '@renderer/core/api/fetch';
-import { modelAtom } from '../store';
+import { modelAtom, keyModalOpen } from '../store';
+import { addAlertAtom } from '@renderer/core/components/common/notification/store';
 
 export const inputRefAtom = atom<RefObject<HTMLInputElement> | null>(null);
 export const promptPresetsOpenAtom = atom(false);
@@ -54,35 +55,63 @@ export const sendMessageAtom = atom(
     set(messagesAtom, (prev) => [...prev, newMessage]);
 
     try {
-      const messageId = await api.sendMessage({ paperId, threadId, text, model });
+      const response = await api.sendMessage({ paperId, threadId, text, model });
+
+      // Handle API errors
+      if (typeof response === 'object' && response.error) {
+        set(inputEnabledAtom, true);
+        if (response.code === 403) {
+          set(addAlertAtom, {
+            message: `${response.error}. Please add your API key in settings.`,
+            type: 'error',
+            autoClose: false,
+          });
+          set(keyModalOpen, true); // Open the API key modal
+        } else {
+          set(addAlertAtom, {
+            message: response.error,
+            type: 'error',
+            autoClose: true,
+          });
+        }
+        return;
+      }
 
       set(messagesAtom, (prev) =>
-        prev.map((m) => (m.id === newMessage.id ? { ...m, id: messageId } : m))
+        prev.map((m) => (m.id === newMessage.id ? { ...m, id: response } : m))
       );
 
       const responseId = await api.streamResponse({ paperId, threadId, model });
+
+      // Handle stream response errors
+      if (typeof responseId === 'object' && responseId.error) {
+        set(inputEnabledAtom, true);
+        set(addAlertAtom, {
+          message: responseId.error,
+          type: 'error',
+          autoClose: true,
+        });
+        return;
+      }
 
       const responsePlaceholder = {
         threadId,
         id: responseId,
         text: '...',
-        // timestamp: new Date().toISOString(),
         role: 'assistant',
         status: 0,
       };
 
       set(messagesAtom, (prev) => [...prev, responsePlaceholder]);
-
-      // setTimeout(() => {
-      //   set(inputEnabledAtom, true);
-      // }, 5000);
-
-      // const { tokenUsage: newTokenUsage } = response.data;
-      // tokenUsage.current = newTokenUsage;
     } catch (error) {
       console.error('Failed to send message', error);
+      set(inputEnabledAtom, true);
+      set(addAlertAtom, {
+        message: 'Failed to send message. Please try again.',
+        type: 'error',
+        autoClose: true,
+      });
     }
-    // todo set loading state and disable button
   }
 );
 

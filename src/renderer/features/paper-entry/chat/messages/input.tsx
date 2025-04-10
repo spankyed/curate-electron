@@ -1,9 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Box, TextField, IconButton, Typography, List, ListItem, Button } from '@mui/material';
+import React, { useEffect, useRef } from 'react';
+import { Box, TextField, IconButton, Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import * as api from '@renderer/core/api/fetch';
 import { paperAtom } from '@renderer/features/paper-entry/store';
 import {
   inputAtom,
@@ -35,15 +34,15 @@ export const ChatInput = () => {
   }, [setInputRef]);
 
   const handleSend = async () => {
-    if (chatState !== 'ready') {
+    if (chatState !== 'ready' || !paper?.id) {
       return;
     }
 
     if (input.trim()) {
       sendMessage({
         text: input,
-        paperId: paper!.id,
-        threadId: selectedThreads[paper!.id]?.id,
+        paperId: paper.id,
+        threadId: selectedThreads[paper.id]?.id,
       });
     }
   };
@@ -55,7 +54,7 @@ export const ChatInput = () => {
     }
   };
 
-  const handleMenuToggle = (event) => {
+  const handleMenuToggle = () => {
     setIsOpen(!isOpen);
   };
 
@@ -75,7 +74,6 @@ export const ChatInput = () => {
           sx: { borderTopLeftRadius: 0, borderTopRightRadius: 0 },
           startAdornment: (
             <IconButton
-              // color="secondary"
               sx={{ mr: 1 }}
               disabled={!ready}
               onClick={handleMenuToggle}
