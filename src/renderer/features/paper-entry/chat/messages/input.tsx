@@ -131,7 +131,8 @@ const TokenUsage = () => {
         color: reachingLimit ? 'orange' : overLimit ? 'red' : '',
       }}
     >
-      Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total}k / {tokenUsage.max}k
+      Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total}k
+      {/* Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total}k / {tokenUsage.max}k */}
     </Typography>
   );
 };
