@@ -8,7 +8,7 @@ const ErrorState = () => {
         Papers Unavailable
       </Typography>
       <Typography variant="body1" sx={{ opacity: 0.3, color: 'red' }}>
-        Please try again later.
+        Please try again later today or tomorrow.
       </Typography>
     </div>
   );
