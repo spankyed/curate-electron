@@ -2,6 +2,7 @@ import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import type { RefObject } from 'react';
 import * as api from '@renderer/core/api/fetch';
+import { modelAtom } from '../store';
 
 export const inputRefAtom = atom<RefObject<HTMLInputElement> | null>(null);
 export const promptPresetsOpenAtom = atom(false);
@@ -40,6 +41,7 @@ export const sendMessageAtom = atom(
   ) => {
     set(inputAtom, '');
     set(inputEnabledAtom, false);
+    const model = get(modelAtom);
 
     const newMessage = {
       threadId,
@@ -52,13 +54,13 @@ export const sendMessageAtom = atom(
     set(messagesAtom, (prev) => [...prev, newMessage]);
 
     try {
-      const messageId = await api.sendMessage({ paperId, threadId, text });
+      const messageId = await api.sendMessage({ paperId, threadId, text, model });
 
       set(messagesAtom, (prev) =>
         prev.map((m) => (m.id === newMessage.id ? { ...m, id: messageId } : m))
       );
 
-      const responseId = await api.streamResponse({ paperId, threadId, text });
+      const responseId = await api.streamResponse({ paperId, threadId, model });
 
       const responsePlaceholder = {
         threadId,

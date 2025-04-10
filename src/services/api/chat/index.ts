@@ -4,6 +4,7 @@ import startChatStream from './scripts/start-chat-stream';
 import type { ChatCompletionStream } from 'openai/resources/beta/chat/completions';
 import { getSetting, setSetting } from '@services/core/settings';
 import { checkOpenAIKey, updateAPIKeyOpenAI } from '@services/core/completions/openai';
+import { getProvider } from '@services/core/completions';
 
 async function initChat(paperId) {
   try {
@@ -114,8 +115,12 @@ async function deleteMessage(messageId) {
   return '';
 }
 
-async function sendMessage({ paperId, threadId, text }) {
+async function sendMessage({ paperId, threadId, text, model }) {
   console.log('message received');
+
+  if (!getProvider(model)) {
+    return { error: 'Provider not found', code: 401 };
+  }
 
   const thread = await repository.getThread(threadId);
 
@@ -141,14 +146,12 @@ const threadStreams: {
   };
 } = {};
 
-async function streamResponse({ paperId, threadId }) {
+async function streamResponse({ paperId, threadId, model }) {
   const thread = await repository.getThread(threadId);
 
   if (!thread) {
     return { error: 'Thread not found', code: 404 };
   }
-
-  const model = 'gpt-4o';
 
   const [responseMessageId, stream] = await startChatStream({
     paperId,

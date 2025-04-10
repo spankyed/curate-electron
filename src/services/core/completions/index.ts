@@ -11,7 +11,7 @@ const modelProviders: { [key: string]: Provider } = {
   'claude-3-sonnet-20240229': 'anthropic',
 };
 
-function getProvider(model: keyof typeof modelProviders) {
+export function getProvider(model: keyof typeof modelProviders) {
   return modelProviders[model] || undefined;
 }
 
