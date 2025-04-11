@@ -19,9 +19,15 @@ export const getDatabasePath = () => {
   const dirname = path.dirname(filename);
 
   if (inDevelopment) {
-    // Development: use the project directory
+    // Check if we're running as a script (e.g., via npm run reset:db)
+    const isRunningAsScript = process.argv[1]?.includes('wipe-databases.ts');
+
+    if (isRunningAsScript) {
+      // When running manually as a script, use the out directory path
+      return path.join(dirname, '../../../out/database/sqlite/curate.db');
+    }
+    // When running in the app, use the project directory path, which defaults to the out directory once built
     return path.join(dirname, '../database/sqlite/curate.db');
-    // return path.join(dirname, '../../../out/database/sqlite/curate.db');
   }
 
   if (app) {
