@@ -81,6 +81,8 @@ const PageTitle: React.FC<{ value: string; count: number }> = ({ value, count })
             // fontWeight: 'bold',
             borderRadius: '5px',
             letterSpacing: '0.0075em',
+            width: '40rem',
+            textAlign: 'center',
             // marginTop: '20px',
           }}
         >
