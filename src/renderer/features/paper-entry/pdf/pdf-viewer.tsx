@@ -1,4 +1,4 @@
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import { pdfjs, Document, Page } from 'react-pdf';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css';
@@ -15,42 +15,55 @@ const options = {
   standardFontDataUrl: '/standard_fonts/',
 };
 
-export default function PdfViewer({ paperId, width }) {
-  const [numPages, setNumPages] = useState(null);
+interface PdfViewerProps {
+  paperId: string;
+  width: number;
+}
+
+export default function PdfViewer({ paperId, width }: PdfViewerProps) {
+  const [numPages, setNumPages] = useState<number | null>(null);
   const [pageNumber, setPageNumber] = useState(1);
-  const [pdfUrl, setPdfUrl] = useState('');
+  const [pdfUrl, setPdfUrl] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchPdf = async (arxivId) => {
+    const fetchPdf = async (arxivId: string) => {
       try {
-        const pdfPath = await api.fetchPdf(arxivId);
+        const response = await api.fetchPdf(arxivId);
 
+        if (response.error) {
+          setError(response.error);
+          setPdfUrl('');
+          return;
+        }
+
+        const pdfPath = response;
         setPdfUrl(pdfPath);
+        setError(null);
       } catch (error) {
-        console.error('Error fetching PDF:', error);
+        setError('Failed to load PDF. Please try again later.');
+        setPdfUrl('');
       }
     };
 
     fetchPdf(paperId);
   }, [paperId]);
 
-  function onDocumentLoadSuccess({ numPages }) {
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
     setNumPages(numPages);
   }
 
-  function changePage(offset) {
+  function changePage(offset: number) {
     setPageNumber((prevPageNumber) => prevPageNumber + offset);
   }
 
-  function previousPage(event) {
+  function previousPage(event: React.MouseEvent) {
     event.preventDefault();
-
     changePage(-1);
   }
 
-  function nextPage(event) {
+  function nextPage(event: React.MouseEvent) {
     event.preventDefault();
-
     changePage(1);
   }
 
@@ -64,8 +77,16 @@ export default function PdfViewer({ paperId, width }) {
         minHeight: '5rem',
       }}
     >
-      {!pdfUrl ? (
-        <Typography variant="h6">Loading PDF...</Typography>
+      {error ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px', p: 2 }}>
+          <Typography variant="h5" color="error">
+            {error}
+          </Typography>
+        </Box>
+      ) : !pdfUrl ? (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '200px' }}>
+          <Typography variant="h5">Loading PDF</Typography>
+        </Box>
       ) : (
         <Document
           file={pdfUrl}
@@ -87,7 +108,14 @@ export default function PdfViewer({ paperId, width }) {
   );
 }
 
-function Pagination({ pageNumber, numPages, onPreviousPage, onNextPage }) {
+interface PaginationProps {
+  pageNumber: number;
+  numPages: number | null;
+  onPreviousPage: (event: React.MouseEvent) => void;
+  onNextPage: (event: React.MouseEvent) => void;
+}
+
+function Pagination({ pageNumber, numPages, onPreviousPage, onNextPage }: PaginationProps) {
   return (
     <div className="page-controls">
       <button type="button" disabled={pageNumber <= 1} onClick={onPreviousPage}>
@@ -96,7 +124,7 @@ function Pagination({ pageNumber, numPages, onPreviousPage, onNextPage }) {
       <span>
         {pageNumber || (numPages ? 1 : '--')} of {numPages || '--'}
       </span>
-      <button type="button" disabled={pageNumber >= numPages} onClick={onNextPage}>
+      <button type="button" disabled={pageNumber >= (numPages || 0)} onClick={onNextPage}>
         ›
       </button>
     </div>

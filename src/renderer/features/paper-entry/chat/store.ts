@@ -30,7 +30,14 @@ export const loadChatDataAtom = atom(null, async (get, set, paperId: string) => 
       });
     }
 
-    const pdfTokenCount = await api.initializeChat(paperId);
+    const response = await api.initializeChat(paperId);
+
+    if (response.error) {
+      set(chatStateAtom, 'error');
+      return;
+    }
+
+    const pdfTokenCount = response;
 
     set(tokenUsageAtom, (prev) => ({ ...prev, document: pdfTokenCount }));
 

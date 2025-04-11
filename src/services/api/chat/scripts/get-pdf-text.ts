@@ -27,8 +27,8 @@ async function getPdfText(arxivId: string): Promise<string> {
 
     const text = await pdfToText(response.data);
     return cleanText(text);
-  } catch (error) {
-    console.error(`Failed to fetch PDF with retry: ${error}`);
+  } catch (error: any) {
+    console.error(`Failed to retrieve PDF: ${error.message}`);
     throw error; // Re-throw after logging if needed
   }
 }

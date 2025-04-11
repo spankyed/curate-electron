@@ -73,10 +73,10 @@ async function fetchPdf(arxivId) {
 
     return address;
   } catch (error) {
-    console.error('Error fetching PDF from arXiv:', error);
+    console.error('Error fetching PDF from arXiv');
   }
 
-  return { error: 'Error fetching PDF from arXiv', code: 500 };
+  return { error: 'Unable to read PDF', code: 500 };
 }
 
 export default {

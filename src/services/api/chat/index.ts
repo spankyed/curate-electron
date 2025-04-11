@@ -9,11 +9,16 @@ import { getProvider } from '@services/core/completions';
 async function initChat(paperId) {
   try {
     const textLength = await initializeChat(paperId);
+
+    if (!textLength) {
+      return { error: 'Failed to initialize chat' };
+    }
+
     const pdfTokenCount = textLength / 4;
 
     return pdfTokenCount;
-  } catch (error) {
-    console.error('Failed to initialize chat: ', error);
+  } catch (error: any) {
+    // console.error(`Failed to initialize chat: ${error.message}`);
     return { error: 'Failed to initialize chat' };
   }
 }

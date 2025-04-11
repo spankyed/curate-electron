@@ -6,4 +6,4 @@ synchronizeDatabase();
 
 // await sharedRepository.chroma.deleteReferenceCollection();
 
-resetStore();
+// resetStore();

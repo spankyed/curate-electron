@@ -118,6 +118,11 @@ const TokenUsage = () => {
     setTokenUsage((prev) => ({ ...prev, total: totalTokensRounded }));
   }, [tokenUsage, messages]);
 
+  // eslint-disable-next-line prettier/prettier
+  const tokenDisplay = chatState === 'error' 
+    ? 'Unknown'
+    : `${chatState !== 'ready' ? 0 : tokenUsage.total}k`;
+
   return (
     <Typography
       variant="caption"
@@ -129,7 +134,7 @@ const TokenUsage = () => {
         color: reachingLimit ? 'orange' : overLimit ? 'red' : '',
       }}
     >
-      Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total}k
+      Token estimate: {tokenDisplay}
       {/* Token estimate {chatState !== 'ready' ? 0 : tokenUsage.total}k / {tokenUsage.max}k */}
     </Typography>
   );

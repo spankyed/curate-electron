@@ -5,12 +5,23 @@ export default async function initializeChat(paperId: string) {
   const pdfDoc = await repository.getPdfDocuments(paperId);
 
   if (!pdfDoc.length) {
-    const pdfText = await getPdfText(paperId);
-    await repository.addPdfDocument({
-      paperId,
-      viewMode: 0,
-      content: pdfText,
-    });
+    let pdfText = '';
+
+    try {
+      pdfText = await getPdfText(paperId);
+      await repository.addPdfDocument({
+        paperId,
+        viewMode: 0,
+        content: pdfText,
+      });
+    } catch (err) {
+      await repository.addPdfDocument({
+        paperId,
+        viewMode: 0,
+        error: true,
+        content: pdfText,
+      });
+    }
 
     return pdfText.length;
   }

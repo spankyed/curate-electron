@@ -21,6 +21,7 @@ export const getDatabasePath = () => {
   if (inDevelopment) {
     // Development: use the project directory
     return path.join(dirname, '../database/sqlite/curate.db');
+    // return path.join(dirname, '../../../out/database/sqlite/curate.db');
   }
 
   if (app) {
@@ -94,6 +95,7 @@ export class PdfDocumentTable extends Model {
   declare id: string;
   declare paperId: string;
   declare viewMode: string; // 'whole' or 'summary' 1 | 0
+  declare error: boolean;
   declare content: string;
 }
 
@@ -107,6 +109,7 @@ PdfDocumentTable.init(
     },
     paperId: DataTypes.STRING,
     viewMode: DataTypes.STRING, // 'whole' or 'summary' 1 | 0
+    error: DataTypes.BOOLEAN,
     content: DataTypes.STRING,
   },
   {
