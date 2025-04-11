@@ -60,6 +60,10 @@ function RenderByState({ dateId }: { dateId: string }): React.ReactElement {
   const updateSidebarData = useSetAtom(updateSidebarDataAtom);
 
   const handleDateStatusUpdate = ({ key, status: newStatus, data: papers }: DateStatusUpdate) => {
+    if (key !== dateId) {
+      return;
+    }
+
     if (newStatus === 'complete') {
       setPapers(papers);
       if (papers.length === 0) {
