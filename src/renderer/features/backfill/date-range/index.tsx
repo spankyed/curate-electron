@@ -1,19 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
-import { FormControl, Box, Button } from '@mui/material';
+import { FormControl } from '@mui/material';
 import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { dateEndAtom, dateStartAtom, backfillStateAtom } from './store';
-import LoadingButton from '@mui/lab/LoadingButton';
+import { batchStateAtom } from '../batch-scrape/store';
 import { loadDatesAtom } from './store';
 import dayjs from 'dayjs';
 
-const DateRangeControl: React.FC<{}> = () => {
+const DateRangeControl: React.FC = () => {
   const [startDate, setStartDate] = useAtom(dateStartAtom);
   const [endDate, setEndDate] = useAtom(dateEndAtom);
   const state = useAtomValue(backfillStateAtom);
+  const batchState = useAtomValue(batchStateAtom);
   const loadDates = useSetAtom(loadDatesAtom);
-  const isLoading = state === 'loading';
+  const isLoading = state === 'loading' || batchState === 'loading';
 
   const handleStartDateChange = (date) => {
     const newDate = date.isAfter(endDate) ? endDate : date;
