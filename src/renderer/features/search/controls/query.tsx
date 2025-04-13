@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { Select, MenuItem, FormControl, InputLabel, Box, TextField, Button } from '@mui/material';
 import { queryAtom, queryFieldAtom, resetFieldsAtom, submitSearchAtom } from '../store';
+import { useLocation } from 'react-router-dom';
 
 const QueryControl: React.FC<{}> = () => {
   const [query, setQuery] = useAtom(queryAtom);
   const [queryField, setQueryField] = useAtom(queryFieldAtom);
+  const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const queryParam = queryParams.get('query');
   const resetFields = useSetAtom(resetFieldsAtom);

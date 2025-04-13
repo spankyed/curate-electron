@@ -5,8 +5,10 @@ import { LocalizationProvider, DatePicker } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { dateEndAtom, dateStartAtom, submitSearchAtom } from '../store';
 import dayjs from 'dayjs';
+import { useLocation } from 'react-router-dom';
 
 const DateRangeControl: React.FC<{}> = () => {
+  const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const startDateParam = queryParams.get('startDate');
   const endDateParam = queryParams.get('endDate');
