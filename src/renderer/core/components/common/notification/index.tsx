@@ -8,6 +8,12 @@ function SlideTransition(props: SlideProps) {
   return <Slide {...props} direction="left" />;
 }
 
+const customWarningStyle = {
+  backgroundColor: 'rgb(33, 33, 33)',
+  borderColor: colors.amber[700],
+  color: colors.amber[100],
+};
+
 export const NotificationManager = () => {
   const [alerts, setAlerts] = useAtom(alertsAtom);
   const [snackbars, setSnackbars] = useAtom(snackbarsAtom);
@@ -31,8 +37,15 @@ export const NotificationManager = () => {
           <Alert
             onClose={() => handleAlertClose(alert.id)}
             severity={alert.type || 'warning'}
-            style={{ backgroundColor: colors.grey[900] }}
-            sx={{ width: '100%' }}
+            style={
+              alert.type === 'warning' ? customWarningStyle : { backgroundColor: colors.grey[900] }
+            }
+            sx={{
+              width: '100%',
+              '& .MuiAlert-icon': {
+                color: alert.type === 'warning' ? colors.amber[500] : undefined
+              }
+            }}
             variant="outlined"
           >
             {alert.message}
