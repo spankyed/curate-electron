@@ -57,6 +57,7 @@ const StyledListItem = styled(ListItem)<{ status: string }>(({ status }) => {
     scraping: colors.palette.secondary.main, // orange hex
     ranking: colors.palette.primary.main, // blue hex
     complete: colors.palette.success.main, // green hex
+    cancelled: colors.palette.caution.main, // red hex
     error: colors.palette.warning.main, // red hex
   };
 
@@ -64,7 +65,7 @@ const StyledListItem = styled(ListItem)<{ status: string }>(({ status }) => {
     margin: '2px',
     borderRadius: '4px',
     backgroundColor: colorByStatus[status],
-    border: `.01rem solid rgba(81, 81, 81, 1)`, // Apply bottom border to all items
+    border: '.01rem solid rgba(81, 81, 81, 1)', // Apply bottom border to all items
     padding: '2px 12px',
     '.MuiTypography-root': {
       // Targeting the ListItemText directly
