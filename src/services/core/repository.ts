@@ -44,6 +44,11 @@ async function getDatesByYear(year: string | number) {
   return allDates;
 }
 
+async function deletePapersByDate(date: string) {
+  const result = await PapersTable.destroy({ where: { date } });
+  return result;
+}
+
 async function storePapers(papers: PaperRecord[]): Promise<any> {
   try {
     const result = await PapersTable.bulkCreate(papers, {
@@ -165,4 +170,4 @@ const chroma = {
   chromaHeartbeat,
 };
 
-export { chroma, updateDate, storePapers, getDatesByYear };
+export { chroma, updateDate, storePapers, deletePapersByDate, getDatesByYear };

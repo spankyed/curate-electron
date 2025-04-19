@@ -1,9 +1,10 @@
 import { sendToMainWindow } from '@main/create-window';
 import type { Paper } from '@services/api/search/repository';
+import type { DateStatuses } from './types';
 
 type Notification = {
   key: string;
-  status: string;
+  status: DateStatuses;
   data?: Paper[];
   final?: boolean;
 };

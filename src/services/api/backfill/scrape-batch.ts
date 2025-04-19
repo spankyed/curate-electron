@@ -1,6 +1,7 @@
 import { runScrapeAndRank } from '@services/worker/scrape-rank';
 import repository from '../onboard/repository';
 import { updateWorkStatus } from '@services/core/status';
+import { DateStatuses } from '@services/core/types';
 
 // Track active batch scraping processes
 const activeBatchProcesses = new Set<string>();
@@ -48,7 +49,7 @@ export async function scrapeBatch(dates?: string[]) {
   }
 
   // updateWorkStatus({ key: 'backfill', status: 'complete' });
-  updateWorkStatus({ key: 'batch', status: 'complete' });
+  updateWorkStatus({ key: 'batch', status: DateStatuses.COMPLETE });
   // return results;
 }
 
