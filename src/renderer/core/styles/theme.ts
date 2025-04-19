@@ -26,12 +26,14 @@ import darkScrollbar from '@mui/material/darkScrollbar';
 // }
 declare module '@mui/material/styles' {
   interface Palette {
+    caution: Palette['primary'];
     mom: Palette['primary'];
     amber: Palette['primary'];
     red: Palette['primary'];
   }
 
   interface PaletteOptions {
+    caution: PaletteOptions['primary'];
     mom?: PaletteOptions['primary'];
     amber?: PaletteOptions['primary'];
     red?: PaletteOptions['primary'];
@@ -86,6 +88,9 @@ export const colors = createTheme({
       main: grey[700],
       light: grey[300],
       // main: deepOrange[900],
+    },
+    caution: {
+      main: amber[900],
     },
     background: {
       // default: '#2c2c2c',
