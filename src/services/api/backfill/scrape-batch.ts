@@ -2,23 +2,38 @@ import { runScrapeAndRank } from '@services/worker/scrape-rank';
 import repository from '../onboard/repository';
 import { updateWorkStatus } from '@services/core/status';
 
-export async function scrapeBatch(dates?: any[]) {
+// Track active batch scraping processes
+const activeBatchProcesses = new Set<string>();
+
+export async function scrapeBatch(dates?: string[]) {
   if (!dates || dates.length === 0) {
     return;
   }
 
   // const results = [];
-  const batchSize = 3;
+  const parallelBatchSize = 3;
 
   const completedDates = await repository.getDates(dates, 'complete');
   // results.push(...completedDates);
   const pendingDates = dates.filter((date) => !completedDates.map((d) => d.value).includes(date));
 
-  for (let i = 0; i < pendingDates.length; i += batchSize) {
-    const batch = pendingDates.slice(i, i + batchSize);
+  // Add dates to active batch processes
+  for (const date of pendingDates) {
+    activeBatchProcesses.add(date);
+  }
+
+  for (let i = 0; i < pendingDates.length; i += parallelBatchSize) {
+    const batch = pendingDates.slice(i, i + parallelBatchSize);
 
     try {
-      const batchResults = await Promise.all(batch.map((date: any) => runScrapeAndRank(date)));
+      await Promise.all(
+        batch.map(async (date) => {
+          if (!activeBatchProcesses.has(date)) {
+            return null; // Skip if cancelled
+          }
+          return runScrapeAndRank(date);
+        })
+      );
       // results.push(...batchResults);
     } catch (error) {
       // Log the error and possibly decide whether to continue with the next batch
@@ -27,7 +42,17 @@ export async function scrapeBatch(dates?: any[]) {
     }
   }
 
+  // Clear active batch processes
+  for (const date of pendingDates) {
+    activeBatchProcesses.delete(date);
+  }
+
   // updateWorkStatus({ key: 'backfill', status: 'complete' });
   updateWorkStatus({ key: 'batch', status: 'complete' });
   // return results;
+}
+
+export function cancelBatchScraping() {
+  activeBatchProcesses.clear();
+  return { message: 'Batch scraping cancelled!' };
 }

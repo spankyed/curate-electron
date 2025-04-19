@@ -40,6 +40,7 @@
 export const loadBatchDates = window.api['load-batch-dates'];
 export const getBatchDates = window.api['get-batch-dates'];
 export const scrapeBatch = window.api['scrape-batch'];
+export const cancelBatch = window.api['cancel-batch'];
 
 export const getCalendarModelData = window.api['get-calendar'];
 export const calendarLoadMore = window.api['load-more'];

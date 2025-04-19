@@ -1,6 +1,6 @@
 import * as repository from './repository';
 import { backfillDates } from './add-dates';
-import { scrapeBatch } from './scrape-batch';
+import { scrapeBatch, cancelBatchScraping } from './scrape-batch';
 
 async function getBatchDates(cursor, direction) {
   const dates = await repository.getBackfillDates({ cursor, direction, count: 45 });
@@ -21,8 +21,13 @@ async function batchScrape(dates) {
   return 'batch scraping started!';
 }
 
+async function cancelBatch() {
+  return cancelBatchScraping();
+}
+
 export default {
   'load-batch-dates': loadBatchDates,
   'get-batch-dates': getBatchDates,
   'scrape-batch': batchScrape,
+  'cancel-batch': cancelBatch,
 };

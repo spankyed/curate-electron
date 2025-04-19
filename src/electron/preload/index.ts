@@ -6,6 +6,7 @@ declare global {
       'load-batch-dates': (start, end) => Promise<any>;
       'get-batch-dates': (cursor: string | undefined, direction: string) => Promise<any>;
       'scrape-batch': (dates: Record<string, string>) => Promise<any>;
+      'cancel-batch': () => Promise<any>;
 
       'get-calendar': () => Promise<string>;
       'load-more': (cursor: string | undefined) => Promise<any>;
@@ -54,6 +55,7 @@ contextBridge.exposeInMainWorld('api', {
   'get-batch-dates': (cursor, direction) =>
     ipcRenderer.invoke('get-batch-dates', cursor, direction),
   'scrape-batch': (dates) => ipcRenderer.invoke('scrape-batch', dates),
+  'cancel-batch': () => ipcRenderer.invoke('cancel-batch'),
 
   'get-calendar': () => ipcRenderer.invoke('get-calendar'),
   'load-more': (cursor) => ipcRenderer.invoke('load-more', cursor),
