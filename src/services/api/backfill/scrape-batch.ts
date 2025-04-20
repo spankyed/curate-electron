@@ -6,12 +6,14 @@ import { cancelScraping } from '@services/worker/scrape-rank';
 
 // Track active batch scraping processes
 const activeBatchProcesses = new Set<string>();
+let isCancelled = false;
 
 export async function scrapeBatch(dates?: string[]) {
   if (!dates || dates.length === 0) {
     return;
   }
 
+  isCancelled = false;
   // const results = [];
   const parallelBatchSize = 3;
 
@@ -49,12 +51,15 @@ export async function scrapeBatch(dates?: string[]) {
     activeBatchProcesses.delete(date);
   }
 
-  // updateWorkStatus({ key: 'backfill', status: 'complete' });
-  updateWorkStatus({ key: 'batch', status: DateStatuses.COMPLETE });
+  // Only update status to complete if not cancelled
+  if (!isCancelled) {
+    updateWorkStatus({ key: 'batch', status: DateStatuses.COMPLETE });
+  }
   // return results;
 }
 
 export async function cancelBatchScraping() {
+  isCancelled = true;
   for (const date of activeBatchProcesses) {
     await cancelScraping(date);
   }
