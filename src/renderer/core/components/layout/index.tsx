@@ -71,12 +71,6 @@ function Layout(): React.ReactElement {
               boxShadow: 'none',
               // backgroundImage: 'none',
             }}
-            style={
-              {
-                WebkitAppRegion: 'drag',
-                // biome-ignore lint/suspicious/noExplicitAny: Apply webkitAppRegion here to drag window
-              } as any
-            }
           >
             <Toolbar sx={{ display: 'flex', justifyContent: 'flex-end' }}>
               {!isNewUser && <SearchInput />}
@@ -96,104 +90,71 @@ function TitleArea({ isNewUser }) {
   const location = useLocation();
   const onHomePage = () => location.pathname.includes('calendar');
 
-  const [, setSidebarOpen] = useAtom(sidebarOpenAtom); // Assuming you have a setter function for the sidebar open state
+  const [, setSidebarOpen] = useAtom(sidebarOpenAtom);
 
   const toggleSidebar = () => {
     setSidebarOpen((open) => !open);
   };
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        marginLeft: '.4rem',
-        width: '230px',
-        position: 'absolute',
-        top: '.9rem',
-        left: '1.4rem',
-        zIndex: 9999,
-        WebkitAppRegion: 'drag',
-      }}
-    >
-      {/* {
-        !isNewUser && (
-          <IconButton
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
-          onClick={toggleSidebar}
-        >
-          <MenuIcon />
-        </IconButton>
-        )
-      } */}
-
-      <Link
-        color="inherit"
-        to={isNewUser ? '/onboard' : '/calendar'}
+    <>
+      {/* Clickable overlay */}
+      <div
         style={
           {
-            WebkitAppRegion: 'no-drag',
+            position: 'absolute',
+            top: '.9rem',
+            left: '15rem',
+            width: 'calc(100% - 35rem)',
+            height: '4rem',
+            zIndex: 9998,
+            WebkitAppRegion: 'drag',
           } as any
-        } // Exclude the Link from being draggable
-      >
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
-          <img
-            src={logo}
-            alt="Logo"
-            style={{ width: '40px', height: '40px', marginLeft: '4rem' }}
-          />
-          <Typography
-            variant="subtitle1"
-            component="div"
-            sx={{
-              padding: '4px 4px',
-              '&:hover': {
-                color: 'grey',
-                // color: onHomePage() ? '#414049' : 'grey',
-              },
-              color: onHomePage() ? 'grey' : 'inherit',
-              // marginLeft: '4.5rem',
-            }}
-            style={
-              {
-                letterSpacing: '3px',
-                // -webkit-text-security: square;
-                WebkitTextSecurity: 'square',
-                // WebkitAppRegion: 'no-drag'
-              } as any
-            }
-          >
-            Home
-          </Typography>
+        }
+      />
 
-          {/* <Typography
-            variant="subtitle1"
-            component="div"
-            sx={{
-              borderRadius: '10%',
-              padding: '1px 7px',
-              // border: '2px solid white',
-              // backgroundColor: '#4a39ab7a',
-              // backgroundColor: 'rgba(0, 0, 0, 0.3)',
-              // backgroundColor: '#5a5affff',
-              backgroundColor: '#ffb900ff',
-              alignContent: 'center',
-              marginLeft: '4rem',
-              pointerEvents: 'initial',
-              color: 'black',
-              // backgroundColor: colors.palette.primary.light,
-            }}
-          >
-            Curate
-          </Typography>
-          <Typography variant="subtitle1" component="div" sx={{ padding: '4px 4px' }}>
-            GPT
-          </Typography> */}
-        </div>
-      </Link>
-    </div>
+      {/* Original title area */}
+      <div
+        style={{
+          display: 'flex',
+          marginLeft: '.4rem',
+          width: '230px',
+          position: 'absolute',
+          top: '.9rem',
+          left: '1.4rem',
+          zIndex: 9999,
+        }}
+      >
+        <Link color="inherit" to={isNewUser ? '/onboard' : '/calendar'}>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <img
+              src={logo}
+              alt="Logo"
+              style={{ width: '40px', height: '40px', marginLeft: '4rem' }}
+            />
+            <Typography
+              variant="subtitle1"
+              component="div"
+              sx={{
+                padding: '4px 4px',
+                '&:hover': {
+                  color: 'grey',
+                },
+                color: onHomePage() ? 'grey' : 'inherit',
+              }}
+              style={
+                {
+                  letterSpacing: '3px',
+                  WebkitTextSecurity: 'square',
+                } as any
+              }
+            >
+              Home
+            </Typography>
+          </div>
+        </Link>
+      </div>
+    </>
   );
 }
 
