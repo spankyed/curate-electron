@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import type React from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   AppBar,
   Toolbar,
@@ -131,7 +132,11 @@ function TitleArea({ isNewUser }) {
       <Link
         color="inherit"
         to={isNewUser ? '/onboard' : '/calendar'}
-        style={{ WebkitAppRegion: 'no-drag' }} // Exclude the Link from being draggable
+        style={
+          {
+            WebkitAppRegion: 'no-drag',
+          } as any
+        } // Exclude the Link from being draggable
       >
         <div style={{ display: 'flex', flexDirection: 'row' }}>
           <img
@@ -155,7 +160,7 @@ function TitleArea({ isNewUser }) {
               {
                 letterSpacing: '3px',
                 // -webkit-text-security: square;
-                webkitTextSecurity: 'square',
+                WebkitTextSecurity: 'square',
                 // WebkitAppRegion: 'no-drag'
               } as any
             }
