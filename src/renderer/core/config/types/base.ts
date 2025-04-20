@@ -11,7 +11,7 @@ export enum PaperState {
   published = 3,
 }
 
-export type DateStatus = 'pending' | 'scraping' | 'ranking' | 'complete' | 'error';
+export type DateStatus = 'pending' | 'scraping' | 'ranking' | 'complete' | 'error' | 'cancelled';
 
 export interface DatesRow {
   month: string;

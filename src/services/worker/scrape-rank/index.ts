@@ -27,7 +27,7 @@ export async function cancelScraping(date) {
     activeScrapingProcesses.delete(date);
     await sharedRepository.updateDate(date, { status: DateStatuses.PENDING });
     await sharedRepository.deletePapersByDate(date);
-    updateWorkStatus({ key: date, status: DateStatuses.ERROR });
+    updateWorkStatus({ key: date, status: DateStatuses.CANCELLED });
     // updateWorkStatus({ key: date, status: 'pending' });
     return { message: 'Scraping cancelled!' };
   }

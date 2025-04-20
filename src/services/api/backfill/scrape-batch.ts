@@ -2,6 +2,7 @@ import { runScrapeAndRank } from '@services/worker/scrape-rank';
 import repository from '../onboard/repository';
 import { updateWorkStatus } from '@services/core/status';
 import { DateStatuses } from '@services/core/types';
+import { cancelScraping } from '@services/worker/scrape-rank';
 
 // Track active batch scraping processes
 const activeBatchProcesses = new Set<string>();
@@ -53,7 +54,14 @@ export async function scrapeBatch(dates?: string[]) {
   // return results;
 }
 
-export function cancelBatchScraping() {
+export async function cancelBatchScraping() {
+  for (const date of activeBatchProcesses) {
+    await cancelScraping(date);
+  }
+
   activeBatchProcesses.clear();
+
+  updateWorkStatus({ key: 'batch', status: DateStatuses.CANCELLED });
+
   return { message: 'Batch scraping cancelled!' };
 }

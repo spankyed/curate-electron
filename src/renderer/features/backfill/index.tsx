@@ -22,7 +22,7 @@ interface ScrapedPaper {
 
 interface DateStatusUpdate {
   key: string;
-  status: 'complete' | 'error' | 'pending' | 'loading';
+  status: 'complete' | 'error' | 'pending' | 'loading' | 'cancelled';
   data: ScrapedPaper[];
 }
 
@@ -36,6 +36,8 @@ const BackfillPage: React.FC = () => {
 
     if (key === 'batch' && newStatus === 'complete') {
       addAlert({ type: 'success', message: 'Batch scraping complete!', autoClose: true });
+    } else if (key === 'batch' && newStatus === 'cancelled') {
+      addAlert({ type: 'warning', message: 'Batch scraping was cancelled', autoClose: true });
     } else if (newStatus === 'error') {
       const id = dayjs(key).format('MM/DD/YYYY');
       addAlert({ id, message: `There was a problem scraping papers for ${id}`, autoClose: true });

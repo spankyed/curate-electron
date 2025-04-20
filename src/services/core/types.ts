@@ -6,6 +6,7 @@ export enum DateStatuses {
   SCRAPING = 'scraping',
   RANKING = 'ranking',
   COMPLETE = 'complete',
+  CANCELLED = 'cancelled',
   ERROR = 'error',
 }
 
