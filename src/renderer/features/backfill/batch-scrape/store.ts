@@ -3,7 +3,7 @@ import { atom } from 'jotai';
 import * as api from '@renderer/core/api/fetch';
 import { dateStartAtom, dateEndAtom } from '../date-range/store';
 
-export const batchStateAtom = atom<'idle' | 'loading' | 'complete'>('loading');
+export const batchStateAtom = atom<'idle' | 'loading' | 'complete' | 'cancelled'>('loading');
 
 // export const canGoNextAtom = atom(true);
 // export const inputIdsAtom = atom<string[]>([]);
@@ -105,7 +105,7 @@ export const updateStatusAtom = atom(
   null, // write-only atom
   async (get, set, { key, status, count }) => {
     if (key === 'batch') {
-      set(batchStateAtom, 'complete');
+      set(batchStateAtom, status);
     } else {
       set(batchDatesAtom, (prev) =>
         prev.map((d) => {

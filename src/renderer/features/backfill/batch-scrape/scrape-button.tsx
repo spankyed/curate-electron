@@ -5,6 +5,7 @@ import { batchDatesAtom, batchScrapeAtom, batchStateAtom } from './store';
 import { useNavigate } from 'react-router-dom';
 import { throttle } from '@renderer/core/utils/throttle';
 import { cancelBatch } from '@renderer/core/api/fetch';
+import { useState } from 'react';
 
 const BatchScrapeButton = () => {
   const state = useAtomValue(batchStateAtom);
@@ -13,12 +14,18 @@ const BatchScrapeButton = () => {
   const throttledScrapeBatch = throttle(scrapeBatch, 1000);
   const disabled = dates.length === 0 || state === 'loading';
   const isScraping = state === 'loading';
+  const [isCancelling, setIsCancelling] = useState(false);
 
   const navigate = useNavigate();
   const isComplete = state === 'complete';
 
   const handleCancel = async () => {
-    await cancelBatch();
+    setIsCancelling(true);
+    try {
+      await cancelBatch();
+    } finally {
+      setIsCancelling(false);
+    }
   };
 
   const onClick = () => {
@@ -51,11 +58,14 @@ const BatchScrapeButton = () => {
           >
             {isComplete ? 'View Papers' : 'Scrape Batch'}
           </LoadingButton>
-          {isScraping && (
-            <Button variant="outlined" color="error" onClick={handleCancel}>
-              Cancel
-            </Button>
-          )}
+          <LoadingButton
+            variant="outlined"
+            color="error"
+            onClick={handleCancel}
+            disabled={!isScraping || isCancelling}
+          >
+            Cancel
+          </LoadingButton>
         </div>
       </Tooltip>
     </div>
