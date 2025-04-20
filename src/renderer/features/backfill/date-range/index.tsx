@@ -63,9 +63,11 @@ const DateRangeControl: React.FC = () => {
           maxDate={endDate ? endDate : dayjs().add(-1, 'day')}
           onChange={handleStartDateChange}
         />
+
+        <span style={{ color: '#9e9e9e', marginLeft: 12, marginRight: 12 }}>—</span>
+
         <DatePicker
           disabled={isLoading}
-          sx={{ marginLeft: 4 }}
           label={<span style={{ color: '#9e9e9e' }}>End Date</span>}
           value={endDate}
           disableFuture={true}
