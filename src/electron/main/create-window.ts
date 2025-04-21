@@ -22,7 +22,7 @@ export function createWindow(): void {
     height: 1000,
     // width: 1500,
     // height: 900,
-    minWidth: 1500,
+    minWidth: 1755,
     minHeight: 900,
     show: false,
     title: 'CurateGPT',
