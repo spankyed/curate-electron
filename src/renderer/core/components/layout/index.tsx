@@ -103,15 +103,28 @@ function TitleArea({ isNewUser }) {
         style={
           {
             position: 'absolute',
-            top: '.9rem',
+            top: '0',
             left: '15rem',
             width: 'calc(100% - 35rem)',
             height: '4rem',
             zIndex: 9998,
             WebkitAppRegion: 'drag',
+            display: 'flex',
+            alignItems: 'center',
           } as any
         }
-      />
+      >
+        <span
+          style={{
+            marginLeft: '1rem',
+            color: 'rgba(255, 255, 255, 0.2)',
+            fontSize: '1rem',
+            fontStyle: 'italic',
+          }}
+        >
+          Thank you to arXiv for use of its open access interoperability.
+        </span>
+      </div>
 
       {/* Original title area */}
       <div
