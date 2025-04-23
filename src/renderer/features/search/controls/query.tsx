@@ -23,10 +23,12 @@ const QueryControl: React.FC<{}> = () => {
   useEffect(() => {
     if (queryParam) {
       submitSearch({ query: queryParam, queryField: 'all' });
+      setQuery(queryParam);
     } else if (queryParam !== null) {
       setQuery(queryParam);
     }
   }, [queryParam]);
+
   return (
     <>
       <FormControl variant="outlined" sx={{ minWidth: 120 }} size="small">
