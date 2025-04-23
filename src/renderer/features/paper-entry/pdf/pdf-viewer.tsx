@@ -88,22 +88,23 @@ export default function PdfViewer({ paperId, width }: PdfViewerProps) {
           <Typography variant="h5">Loading PDF</Typography>
         </Box>
       ) : (
-        <Document
-          file={pdfUrl}
-          onLoadSuccess={onDocumentLoadSuccess}
-          onError={(error) => console.error('Error loading document', error)}
-          options={options}
-        >
-          <Page pageNumber={pageNumber} width={width} loading={<div>Loading...</div>} />
-        </Document>
+        <>
+          <Document
+            file={pdfUrl}
+            onLoadSuccess={onDocumentLoadSuccess}
+            onError={(error) => console.error('Error loading document', error)}
+            options={options}
+          >
+            <Page pageNumber={pageNumber} width={width} loading={<div>Loading...</div>} />
+          </Document>
+          <Pagination
+            pageNumber={pageNumber}
+            numPages={numPages}
+            onPreviousPage={previousPage}
+            onNextPage={nextPage}
+          />
+        </>
       )}
-
-      <Pagination
-        pageNumber={pageNumber}
-        numPages={numPages}
-        onPreviousPage={previousPage}
-        onNextPage={nextPage}
-      />
     </div>
   );
 }
